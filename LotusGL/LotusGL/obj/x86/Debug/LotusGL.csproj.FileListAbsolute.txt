@@ -1,0 +1,6 @@
+z:\LotusGL\LotusGL\bin\Debug\LotusGL.exe
+z:\LotusGL\LotusGL\bin\Debug\LotusGL.pdb
+z:\LotusGL\LotusGL\bin\Debug\OpenTK.dll
+z:\LotusGL\LotusGL\obj\x86\Debug\ResolveAssemblyReference.cache
+z:\LotusGL\LotusGL\obj\x86\Debug\LotusGL.exe
+z:\LotusGL\LotusGL\obj\x86\Debug\LotusGL.pdb
