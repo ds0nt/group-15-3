@@ -16,8 +16,8 @@ namespace LotusGL
 
         public LotusGame(Graphics.GraphicsFacade graphics)
         {
-            Start();
             this.graphics = graphics;
+            Start();
             graphics.Init();
             graphics.onUpdate += new Graphics.GraphicsFacade.UpdateEventHandler(this.Update);
             graphics.onDraw += new Graphics.GraphicsFacade.DrawEventHandler(this.Draw);
@@ -33,11 +33,16 @@ namespace LotusGL
             players[3] = new Player(System.Drawing.Color.Blue);
 
             board = new Board(players);
+            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+
         }
 
-        public void Update()
+        public void Update(Graphics.GraphicsFacade.MouseEvent m)
         {
-
+            if (m.x != 0)
+            {
+                Console.WriteLine(m.x + ", " + m.y);
+            }
         }
 
         public void Draw()

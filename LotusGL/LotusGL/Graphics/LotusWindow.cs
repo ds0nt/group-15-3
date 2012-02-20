@@ -23,9 +23,9 @@ namespace LotusGL.Graphics
         //Input Variables
         bool rightPressed = false;
         bool leftPressed = false;
-        int dw, dx, dy = 0;
+        int dw, dx, dy, mx, my;
         
-        public delegate void UpdateEventHandler();
+        public delegate void UpdateEventHandler(GraphicsFacade.MouseEvent m);
         public event UpdateEventHandler onUpdate;
 
         public delegate void DrawEventHandler();
@@ -126,9 +126,20 @@ namespace LotusGL.Graphics
                 onDraw();
 
             window.SwapBuffers();
-            dw = dx = dy = 0;
             if (onUpdate != null)
-                onUpdate();
+            {
+                GraphicsFacade.MouseEvent m = new GraphicsFacade.MouseEvent();
+                if (mx != 0 && my != 0)
+                {   
+                    m.x = mx;
+                    m.y = my;
+                    if (GraphicsFacade.mode == GraphicsFacade.Mode.BOARD)
+                        m.regionId = RayTraceMouse(mx, my);
+                }
+                onUpdate(m);
+            }
+            mx = my = dw = dx = dy = 0;
+            
         }
 
         void onResize(object sender, EventArgs e)
@@ -148,6 +159,12 @@ namespace LotusGL.Graphics
         {
             rightPressed = e.Button == OpenTK.Input.MouseButton.Right && e.IsPressed;
             leftPressed = e.Button == OpenTK.Input.MouseButton.Left && e.IsPressed;
+
+            if (!leftPressed && !rightPressed)
+            {
+                mx = e.X;
+                my = e.Y;
+            }
         }
 
         void onWheelChanged(object sender, OpenTK.Input.MouseWheelEventArgs e)
@@ -158,6 +175,13 @@ namespace LotusGL.Graphics
         void onMouseLeave(object sender, EventArgs e)
         {
             rightPressed = leftPressed = false;
+        }
+
+        public GraphicsFacade.BoardRegion[] regions;
+
+        public int RayTraceMouse(int mx, int my)
+        {
+            return 0;
         }
 
     }

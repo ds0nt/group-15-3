@@ -11,13 +11,14 @@ namespace LotusGL.Graphics
     {
         static bool Loaded = false;
         static float height = 10;
-
+        
         public static void Load()
         {
             Loaded = true;
             TextureLoader.get().loadTexture(@"..\..\images\marble.bmp", "marble");
             TextureLoader.get().loadTexture(@"..\..\images\piece.bmp", "piece");
         }
+
 
         public static void Draw(OpenTK.Graphics.Color4 color, Vector2 position, int level)
         {
