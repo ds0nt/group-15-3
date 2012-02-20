@@ -1,4 +1,3 @@
 LotusGL/LotusGL/bin/
 LotusGL/LotusGL/obj/
-*.ncb
-*.suo
+LotusGL/LotusGL.suo
