@@ -36,6 +36,7 @@ namespace LotusGL.Graphics
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("piece"));
             GL.Begin(BeginMode.TriangleStrip);
+            GL.Color4(color);
             GL.TexCoord2(new OpenTK.Vector2d(0, 0));
             GL.Vertex3(0, 0, 0);
             GL.TexCoord2(new OpenTK.Vector2d(1, 0));

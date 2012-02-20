@@ -47,12 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
     <Compile Include="Graphics\Board.cs" />
     <Compile Include="GraphicsFacade.cs" />
     <Compile Include="Graphics\Piece.cs" />
     <Compile Include="Graphics\TextureLoader.cs" />
     <Compile Include="Graphics\LotusWindow.cs" />
     <Compile Include="LotusGame.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

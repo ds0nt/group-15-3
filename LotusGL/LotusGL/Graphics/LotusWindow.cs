@@ -41,7 +41,7 @@ namespace LotusGL.Graphics
             camPitch = (float)Math.PI / 8.0f;
             camAngle = (float)(framenum) / 1000;
 
-            window  = new GameWindow(1028, 768);
+            window  = new GameWindow(500, 500);
 
             window.Title = "Group 15 - Lotus";
             window.RenderFrame += onRender;
@@ -87,7 +87,7 @@ namespace LotusGL.Graphics
             
             world = Matrix4.Identity;
             float aspect = window.Width / window.Height;
-            proj = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 8, aspect, 1f, 10000f);
+            proj = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 8, aspect, 10f, 3000f);
 
             if(cameraState == 1)
             {
@@ -100,7 +100,7 @@ namespace LotusGL.Graphics
                 }
                 //Mouse Wheel
                 camDistance -= dw*70;
-                camDistance = (float) Math.Min(camDistance, 9000);
+                camDistance = (float) Math.Min(camDistance, 2000);
                 camDistance = (float) Math.Max(camDistance, 100);
 
                 view = Matrix4.LookAt(
