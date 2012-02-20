@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+
+using LotusGL.Graphics;
+
 namespace LotusGL
 {
     class Program
