@@ -10,29 +10,38 @@ namespace LotusGL.Graphics
     class LotusWindow
     {
         //GameEngine Variables
+        GameWindow window;
         int framenum = 0;
-
-        //Drawing Variables
-        List<iDrawable> drawables;
+        public static LotusWindow me;
 
         //Camera Variables
         int cameraState = 1;
         Vector2 center = new Vector2(256, 256);
-        float camDistance, camPitch, camAngle;        
+        float camDistance, camPitch, camAngle;
+        public Matrix4 vpMatrix;
 
         //Input Variables
         bool rightPressed = false;
         bool leftPressed = false;
         int dw, dx, dy = 0;
+        
+        public delegate void UpdateEventHandler();
+        public event UpdateEventHandler onUpdate;
+
+        public delegate void DrawEventHandler();
+        public event DrawEventHandler onDraw;
 
         public LotusWindow()
+        {
+            me = this;      
+        }
+        public void Init()
         {
             camDistance = 1000;
             camPitch = (float)Math.PI / 8.0f;
             camAngle = (float)(framenum) / 1000;
-        
-            GameWindow window = new GameWindow(500, 500);
-            GL.ClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+
+            window  = new GameWindow(1028, 768);
 
             window.Title = "Group 15 - Lotus";
             window.RenderFrame += onRender;
@@ -43,31 +52,27 @@ namespace LotusGL.Graphics
             window.Mouse.WheelChanged += this.onWheelChanged;
             window.MouseLeave += this.onMouseLeave;
 
-
-            drawables = new List<iDrawable>();   
-            drawables.Add(new Board());
-            Load();
-
+            GL.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
             GL.CullFace(CullFaceMode.Front);
-            window.Run(60);
-        }
-        void Load()
-        {
-            foreach(iDrawable d in drawables)
-            {
-                d.Load();
-            }
-        }
-        void UnLoad()
-        {
-            foreach (iDrawable d in drawables)
-            {
-                d.UnLoad();
-            }
         }
 
-        
+        public void Load()
+        {
+            Board.Load();
+            Piece.Load();
+        }
+
+        void UnLoad()
+        {
+            Board.UnLoad();
+            Piece.UnLoad();
+        }
+
+        public void Run()
+        {
+            window.Run(60);
+        }
         void onRender(object sender, FrameEventArgs e)
         {
             framenum++;
@@ -112,18 +117,18 @@ namespace LotusGL.Graphics
             {
                 view = Matrix4.LookAt(new Vector3(0, 0, 100), new Vector3(256, 256, 0), new Vector3(0, 1, 0));
             }
-
-            Matrix4 cam = world * view * proj;
+            vpMatrix = view * proj;
+            Matrix4 cam = world * vpMatrix;
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref cam);
             
-            foreach (iDrawable d in drawables)
-            {
-                d.Draw();
-            }
-            
+            if (onDraw != null)
+                onDraw();
+
             window.SwapBuffers();
             dw = dx = dy = 0;
+            if (onUpdate != null)
+                onUpdate();
         }
 
         void onResize(object sender, EventArgs e)

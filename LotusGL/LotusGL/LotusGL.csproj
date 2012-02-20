@@ -48,9 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\Board.cs" />
+    <Compile Include="GraphicsFacade.cs" />
+    <Compile Include="Graphics\Piece.cs" />
     <Compile Include="Graphics\TextureLoader.cs" />
-    <Compile Include="Graphics\iDrawable.cs" />
     <Compile Include="Graphics\LotusWindow.cs" />
+    <Compile Include="LotusGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
