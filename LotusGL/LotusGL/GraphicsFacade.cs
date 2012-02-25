@@ -19,10 +19,17 @@ namespace LotusGL.Graphics
 
         public struct BoardRegion
         {
-            int id;
-            float x;
-            float y;
-            int height;
+            public BoardRegion(int id, float x, float y, int height)
+            {
+                this.id = id;
+                this.x = x;
+                this.y = y;
+                this.height = height;
+            }
+            public int id;
+            public float x;
+            public float y;
+            public int height;
         }
 
         LotusWindow window;

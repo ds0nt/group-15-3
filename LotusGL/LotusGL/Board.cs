@@ -178,5 +178,22 @@ namespace LotusGL
 		        startPoints[11] = new PointF(263, 311);
 	        }
         }
+
+        public Graphics.GraphicsFacade.BoardRegion[] getRegions()
+        {
+            Graphics.GraphicsFacade.BoardRegion[] ret = new Graphics.GraphicsFacade.BoardRegion[startTiles.Length + gameTiles.Length];
+            for (int i = 0; i < startTiles.Length; i++)
+            {
+                ret[i] = new Graphics.GraphicsFacade.BoardRegion(i, startPoints[i].X, startPoints[i].Y, startTiles[i].Count);
+            }
+
+            for (int i = 0; i < gameTiles.Length; i++)
+            {
+                ret[i+startTiles.Length] = new Graphics.GraphicsFacade.BoardRegion(i+startTiles.Length, gamePoints[i].X, gamePoints[i].Y, gameTiles[i].Count);
+            }
+
+            return ret;
+        }
+
     }
 }

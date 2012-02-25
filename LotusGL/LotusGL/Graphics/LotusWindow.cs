@@ -18,7 +18,8 @@ namespace LotusGL.Graphics
         int cameraState = 1;
         Vector2 center = new Vector2(256, 256);
         float camDistance, camPitch, camAngle;
-        public Matrix4 vpMatrix;
+        Vector3 eye;
+        public Matrix4 world, view, proj;
 
         //Input Variables
         bool rightPressed = false;
@@ -80,10 +81,6 @@ namespace LotusGL.Graphics
 
 
             GL.Clear(ClearBufferMask.ColorBufferBit|ClearBufferMask.DepthBufferBit);
-
-            
-
-            Matrix4 world, view, proj;
             
             world = Matrix4.Identity;
             float aspect = window.Width / window.Height;
@@ -102,12 +99,12 @@ namespace LotusGL.Graphics
                 camDistance -= dw*70;
                 camDistance = (float) Math.Min(camDistance, 2000);
                 camDistance = (float) Math.Max(camDistance, 100);
-
-                view = Matrix4.LookAt(
-                    new Vector3(
+                eye = new Vector3(
                         center.X + camDistance * (float)(Math.Cos(camPitch) * Math.Cos(camAngle)),
                         center.Y + camDistance * (float)(Math.Cos(camPitch) * Math.Sin(camAngle)),
-                        (float)Math.Sin(camPitch) * camDistance), 
+                        (float)Math.Sin(camPitch) * camDistance);
+                view = Matrix4.LookAt(
+                    eye, 
                     new Vector3(256, 256, 0), 
                     new Vector3(0, 0, 1)
                 );
@@ -117,15 +114,13 @@ namespace LotusGL.Graphics
             {
                 view = Matrix4.LookAt(new Vector3(0, 0, 100), new Vector3(256, 256, 0), new Vector3(0, 1, 0));
             }
-            vpMatrix = view * proj;
-            Matrix4 cam = world * vpMatrix;
+            Matrix4 cam = world * view * proj;
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref cam);
             
             if (onDraw != null)
                 onDraw();
 
-            window.SwapBuffers();
             if (onUpdate != null)
             {
                 GraphicsFacade.MouseEvent m = new GraphicsFacade.MouseEvent();
@@ -138,6 +133,8 @@ namespace LotusGL.Graphics
                 }
                 onUpdate(m);
             }
+            window.SwapBuffers();
+                
             mx = my = dw = dx = dy = 0;
             
         }
@@ -148,9 +145,11 @@ namespace LotusGL.Graphics
             Console.WriteLine(window.Width);
             GL.Viewport(0, 0, window.Height, window.Width);
         }
-        
+        float hx, hy;
         void onMouseMove(object sender, OpenTK.Input.MouseMoveEventArgs e)
         {
+            hx = e.X;
+            hy = e.Y;
             dx = e.XDelta;
             dy = e.YDelta;
         }
@@ -179,10 +178,36 @@ namespace LotusGL.Graphics
 
         public GraphicsFacade.BoardRegion[] regions;
 
-        public int RayTraceMouse(int mx, int my)
+        public int RayTraceMouse(float x, float y)
         {
-            return 0;
+            float w = window.Width;
+            float h = window.Height;
+            float xpos = 2 * (x / w) - 1;
+            float ypos = 2 * (1 - y / h) - 1;
+            Vector4 startRay = new Vector4(xpos, ypos, -1, 1);
+            Vector4 endRay = new Vector4(xpos, ypos, 1, 1);
+            // Reverse Project
+            Matrix4 trans = view * proj;
+            trans.Invert();
+            startRay = Vector4.Transform(startRay, trans);
+            endRay = Vector4.Transform(endRay, trans);
+            Vector3 ray = startRay.Xyz / startRay.W;
+            Vector3 step = endRay.Xyz / endRay.W - ray;
+            step = step / (step.Length / 10);
+            
+            while (ray.Z > 0 && ray.Z < 2000)
+            {
+                ray += step;
+                for (int i = 0; i < regions.Length; i++)
+                {
+                    if(ray.Z < regions[i].height*10)
+                        if (((ray.X - regions[i].x - 16) * (ray.X - regions[i].x) - 16) + ((ray.Y - regions[i].y - 16) * (ray.Y - regions[i].y - 16)) < 100)
+                        {
+                            return i;
+                        }
+                }
+            }
+            return -1;
         }
-
     }
 }

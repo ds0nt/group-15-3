@@ -43,6 +43,7 @@ namespace LotusGL
             {
                 Console.WriteLine(m.x + ", " + m.y);
             }
+            graphics.setClickableRegions(board.getRegions());
         }
 
         public void Draw()
