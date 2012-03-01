@@ -32,9 +32,11 @@ namespace LotusGL
 
             startPoints = new PointF[12];
             gamePoints = new PointF[18];
+            
             CreateBoard();
             CreateStartLocationsTable();
             CreateLocationsTable();
+            resetPlayers();
 
             gameTiles[3].Add(players[1]);
             gameTiles[3].Add(players[2]);
@@ -44,7 +46,24 @@ namespace LotusGL
             gameTiles[5].Add(players[3]);
             gameTiles[5].Add(players[2]);
         }
+        public int getRemainingPlayers()
+        {
+            int finishedCount = 0;
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (players[i].finished)
+                    finishedCount++;
+            }
+            return finishedCount;
+        }
 
+        private void resetPlayers()
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].finished = false;
+            }
+        }
 
         private List<Player> getTile(int location)
         {

@@ -9,26 +9,36 @@ namespace LotusGL
 {
     class LotusGame
     {
+        enum MenuType
+        {
+            None,
+            Title,
+            GameOver
+        };
+
         GraphicsFacade graphics;
         
-        Player[] players;
+        public Player[] players;
 
-        Player currentPlayer;
         GameManager manager;
+        MenuType menu = MenuType.Title;
         TitleScreen title;
+        GameOver gameOver;
         Board board;
 
         public LotusGame(GraphicsFacade graphics)
         {
             this.graphics = graphics;
-            Start();
+            StartGame();
             graphics.Init();
             graphics.onUpdate += new GraphicsFacade.UpdateEventHandler(this.Update);
             graphics.onDraw += new GraphicsFacade.DrawEventHandler(this.Draw);
             graphics.Run();
         }
 
-        public void Start()
+
+
+        public void StartGame()
         {
             players = new Player[4];
             players[0] = new Player(System.Drawing.Color.Red, "Red");
@@ -37,12 +47,18 @@ namespace LotusGL
             players[3] = new Player(System.Drawing.Color.Blue, "Blue");
 
             title = new TitleScreen();
+            gameOver = new GameOver();
             board = new Board(this, players);
             manager = new LocalManager(board, this);
 
             Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.MENU;
-
         }
+
+        public void EndGame()
+        {
+            Graphics.GraphicsFacade.mode = GraphicsFacade.Mode.MENU;
+        }
+
         public void FireEvent(GameEvent.GameEvent ge)
         {
             manager.onGameEvent(ge);
@@ -54,7 +70,15 @@ namespace LotusGL
             {
                 if (m.regionId == 1)
                     Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
-                graphics.setClickableRegions(title.getRegions());
+                switch (menu)
+                {
+                    case MenuType.Title:
+                        title.getRegions();
+                        break;
+                    case MenuType.GameOver:
+                        gameOver.getRegions();
+                        break;
+                }
             }
             else
             {
@@ -67,7 +91,16 @@ namespace LotusGL
 
         public void Draw()
         {
-            title.Draw(graphics);
+            switch (menu)
+            {
+                case MenuType.Title:
+                    title.Draw(graphics);
+                    break;
+                case MenuType.GameOver:
+                    gameOver.Draw(graphics);
+                    break;
+            }
+
             board.Draw(graphics);
         }
     }

@@ -80,7 +80,15 @@ namespace LotusGL.Graphics
         {
             if (mode == Mode.MENU)
             {
-                Menu.Draw();
+                Menu.Draw("title");
+            }
+        }
+
+        public void DrawGameOver()
+        {
+            if (mode == Mode.MENU)
+            {
+                Menu.Draw("gameover");
             }
         }
 

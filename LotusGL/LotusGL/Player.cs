@@ -9,8 +9,10 @@ namespace LotusGL
     {
         public Color color;
         public string name;
+        public bool finished;
         public Player(Color color, string name)
         {
+            finished = false;
             this.name = name;
             this.color = color;
         }
