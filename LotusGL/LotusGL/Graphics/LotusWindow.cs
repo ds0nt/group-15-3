@@ -24,8 +24,9 @@ namespace LotusGL.Graphics
         //Input Variables
         bool rightPressed = false;
         bool leftPressed = false;
-        int dw, dx, dy, mx, my;
+        int dw, dx, dy, mx, my, mb;
         
+
         public delegate void UpdateEventHandler(GraphicsFacade.MouseEvent m);
         public event UpdateEventHandler onUpdate;
 
@@ -53,7 +54,7 @@ namespace LotusGL.Graphics
             window.Mouse.WheelChanged += this.onWheelChanged;
             window.MouseLeave += this.onMouseLeave;
 
-            GL.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            GL.ClearColor(0.0f, 0.0f, 0.2f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
             GL.CullFace(CullFaceMode.Front);
         }
@@ -124,18 +125,20 @@ namespace LotusGL.Graphics
             if (onUpdate != null)
             {
                 GraphicsFacade.MouseEvent m = new GraphicsFacade.MouseEvent();
+                m.regionId = m.x = m.y = int.MinValue;
                 if (mx != 0 && my != 0)
                 {   
                     m.x = mx;
                     m.y = my;
-                    if (GraphicsFacade.mode == GraphicsFacade.Mode.BOARD)
-                        m.regionId = RayTraceMouse(mx, my);
+                    if(mb == 1)
+                        if (GraphicsFacade.mode == GraphicsFacade.Mode.BOARD)
+                            m.regionId = RayTraceMouse(mx, my);
                 }
                 onUpdate(m);
             }
             window.SwapBuffers();
                 
-            mx = my = dw = dx = dy = 0;
+            mb = mx = my = dw = dx = dy = 0;
             
         }
 
@@ -156,6 +159,10 @@ namespace LotusGL.Graphics
 
         void onMouseButton(object sender, OpenTK.Input.MouseButtonEventArgs e)
         {
+            if (leftPressed)
+                mb = 1;
+            if (rightPressed)
+                mb = 2;
             rightPressed = e.Button == OpenTK.Input.MouseButton.Right && e.IsPressed;
             leftPressed = e.Button == OpenTK.Input.MouseButton.Left && e.IsPressed;
 
@@ -180,34 +187,34 @@ namespace LotusGL.Graphics
 
         public int RayTraceMouse(float x, float y)
         {
-            float w = window.Width;
-            float h = window.Height;
-            float xpos = 2 * (x / w) - 1;
-            float ypos = 2 * (1 - y / h) - 1;
+            float xpos = 2 * (x / window.Width) - 1;
+            float ypos = 2 * (1 - y / window.Height) - 1;
+
             Vector4 startRay = new Vector4(xpos, ypos, -1, 1);
             Vector4 endRay = new Vector4(xpos, ypos, 1, 1);
-            // Reverse Project
-            Matrix4 trans = view * proj;
-            trans.Invert();
+
+            Matrix4 trans = Matrix4.Invert(view * proj);
+
             startRay = Vector4.Transform(startRay, trans);
             endRay = Vector4.Transform(endRay, trans);
             Vector3 ray = startRay.Xyz / startRay.W;
             Vector3 step = endRay.Xyz / endRay.W - ray;
-            step = step / (step.Length / 10);
+            step.Normalize();
             
             while (ray.Z > 0 && ray.Z < 2000)
             {
                 ray += step;
                 for (int i = 0; i < regions.Length; i++)
                 {
-                    if(ray.Z < regions[i].height*10)
-                        if (((ray.X - regions[i].x - 16) * (ray.X - regions[i].x) - 16) + ((ray.Y - regions[i].y - 16) * (ray.Y - regions[i].y - 16)) < 100)
+                    if(ray.Z < regions[i].height*10 + 5)
+                        if (((ray.X - regions[i].x - 16) * (ray.X - regions[i].x) - 16) + ((ray.Y - regions[i].y - 16) * (ray.Y - regions[i].y - 16)) < 256)
                         {
+                            Console.WriteLine(i);
                             return i;
                         }
                 }
             }
-            return -1;
+            return int.MinValue;
         }
     }
 }

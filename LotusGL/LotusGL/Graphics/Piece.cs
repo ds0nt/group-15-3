@@ -32,7 +32,6 @@ namespace LotusGL.Graphics
             GL.PushMatrix();
             
             Matrix4 translation = Matrix4.CreateTranslation(position) * LotusWindow.me.view * LotusWindow.me.proj;
-            
             GL.LoadMatrix(ref translation);
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("piece"));

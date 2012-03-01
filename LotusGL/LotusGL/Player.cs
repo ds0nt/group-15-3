@@ -8,8 +8,10 @@ namespace LotusGL
     class Player
     {
         public Color color;
-        public Player(Color color)
+        public string name;
+        public Player(Color color, string name)
         {
+            this.name = name;
             this.color = color;
         }
     }

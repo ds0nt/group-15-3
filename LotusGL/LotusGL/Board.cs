@@ -13,10 +13,14 @@ namespace LotusGL
         List<Player>[] gameTiles;
         PointF[] startPoints;
         PointF[] gamePoints;
-
+        public int selectedId;
         Player[] players;
-        public Board(Player[] players)
+        LotusGame game;
+
+        public Board(LotusGame game, Player[] players)
         {
+            selectedId = int.MinValue;
+            this.game = game;
             this.players = players;
 
             startTiles = new List<Player>[12];
@@ -39,6 +43,28 @@ namespace LotusGL
             gameTiles[5].Add(players[3]);
             gameTiles[5].Add(players[3]);
             gameTiles[5].Add(players[2]);
+        }
+
+
+        private List<Player> getTile(int location)
+        {
+            if(location >= startTiles.Length)
+                return gameTiles[location - startTiles.Length];
+            return startTiles[location];
+        }
+
+        public void movePiece(int x, int y)
+        {
+            List<Player> l = getTile(x);
+            if (l.Count == 0)
+                return;
+            getTile(y).Add(l[l.Count - 1]);
+            l.RemoveAt(l.Count - 1);
+        }
+
+        public bool hasSelected()
+        {
+            return selectedId >= 0;
         }
 
         public void CreateBoard()
