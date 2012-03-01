@@ -7,7 +7,7 @@ namespace LotusGL.Graphics
 {
     class GraphicsFacade
     {
-        public enum Mode { TITLE, BOARD };
+        public enum Mode { MENU, BOARD };
         public static Mode mode;
 
         public struct MouseEvent
@@ -30,6 +30,20 @@ namespace LotusGL.Graphics
             public float x;
             public float y;
             public int height;
+        }
+
+        public struct BoardRegion2D
+        {
+            public int id;
+            public float x, y, width, height;
+            public BoardRegion2D(int id, float x, float y, float width, float height)
+            {
+                this.id = id;
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+            }
         }
 
         LotusWindow window;
@@ -64,9 +78,9 @@ namespace LotusGL.Graphics
 
         public void DrawTitle()
         {
-            if (mode == Mode.TITLE)
+            if (mode == Mode.MENU)
             {
-
+                Menu.Draw();
             }
         }
 
@@ -85,6 +99,10 @@ namespace LotusGL.Graphics
         public void setClickableRegions(BoardRegion[] regions)
         {
             window.regions = regions;
+        }
+        public void setClickableRegions(BoardRegion2D[] regions)
+        {
+            window.regions2D = regions;
         }
 
         private void processUpdate(MouseEvent m)

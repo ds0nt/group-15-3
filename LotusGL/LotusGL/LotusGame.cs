@@ -15,6 +15,7 @@ namespace LotusGL
 
         Player currentPlayer;
         GameManager manager;
+        TitleScreen title;
         Board board;
 
         public LotusGame(GraphicsFacade graphics)
@@ -35,10 +36,11 @@ namespace LotusGL
             players[2] = new Player(System.Drawing.Color.White, "White");
             players[3] = new Player(System.Drawing.Color.Blue, "Blue");
 
+            title = new TitleScreen();
             board = new Board(this, players);
             manager = new LocalManager(board, this);
 
-            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.MENU;
 
         }
         public void FireEvent(GameEvent.GameEvent ge)
@@ -48,22 +50,25 @@ namespace LotusGL
 
         public void Update(Graphics.GraphicsFacade.MouseEvent m)
         {
-            if (m.regionId >= 0)
-                FireEvent(new GameEvent.RegionClick(m.regionId));
+            if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
+            {
+                if (m.regionId == 1)
+                    Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                graphics.setClickableRegions(title.getRegions());
+            }
+            else
+            {
+                if (m.regionId >= 0)
+                    FireEvent(new GameEvent.RegionClick(m.regionId));
 
-            graphics.setClickableRegions(board.getRegions());
+                graphics.setClickableRegions(board.getRegions());
+            }
         }
 
         public void Draw()
         {
-            if (false == true)
-            {
-
-            }
-            else
-            {
-                board.Draw(graphics);
-            }
+            title.Draw(graphics);
+            board.Draw(graphics);
         }
     }
 }

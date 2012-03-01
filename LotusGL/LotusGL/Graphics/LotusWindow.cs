@@ -25,6 +25,8 @@ namespace LotusGL.Graphics
         bool rightPressed = false;
         bool leftPressed = false;
         int dw, dx, dy, mx, my, mb;
+        public GraphicsFacade.BoardRegion[] regions;
+        public GraphicsFacade.BoardRegion2D[] regions2D;
         
 
         public delegate void UpdateEventHandler(GraphicsFacade.MouseEvent m);
@@ -63,12 +65,14 @@ namespace LotusGL.Graphics
         {
             Board.Load();
             Piece.Load();
+            Menu.Load();
         }
 
         void UnLoad()
         {
             Board.UnLoad();
             Piece.UnLoad();
+            Menu.UnLoad();
         }
 
         public void Run()
@@ -132,7 +136,13 @@ namespace LotusGL.Graphics
                     m.y = my;
                     if(mb == 1)
                         if (GraphicsFacade.mode == GraphicsFacade.Mode.BOARD)
-                            m.regionId = RayTraceMouse(mx, my);
+                        {
+                            m.regionId = TraceMouse3D(mx, my);
+                        }
+                        else if (GraphicsFacade.mode == GraphicsFacade.Mode.MENU)
+                        {
+                            m.regionId = TraceMouse2D(mx, my);
+                        }
                 }
                 onUpdate(m);
             }
@@ -183,9 +193,8 @@ namespace LotusGL.Graphics
             rightPressed = leftPressed = false;
         }
 
-        public GraphicsFacade.BoardRegion[] regions;
 
-        public int RayTraceMouse(float x, float y)
+        public int TraceMouse3D(float x, float y)
         {
             float xpos = 2 * (x / window.Width) - 1;
             float ypos = 2 * (1 - y / window.Height) - 1;
@@ -210,11 +219,25 @@ namespace LotusGL.Graphics
                         if (((ray.X - regions[i].x - 16) * (ray.X - regions[i].x) - 16) + ((ray.Y - regions[i].y - 16) * (ray.Y - regions[i].y - 16)) < 256)
                         {
                             Console.WriteLine(i);
-                            return i;
+                            return regions[i].id;
                         }
                 }
             }
             return int.MinValue;
         }
+        public int TraceMouse2D(float x, float y)
+        {
+            x = 2 * (x / window.Width) - 1;
+            y = 2 * (y / window.Height) - 1;
+
+            for (int i = 0; i < regions2D.Length; i++)
+            {
+                if (x < regions2D[i].x || x > regions2D[i].x + regions2D[i].width || y < regions2D[i].y || y > regions2D[i].y + regions2D[i].height)
+                    continue;
+                return regions2D[i].id;
+            }
+            return int.MinValue;
+        }
+
     }
 }
