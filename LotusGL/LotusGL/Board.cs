@@ -72,6 +72,13 @@ namespace LotusGL
             return startTiles[location];
         }
 
+        public PointF getPosition(int location)
+        {
+            if (location >= startPoints.Length)
+                return gamePoints[location - startPoints.Length];
+            return startPoints[location];
+        }
+
         public void movePiece(int x, int y)
         {
             List<Player> l = getTile(x);
@@ -140,6 +147,11 @@ namespace LotusGL
                     graphics.DrawPiece(p.color, gamePoints[i].X, gamePoints[i].Y, level);
                     level++;
                 }
+            }
+            if(selectedId != int.MinValue)
+            {
+                PointF selpos = getPosition(selectedId);
+                graphics.DrawSelected(selpos.X, selpos.Y, getTile(selectedId).Count);
             }
         }
 
