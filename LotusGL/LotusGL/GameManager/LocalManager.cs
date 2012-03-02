@@ -11,6 +11,10 @@ namespace LotusGL
         LotusGame game;
 
         int currentPlayer;
+        public int getCurrentPlayerID()
+        {
+            return currentPlayer;
+        }
 
         public LocalManager(Board b, LotusGame g)
         {
@@ -23,7 +27,7 @@ namespace LotusGL
             currentPlayer = (currentPlayer + 1) % game.players.Length;
             while (game.players[currentPlayer].finished)
                 currentPlayer = (currentPlayer + 1) % game.players.Length;
-            
+            Console.WriteLine(game.players[currentPlayer].color);   
             int pc = board.getRemainingPlayers();
             if (pc == 1)
                 game.FireEvent(new GameEvent.GameOver(currentPlayer));
@@ -35,15 +39,16 @@ namespace LotusGL
             {
                 case GameEvent.GameEventType.RegionClick:
                     GameEvent.RegionClick rc = (GameEvent.RegionClick)ge;
-
-                    if (board.selectedId == int.MinValue)
-                        game.FireEvent(new GameEvent.Select(rc.pos));
-                    else if (board.selectedId == rc.pos)
-                        game.FireEvent(new GameEvent.Select(int.MinValue));
-                    else
-                        game.FireEvent(new GameEvent.Move(board.selectedId, rc.pos));
+                    if (rc.player == game.players[currentPlayer])
+                    {
+                        if (board.selectedId == int.MinValue)
+                            game.FireEvent(new GameEvent.Select(rc.pos));
+                        else if (board.selectedId == rc.pos)
+                            game.FireEvent(new GameEvent.Select(int.MinValue));
+                        else if (isValidMove(board.selectedId, rc.pos, rc.player))
+                            game.FireEvent(new GameEvent.Move(board.selectedId, rc.pos));
+                    }
                     break;
-
 
                 case GameEvent.GameEventType.MovePiece:
                     GameEvent.Move move = (GameEvent.Move)ge;
@@ -51,6 +56,7 @@ namespace LotusGL
                     board.selectedId = int.MinValue;
                     if(move.frompos != move.topos)
                         board.movePiece(move.frompos, move.topos);
+                    cyclePlayer();
                     break;
 
 
@@ -68,5 +74,21 @@ namespace LotusGL
                     break;
             }
         }
+
+        private bool isValidSelect(int select, Player p)
+        {
+            return false;
+        }
+
+        private bool isValidMove(int start, int end, Player p)
+        {
+            List<Player> starttile = board.getTile(start);
+            if (starttile[starttile.Count-1] == p)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

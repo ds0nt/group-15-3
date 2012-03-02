@@ -29,6 +29,7 @@ namespace LotusGL
         public LotusGame(GraphicsFacade graphics)
         {
             this.graphics = graphics;
+            menu = MenuType.Title;
             StartGame();
             graphics.Init();
             graphics.onUpdate += new GraphicsFacade.UpdateEventHandler(this.Update);
@@ -73,17 +74,17 @@ namespace LotusGL
                 switch (menu)
                 {
                     case MenuType.Title:
-                        title.getRegions();
+                        graphics.setClickableRegions(title.getRegions());
                         break;
                     case MenuType.GameOver:
-                        gameOver.getRegions();
+                        graphics.setClickableRegions(gameOver.getRegions());
                         break;
                 }
             }
             else
             {
                 if (m.regionId >= 0)
-                    FireEvent(new GameEvent.RegionClick(m.regionId));
+                    FireEvent(new GameEvent.RegionClick(m.regionId, players[((LocalManager)manager).getCurrentPlayerID()]));
 
                 graphics.setClickableRegions(board.getRegions());
             }

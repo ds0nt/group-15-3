@@ -9,8 +9,8 @@ namespace LotusGL
 {
     class Board
     {
-        List<Player>[] startTiles;
-        List<Player>[] gameTiles;
+        public List<Player>[] startTiles;
+        public List<Player>[] gameTiles;
         PointF[] startPoints;
         PointF[] gamePoints;
         public int selectedId;
@@ -64,8 +64,8 @@ namespace LotusGL
                 players[i].finished = false;
             }
         }
-
-        private List<Player> getTile(int location)
+        
+        public List<Player> getTile(int location)
         {
             if(location >= startTiles.Length)
                 return gameTiles[location - startTiles.Length];

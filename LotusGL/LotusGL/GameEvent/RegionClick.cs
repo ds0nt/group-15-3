@@ -8,8 +8,10 @@ namespace LotusGL.GameEvent
     class RegionClick : GameEvent
     {
         public int pos;
-        public RegionClick(int pos) : base(GameEventType.RegionClick)
+        public Player player;
+        public RegionClick(int pos, Player p) : base(GameEventType.RegionClick)
         {
+            player = p;
             this.pos = pos;
         }
 
