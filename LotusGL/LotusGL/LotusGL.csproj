@@ -70,6 +70,9 @@
     <Compile Include="Graphics\LotusWindow.cs" />
     <Compile Include="LotusGame.cs" />
     <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Network\Client.cs" />
+    <Compile Include="Network\Network.cs" />
+    <Compile Include="Network\Server.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
