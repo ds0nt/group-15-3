@@ -77,6 +77,8 @@ namespace LotusGL.Graphics
 
         public void Run()
         {
+            float aspect = window.Width / window.Height;
+            proj = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 8, aspect, 10f, 3000f);
             window.Run(60);
         }
         void onRender(object sender, FrameEventArgs e)
@@ -88,8 +90,6 @@ namespace LotusGL.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit|ClearBufferMask.DepthBufferBit);
             
             world = Matrix4.Identity;
-            float aspect = window.Width / window.Height;
-            proj = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 8, aspect, 10f, 3000f);
 
             if(cameraState == 1)
             {
@@ -156,8 +156,10 @@ namespace LotusGL.Graphics
         {
             GameWindow window = (GameWindow)sender;
             Console.WriteLine(window.Width);
-            GL.Viewport(0, 0, window.Height, window.Width);
+
+            GL.Viewport(0, 0, window.Width, window.Height);
         }
+
         float hx, hy;
         void onMouseMove(object sender, OpenTK.Input.MouseMoveEventArgs e)
         {
