@@ -158,40 +158,42 @@ namespace LotusGL
         //Create the locations of each position on the board (the top left coordinate)
         void CreateLocationsTable()
         {
-	        gamePoints[0] = new PointF(118, 198);
-	        gamePoints[1] = new PointF(118, 278);
-	        gamePoints[2] = new PointF(164, 343);
-	        gamePoints[3] = new PointF(360, 200);
-	        gamePoints[4] = new PointF(360, 278);
-	        gamePoints[5] = new PointF(314, 343);
-	        gamePoints[6] = new PointF(239, 368);
-	        gamePoints[7] = new PointF(239, 448);
-	        gamePoints[8] = new PointF(117, 408);
-	        gamePoints[9] = new PointF(41, 304);
-	        gamePoints[10] = new PointF(41, 176);
-	        gamePoints[11] = new PointF(117, 71);
-	        gamePoints[12] = new PointF(239, 32);
-	        gamePoints[13] = new PointF(359, 71);
-	        gamePoints[14] = new PointF(437, 176);
-	        gamePoints[15] = new PointF(437, 303);
-	        gamePoints[16] = new PointF(361, 408);
+            int width = 512 - 32;
+            gamePoints[0] = new PointF(width - 118, 198);
+            gamePoints[1] = new PointF(width - 118, 278);
+            gamePoints[2] = new PointF(width - 164, 343);
+            gamePoints[3] = new PointF(width - 360, 200);
+            gamePoints[4] = new PointF(width - 360, 278);
+            gamePoints[5] = new PointF(width - 314, 343);
+            gamePoints[6] = new PointF(width - 239, 368);
+            gamePoints[7] = new PointF(width - 239, 448);
+            gamePoints[8] = new PointF(width - 117, 408);
+            gamePoints[9] = new PointF(width - 41, 304);
+            gamePoints[10] = new PointF(width - 41, 176);
+            gamePoints[11] = new PointF(width - 117, 71);
+            gamePoints[12] = new PointF(width - 239, 32);
+            gamePoints[13] = new PointF(width - 359, 71);
+            gamePoints[14] = new PointF(width - 437, 176);
+            gamePoints[15] = new PointF(width - 437, 303);
+            gamePoints[16] = new PointF(width - 361, 408);
 
-	        gamePoints[17] = new PointF(300, 420); //finish zone
+            gamePoints[17] = new PointF(width - 300, 420); //finish zone
         }
 
         void CreateStartLocationsTable()
         {
+            int width = 512 - 32;
 	        if (players.Length == 2)
 	        {
-		        startPoints[0] = new PointF(215, 167);
-		        startPoints[1] = new PointF(167, 215);
-		        startPoints[2] = new PointF(167, 263);
-		        startPoints[3] = new PointF(215, 311);
+                startPoints[0] = new PointF(width - 215, 167);
+                startPoints[1] = new PointF(width - 167, 215);
+                startPoints[2] = new PointF(width - 167, 263);
+                startPoints[3] = new PointF(width - 215, 311);
 
-		        startPoints[4] = new PointF(263, 167);
-		        startPoints[5] = new PointF(311, 215);
-		        startPoints[6] = new PointF(311, 263);
-		        startPoints[7] = new PointF(263, 311);
+                startPoints[4] = new PointF(width - 263, 167);
+                startPoints[5] = new PointF(width - 311, 215);
+                startPoints[6] = new PointF(width - 311, 263);
+                startPoints[7] = new PointF(width - 263, 311);
 
 		        startPoints[8] = new PointF(0, 0);
 		        startPoints[9] = new PointF(0, 0);
@@ -200,17 +202,17 @@ namespace LotusGL
 	        }
 	        else if (players.Length == 3)
 	        {
-		        startPoints[0] = new PointF(191, 191);
-		        startPoints[1] = new PointF(191, 239);
-		        startPoints[2] = new PointF(191, 287);
+                startPoints[0] = new PointF(width - 191, 191);
+                startPoints[1] = new PointF(width - 191, 239);
+                startPoints[2] = new PointF(width - 191, 287);
 
-		        startPoints[3] = new PointF(239, 191);
-		        startPoints[4] = new PointF(239, 239);
-		        startPoints[5] = new PointF(239, 287);
+                startPoints[3] = new PointF(width - 239, 191);
+                startPoints[4] = new PointF(width - 239, 239);
+                startPoints[5] = new PointF(width - 239, 287);
 
-		        startPoints[6] = new PointF(287, 191);
-		        startPoints[7] = new PointF(287, 239);
-		        startPoints[8] = new PointF(287, 287);
+                startPoints[6] = new PointF(width - 287, 191);
+                startPoints[7] = new PointF(width - 287, 239);
+                startPoints[8] = new PointF(width - 287, 287);
 
 		        startPoints[9] = new PointF(0, 0);
 		        startPoints[10] = new PointF(0, 0);
@@ -218,21 +220,21 @@ namespace LotusGL
 	        }
 	        else if (players.Length == 4)
 	        {
-		        startPoints[0] = new PointF(215, 167);
-		        startPoints[1] = new PointF(167, 215);
-		        startPoints[2] = new PointF(167, 263);
+                startPoints[0] = new PointF(width - 215, 167);
+                startPoints[1] = new PointF(width - 167, 215);
+                startPoints[2] = new PointF(width - 167, 263);
 
-		        startPoints[3] = new PointF(263, 167);
-		        startPoints[4] = new PointF(311, 215);
-		        startPoints[5] = new PointF(311, 263);
+                startPoints[3] = new PointF(width - 263, 167);
+                startPoints[4] = new PointF(width - 311, 215);
+                startPoints[5] = new PointF(width - 311, 263);
 
-		        startPoints[6] = new PointF(215, 215);
-		        startPoints[7] = new PointF(215, 263);
-		        startPoints[8] = new PointF(215, 311);
+                startPoints[6] = new PointF(width - 215, 215);
+                startPoints[7] = new PointF(width - 215, 263);
+                startPoints[8] = new PointF(width - 215, 311);
 
-		        startPoints[9] = new PointF(263, 215);
-		        startPoints[10] = new PointF(263, 263);
-		        startPoints[11] = new PointF(263, 311);
+                startPoints[9] = new PointF(width - 263, 215);
+                startPoints[10] = new PointF(width - 263, 263);
+                startPoints[11] = new PointF(width - 263, 311);
 	        }
         }
 

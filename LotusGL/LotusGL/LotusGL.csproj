@@ -52,7 +52,8 @@
     <Compile Include="AI\RuleStrategy.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="GameEvent\AITurn.cs" />
-    <Compile Include="GameOver.cs" />
+    <Compile Include="GameEvent\ChangePlayer.cs" />
+    <Compile Include="Menu\GameOver.cs" />
     <Compile Include="GameEvent\GameOver.cs" />
     <Compile Include="GameManager\GameManager.cs" />
     <Compile Include="GameManager\LocalManager.cs" />
@@ -68,10 +69,11 @@
     <Compile Include="Graphics\TextureLoader.cs" />
     <Compile Include="Graphics\LotusWindow.cs" />
     <Compile Include="LotusGame.cs" />
+    <Compile Include="Menu\Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TitleScreen.cs" />
+    <Compile Include="Menu\TitleScreen.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

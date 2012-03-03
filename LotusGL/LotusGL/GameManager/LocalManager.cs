@@ -76,6 +76,10 @@ namespace LotusGL
                     GameEvent.AITurn aiturn = (GameEvent.AITurn) ge;
                     LotusGame.get().players[aiturn.ai].getAI().doMove(LotusGame.get().players[aiturn.ai], board);
                     break;
+                case GameEvent.GameEventType.SetPlayer:
+                    GameEvent.ChangePlayer playerchange = (GameEvent.ChangePlayer)ge;
+                    LotusGame.get().setCurrentPlayer(playerchange.player);
+                    break;
             }
         }
 
@@ -89,8 +93,12 @@ namespace LotusGL
             if (pc == 1)
             {
                 LotusGame.get().FireEvent(new GameEvent.GameOver(currentPlayer));
+                return;
             }
-            else if (LotusGame.get().players[currentPlayer].getAI() != null)
+
+            LotusGame.get().FireEvent(new GameEvent.ChangePlayer(currentPlayer));
+            
+            if (LotusGame.get().players[currentPlayer].getAI() != null)
             {
                 Console.WriteLine("Herpies!");
                 LotusGame.get().ScheduleEvent(new GameEvent.AITurn(currentPlayer), 0.0f);
@@ -100,9 +108,20 @@ namespace LotusGL
         private bool isSelectValid(int select, Player p)
         {
             List<Player> starttile = board.getTile(select);
-            if (starttile.Count > 0 && starttile[starttile.Count - 1] == p)
+            if (starttile.Count > 0 && starttile[starttile.Count - 1] == p || !canMove(p))
             {
                 return true;
+            }
+            return false;
+        }
+
+        private bool canMove(Player p)
+        {
+            for (int i = 0; i < board.startTiles.Length + board.gameTiles.Length - 1; i++)
+            {
+                List<Player> tile = board.getTile(i);
+                if (tile.Count != 0 && tile[tile.Count - 1] == p)
+                    return true;
             }
             return false;
         }
@@ -112,7 +131,7 @@ namespace LotusGL
             List<Player> starttile = board.getTile(start);
             start -= board.startTiles.Length;
             end -= board.startTiles.Length;
-            if (starttile[starttile.Count - 1] == p)
+            if (starttile[starttile.Count - 1] == p || !canMove(p))
             {
                 int dist = starttile.Count;
                 if (start < 0)
@@ -127,7 +146,7 @@ namespace LotusGL
                 {
                     if (start < 3 && start + dist > 2)
                         dist += 3;
-                    if (end == start + dist)
+                    if (end == Math.Min(start + dist, board.gameTiles.Length - 1))
                         return true;
                 }
             }

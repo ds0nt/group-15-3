@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using LotusGL.GameEvent;
 using LotusGL.Graphics;
+using LotusGL.Menu;
 
 namespace LotusGL
 {
@@ -14,10 +15,15 @@ namespace LotusGL
         GameManager manager;
         Board board;
         public Player[] players;
+        
+        //does not dictate player, this is what we THINK the players turn is
+        //the players turn is managed by whoever owns localmanager
+        private int currentPlayer;
 
-        MenuType menu = MenuType.Title;
+        Menu.Menu currentMenu;
         TitleScreen title;
-        GameOver gameOver;
+        Menu.GameOver gameOver;
+        
         List<ScheduledEvent> scheduledEvents;
 
         static double lastTime = 0;
@@ -26,7 +32,12 @@ namespace LotusGL
         {
             me = this;
             this.graphics = graphics;
-            menu = MenuType.Title;
+
+
+            title = new TitleScreen();
+            gameOver = new Menu.GameOver();
+            currentMenu = title;
+
             StartGame();
             graphics.Init();
             graphics.onUpdate += new GraphicsFacade.UpdateEventHandler(this.Update);
@@ -38,14 +49,7 @@ namespace LotusGL
         {
             return me;
         }
-
-        enum MenuType
-        {
-            None,
-            Title,
-            GameOver
-        };
-
+        
         struct ScheduledEvent
         {
             public double startTime;
@@ -64,8 +68,6 @@ namespace LotusGL
             players[3] = new Player(System.Drawing.Color.Blue, "Blue");
             players[3].setAI(new AI.RuleStrategy());
 
-            title = new TitleScreen();
-            gameOver = new GameOver();
             board = new Board(this, players);
             manager = new LocalManager(board);
             scheduledEvents = new List<ScheduledEvent>();
@@ -117,22 +119,17 @@ namespace LotusGL
             FireScheduled();
             if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
             {
-                if (m.regionId == 1)
-                    Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
-                switch (menu)
-                {
-                    case MenuType.Title:
-                        graphics.setClickableRegions(title.getRegions());
-                        break;
-                    case MenuType.GameOver:
-                        graphics.setClickableRegions(gameOver.getRegions());
-                        break;
-                }
+                if (m.regionId >= 0)
+                    currentMenu.handleRegionClick(m.regionId);
+                graphics.setClickableRegions(currentMenu.getRegions());
             }
             else
             {
-                if (m.regionId >= 0)
-                    FireEvent(new GameEvent.RegionClick(m.regionId, players[((LocalManager)manager).getCurrentPlayerID()]));
+                if (players[currentPlayer].local)
+                {
+                    if (m.regionId >= 0)
+                        FireEvent(new GameEvent.RegionClick(m.regionId, players[currentPlayer]));
+                }
 
                 graphics.setClickableRegions(board.getRegions());
             }
@@ -142,17 +139,13 @@ namespace LotusGL
 
         public void Draw()
         {
-            switch (menu)
-            {
-                case MenuType.Title:
-                    title.Draw(graphics);
-                    break;
-                case MenuType.GameOver:
-                    gameOver.Draw(graphics);
-                    break;
-            }
-
+            currentMenu.Draw(graphics);
             board.Draw(graphics);
+        }
+
+        public void setCurrentPlayer(int playerindex)
+        {
+            currentPlayer = playerindex;
         }
     }
 }

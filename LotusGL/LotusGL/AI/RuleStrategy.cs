@@ -10,13 +10,31 @@ namespace LotusGL.AI
         public void onBoardChange(Player p, Board b)
         {
         }
+        
         public void doMove(Player p, Board b)
         {
             List<Move> moves = AICalc.getPossibleMoves(p, b);
-            Console.WriteLine(moves[0].start + " " + moves[0].end);
-            
-            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[0].start, p), 0.1f);
-            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[0].end, p), 0.2f);
+            if (moves.Count == 0)
+            {
+                Console.WriteLine(p.name + " Has No Moves!");
+                for (int i = 0; i < LotusGame.get().players.Length; i++)
+                {
+                    if (LotusGame.get().players[i] != p)
+                    {
+                        moves = AICalc.getPossibleMoves(LotusGame.get().players[i], b);
+                        if (moves.Count != 0)
+                        {
+                            Console.WriteLine("Moving " + LotusGame.get().players[i].name + "'s Piece!");
+                            break;
+                        }
+                    }
+                }
+            }
+            int moveid = AICalc.rand.Next(0, moves.Count - 1);
+
+            Console.WriteLine(moves[moveid].start + " " + moves[moveid].end);
+            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, p), 0.1f);
+            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, p), 0.2f);
         }
     }
 }

@@ -11,7 +11,8 @@ namespace LotusGL.GameEvent
         SelectPiece,
         RegionClick,
         GameOver,
-        AITurn
+        AITurn,
+        SetPlayer
     }
     abstract class GameEvent
     {

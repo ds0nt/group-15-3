@@ -17,12 +17,12 @@ namespace LotusGL.AI
 
     class AICalc
     {
-        
+        public static Random rand = new Random();
         public static List<Move> getPossibleMoves(Player player, Board b)
         {
 	        List<Move> Moves = new List<Move>();
 
-	        for(int i = 0; i < b.startTiles.Length + b.gameTiles.Length; i++)
+	        for(int i = 0; i < b.startTiles.Length + b.gameTiles.Length - 1; i++)
 	        {
                 List<Player> tile = b.getTile(i);
 		        if(tile.Count > 0 && tile[tile.Count-1] == player)
@@ -38,7 +38,7 @@ namespace LotusGL.AI
 			        {
                         if (i < 3 + b.startTiles.Length && i + dist > 2 + b.startTiles.Length)
 					        dist += 3;
-				        Moves.Add(new Move(i, i+dist));
+                        Moves.Add(new Move(i, Math.Min(i + dist, b.startTiles.Length + b.gameTiles.Length - 1)));
 			        }
 		        }
 	        }
