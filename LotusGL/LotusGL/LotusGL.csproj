@@ -53,6 +53,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="GameEvent\AITurn.cs" />
     <Compile Include="GameEvent\ChangePlayer.cs" />
+    <Compile Include="Graphics\Text.cs" />
     <Compile Include="Menu\GameOver.cs" />
     <Compile Include="GameEvent\GameOver.cs" />
     <Compile Include="GameManager\GameManager.cs" />

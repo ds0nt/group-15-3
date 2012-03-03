@@ -52,6 +52,11 @@ namespace LotusGL.Graphics
             GL.PopMatrix();
         }
 
+        public static void DrawString(string text)
+        {
+            
+        }
+
         public static void UnLoad()
         {
             TextureLoader.get().releaseTextures();
