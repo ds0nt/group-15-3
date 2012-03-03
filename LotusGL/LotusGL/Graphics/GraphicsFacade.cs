@@ -48,7 +48,7 @@ namespace LotusGL.Graphics
 
         LotusWindow window;
 
-        public delegate void UpdateEventHandler(MouseEvent m);
+        public delegate void UpdateEventHandler(MouseEvent m, double time);
         public event UpdateEventHandler onUpdate;
         public delegate void DrawEventHandler();
         public event DrawEventHandler onDraw;
@@ -119,10 +119,10 @@ namespace LotusGL.Graphics
             window.regions2D = regions;
         }
 
-        private void processUpdate(MouseEvent m)
+        private void processUpdate(MouseEvent m, double time)
         {
             if (onUpdate != null)
-                onUpdate(m);
+                onUpdate(m, time);
         }
         private void processDraw()
         {

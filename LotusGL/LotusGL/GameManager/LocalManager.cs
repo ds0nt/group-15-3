@@ -8,7 +8,6 @@ namespace LotusGL
     class LocalManager : GameManager
     {
         Board board;
-        LotusGame game;
 
         int currentPlayer;
         public int getCurrentPlayerID()
@@ -16,21 +15,9 @@ namespace LotusGL
             return currentPlayer;
         }
 
-        public LocalManager(Board b, LotusGame g)
+        public LocalManager(Board b)
         {
             board = b;
-            game = g;
-        }
-
-        private void cyclePlayer()
-        {
-            currentPlayer = (currentPlayer + 1) % game.players.Length;
-            while (game.players[currentPlayer].finished)
-                currentPlayer = (currentPlayer + 1) % game.players.Length;
-            Console.WriteLine(game.players[currentPlayer].color);
-            int pc = board.getRemainingPlayers();
-            if (pc == 1)
-                game.FireEvent(new GameEvent.GameOver(currentPlayer));
         }
 
         public void onGameEvent(GameEvent.GameEvent ge)
@@ -39,26 +26,26 @@ namespace LotusGL
             {
                 case GameEvent.GameEventType.RegionClick:
                     GameEvent.RegionClick rc = (GameEvent.RegionClick)ge;
-                    if (rc.player == game.players[currentPlayer])
+                    if (rc.player == LotusGame.get().players[currentPlayer])
                     {
                         if (board.selectedId == int.MinValue) // Select Piece
                         {
-                            if (isValidSelect(rc.pos, rc.player))
+                            if (isSelectValid(rc.pos, rc.player))
                             {
-                                game.FireEvent(new GameEvent.Select(rc.pos));
+                                LotusGame.get().FireEvent(new GameEvent.Select(rc.pos));
                             }
                             else //Deselect
                             {
-                                game.FireEvent(new GameEvent.Select(int.MinValue));
+                                LotusGame.get().FireEvent(new GameEvent.Select(int.MinValue));
                             }
                         }
                         else if (isMoveValid(board.selectedId, rc.pos, rc.player)) // Move Piece
                         {
-                            game.FireEvent(new GameEvent.Move(board.selectedId, rc.pos));
+                            LotusGame.get().FireEvent(new GameEvent.Move(board.selectedId, rc.pos));
                         }
                         else //Deselect
                         {
-                            game.FireEvent(new GameEvent.Select(int.MinValue));
+                            LotusGame.get().FireEvent(new GameEvent.Select(int.MinValue));
                         }
                     }
                     break;
@@ -85,10 +72,32 @@ namespace LotusGL
 
 
                     break;
+                case GameEvent.GameEventType.AITurn:
+                    GameEvent.AITurn aiturn = (GameEvent.AITurn) ge;
+                    LotusGame.get().players[aiturn.ai].getAI().doMove(LotusGame.get().players[aiturn.ai], board);
+                    break;
             }
         }
 
-        private bool isValidSelect(int select, Player p)
+        private void cyclePlayer()
+        {
+            currentPlayer = (currentPlayer + 1) % LotusGame.get().players.Length;
+            while (LotusGame.get().players[currentPlayer].finished)
+                currentPlayer = (currentPlayer + 1) % LotusGame.get().players.Length;
+            Console.WriteLine(LotusGame.get().players[currentPlayer].color);
+            int pc = board.getRemainingPlayers();
+            if (pc == 1)
+            {
+                LotusGame.get().FireEvent(new GameEvent.GameOver(currentPlayer));
+            }
+            else if (LotusGame.get().players[currentPlayer].getAI() != null)
+            {
+                Console.WriteLine("Herpies!");
+                LotusGame.get().ScheduleEvent(new GameEvent.AITurn(currentPlayer), 0.0f);
+            }
+        }
+
+        private bool isSelectValid(int select, Player p)
         {
             List<Player> starttile = board.getTile(select);
             if (starttile.Count > 0 && starttile[starttile.Count - 1] == p)

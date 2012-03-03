@@ -29,7 +29,7 @@ namespace LotusGL.Graphics
         public GraphicsFacade.BoardRegion2D[] regions2D;
         
 
-        public delegate void UpdateEventHandler(GraphicsFacade.MouseEvent m);
+        public delegate void UpdateEventHandler(GraphicsFacade.MouseEvent m, double time);
         public event UpdateEventHandler onUpdate;
 
         public delegate void DrawEventHandler();
@@ -144,7 +144,7 @@ namespace LotusGL.Graphics
                             m.regionId = TraceMouse2D(mx, my);
                         }
                 }
-                onUpdate(m);
+                onUpdate(m, window.RenderTime);
             }
             window.SwapBuffers();
                 

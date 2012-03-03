@@ -10,7 +10,8 @@ namespace LotusGL.GameEvent
         MovePiece,
         SelectPiece,
         RegionClick,
-        GameOver
+        GameOver,
+        AITurn
     }
     abstract class GameEvent
     {
