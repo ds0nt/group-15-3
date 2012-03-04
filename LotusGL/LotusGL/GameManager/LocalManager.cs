@@ -26,11 +26,11 @@ namespace LotusGL
             {
                 case GameEvent.GameEventType.RegionClick:
                     GameEvent.RegionClick rc = (GameEvent.RegionClick)ge;
-                    if (rc.player == LotusGame.get().players[currentPlayer])
+                    if (rc.player == currentPlayer)
                     {
                         if (board.selectedId == int.MinValue) // Select Piece
                         {
-                            if (isSelectValid(rc.pos, rc.player))
+                            if (isSelectValid(rc.pos, LotusGame.get().players[rc.player]))
                             {
                                 LotusGame.get().FireEvent(new GameEvent.Select(rc.pos));
                             }
@@ -39,7 +39,7 @@ namespace LotusGL
                                 LotusGame.get().FireEvent(new GameEvent.Select(int.MinValue));
                             }
                         }
-                        else if (isMoveValid(board.selectedId, rc.pos, rc.player)) // Move Piece
+                        else if (isMoveValid(board.selectedId, rc.pos, LotusGame.get().players[rc.player])) // Move Piece
                         {
                             LotusGame.get().FireEvent(new GameEvent.Move(board.selectedId, rc.pos));
                         }
@@ -55,8 +55,11 @@ namespace LotusGL
 
                     board.selectedId = int.MinValue;
                     if (move.frompos != move.topos)
+                    {
                         board.movePiece(move.frompos, move.topos);
-                    cyclePlayer();
+                        LotusGame.get().net.Send(ge);
+                        cyclePlayer();
+                    }
                     break;
 
 
@@ -64,21 +67,26 @@ namespace LotusGL
                     GameEvent.Select select = (GameEvent.Select)ge;
 
                     board.selectedId = select.pos;
+                    LotusGame.get().net.Send(ge);
                     break;
 
 
                 case GameEvent.GameEventType.GameOver:
                     GameEvent.GameOver gameover = (GameEvent.GameOver)ge;
-
-
+                    
+                    LotusGame.get().net.Send(ge);
                     break;
+                
                 case GameEvent.GameEventType.AITurn:
                     GameEvent.AITurn aiturn = (GameEvent.AITurn) ge;
                     LotusGame.get().players[aiturn.ai].getAI().doMove(LotusGame.get().players[aiturn.ai], board);
                     break;
+                
                 case GameEvent.GameEventType.SetPlayer:
                     GameEvent.ChangePlayer playerchange = (GameEvent.ChangePlayer)ge;
                     LotusGame.get().setCurrentPlayer(playerchange.player);
+
+                    LotusGame.get().net.Send(ge);
                     break;
             }
         }

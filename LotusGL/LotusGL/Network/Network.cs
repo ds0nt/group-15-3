@@ -17,41 +17,51 @@ namespace LotusGL.Network
         //clients
         public Socket client = null;
         public Stream stream = null;
-        public TcpClient tcpClient = null;
-        //server
         public Socket server = null;
+
+        public TcpClient tcp;
+
         public IPAddress address = null;
-        public TcpListener listener = null;
-        //common
-        public Encoding utf8 = Encoding.UTF8;
-        public byte[] willSend = null;
-        public byte[] willReceive = null;
-        public string msgToString = null;
-
-
-        //////////////////functions//////////////// 
-        //client
-        public bool Connect(string ip)
+        
+        public void Send(GameEvent.GameEvent willSend)
         {
-            return false;
+            int[] data = willSend.packMe();
+
+            byte[] bytes = new byte[(data.Length + 2) * sizeof(int)];
+
+            BinaryWriter writer = new BinaryWriter(new MemoryStream(bytes));
+            writer.Write((data.Length + 1) * sizeof(int));
+            writer.Write((int)willSend.type);
+            for (int i = 0; i < data.Length; i++)
+                writer.Write(data[i]);
+            writer.Close();
+
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Flush();
         }
-        public void Disconnect() { }
 
-        //server
-        public void Start() { }
-        public void Stop() { }
-        
-
-        //common
-        public void Send(string msg) { } //SEEMS SAME BUT CLIENT PART AND SERVER PART WORKS DIFFERENTLY
-        public void Receive() { } //SAME HERE. DIFFERENT!
-        
-        //common2
-        public string Get_MyIP()
+        public GameEvent.GameEvent Receive()
         {
-            IPHostEntry host = Dns.Resolve(Dns.GetHostName());
-            string myip = host.AddressList[0].ToString();
-            return myip;
+            byte[] willReceive = new byte[4];
+
+            
+            BinaryReader reader = new BinaryReader(stream);
+            if (tcp.Available < 8)
+                return null;
+
+            int datalen = reader.ReadInt32();
+            Console.WriteLine(datalen);
+            if (datalen > 0)
+            {
+                willReceive = new byte[datalen];
+                int readlen = stream.Read(willReceive, 0, datalen);
+                
+                if (datalen == readlen)
+                {
+                    return GameEvent.GameEvent.parseBytes(willReceive);
+                }
+            }
+            return null;
         }
     }
 }

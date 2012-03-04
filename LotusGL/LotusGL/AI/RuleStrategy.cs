@@ -37,7 +37,11 @@ namespace LotusGL.AI
             List<Move> moves = AICalc.getPossibleMoves(p, b); // using AI calc to get the possible moves.
             if (moves.Count == 0)
             {
+<<<<<<< HEAD
                 Console.WriteLine(p.name + " Has No Moves!"); // if this guy has no move
+=======
+                //Console.WriteLine(p.name + " Has No Moves!");
+>>>>>>> 5539d5ebc13ebb8431d0b461531bd1c41631bb21
                 for (int i = 0; i < LotusGame.get().players.Length; i++)
                 {
                     if (LotusGame.get().players[i] != p)
@@ -45,7 +49,7 @@ namespace LotusGL.AI
                         moves = AICalc.getPossibleMoves(LotusGame.get().players[i], b);
                         if (moves.Count != 0)
                         {
-                            Console.WriteLine("Moving " + LotusGame.get().players[i].name + "'s Piece!");
+                            //Console.WriteLine("Moving " + LotusGame.get().players[i].name + "'s Piece!");
                             break;
                         }
                     }
@@ -54,8 +58,8 @@ namespace LotusGL.AI
             int moveid = AICalc.rand.Next(0, moves.Count - 1); // rand means it randers!
 
             Console.WriteLine(moves[moveid].start + " " + moves[moveid].end);
-            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, p), 0.1f);
-            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, p), 0.2f);
+            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
+            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
         }
     }
 }

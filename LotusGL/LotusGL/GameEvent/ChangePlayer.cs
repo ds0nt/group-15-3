@@ -22,5 +22,10 @@ namespace LotusGL.GameEvent
                 player
             };
         }
+
+        public static GameEvent Unpack(System.IO.BinaryReader reader)
+        {
+            return new ChangePlayer(reader.ReadInt32());
+        }
     }
 }

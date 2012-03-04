@@ -9,15 +9,15 @@ using System.IO;
 
 namespace LotusGL.Network
 {
-    class Client: Network
+    class Client : Network
     {
         public bool Connect(string ip)
         {
             try
             {
-                tcpClient = new TcpClient();
-                tcpClient.Connect(ip, 8010);
-                stream = tcpClient.GetStream();
+                tcp = new TcpClient();
+                tcp.Connect(ip, 8010);
+                stream = tcp.GetStream();
                 Console.WriteLine("Connected to Server Successfully!!");
                 return true;
             }
@@ -42,33 +42,6 @@ namespace LotusGL.Network
                 //client.Close();
             }
             catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        public void Send(string msg)
-        {
-            try
-            {
-                willSend = utf8.GetBytes(msg);
-                stream.Write(willSend, 0, willSend.Length);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        public void Receive()
-        {
-            try
-            {
-                willReceive = new byte[256];
-                stream.Read(willReceive, 0, 256);
-                msgToString = utf8.GetString(willReceive);
-                msgToString = msgToString.Replace("\0", string.Empty);
-                Console.WriteLine("Server: " + msgToString);
-            }
-            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

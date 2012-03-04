@@ -22,5 +22,9 @@ namespace LotusGL.GameEvent
                 topos
             };
         }
+        public static GameEvent Unpack(System.IO.BinaryReader reader)
+        {
+            return new Move(reader.ReadInt32(), reader.ReadInt32());
+        }
     }
 }
