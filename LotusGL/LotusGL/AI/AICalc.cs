@@ -45,5 +45,16 @@ namespace LotusGL.AI
 
 	        return Moves;
         }
+
+
+        //not done. working on it right now --- Seung Youb.
+        public static Move highestOf(Player p, Board b)
+        {
+            List<Move> moves = getPossibleMoves(p,b);
+            
+            Move move = moves[0];
+
+            return move;
+        }
     }
 }
