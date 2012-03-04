@@ -13,12 +13,13 @@ namespace LotusGL
         static LotusGame me;
         GraphicsFacade graphics;
         GameManager manager;
+        public Network.Network net;
         Board board;
         public Player[] players;
         
         //does not dictate player, this is what we THINK the players turn is
         //the players turn is managed by whoever owns localmanager
-        private int currentPlayer;
+        public int currentPlayer;
 
         Menu.Menu currentMenu;
         TitleScreen title;
@@ -37,6 +38,7 @@ namespace LotusGL
             title = new TitleScreen();
             gameOver = new Menu.GameOver();
             currentMenu = title;
+
 
             StartGame();
             graphics.Init();
@@ -69,7 +71,26 @@ namespace LotusGL
             players[3].setAI(new AI.RuleStrategy());
 
             board = new Board(this, players);
-            manager = new LocalManager(board);
+
+            Console.WriteLine("Server/Client (1/2)");
+            string x = Console.ReadLine();
+
+            if (x.Equals("1"))
+            {
+                net = new Network.Server();
+                ((Network.Server)net).Start();
+                manager = new LocalManager(board);
+            }
+            if (x.Equals("2"))
+            {
+                net = new Network.Client();
+                Console.WriteLine("Enter Address:");
+                string y = Console.ReadLine();
+                ((Network.Client)net).Connect(y);
+                manager = new RemoteManager(board);
+            }
+
+
             scheduledEvents = new List<ScheduledEvent>();
             Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.MENU;
         }
@@ -116,6 +137,9 @@ namespace LotusGL
 
         public void Update(Graphics.GraphicsFacade.MouseEvent m, double time)
         {
+            GameEvent.GameEvent ge = net.Receive();
+            if (ge != null)
+                FireEvent(ge);
             FireScheduled();
             if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
             {
@@ -128,7 +152,7 @@ namespace LotusGL
                 if (players[currentPlayer].local)
                 {
                     if (m.regionId >= 0)
-                        FireEvent(new GameEvent.RegionClick(m.regionId, players[currentPlayer]));
+                        FireEvent(new GameEvent.RegionClick(m.regionId, currentPlayer));
                 }
 
                 graphics.setClickableRegions(board.getRegions());

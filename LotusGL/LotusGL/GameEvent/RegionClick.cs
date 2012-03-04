@@ -8,8 +8,8 @@ namespace LotusGL.GameEvent
     class RegionClick : GameEvent
     {
         public int pos;
-        public Player player;
-        public RegionClick(int pos, Player p) : base(GameEventType.RegionClick)
+        public int player;
+        public RegionClick(int pos, int p) : base(GameEventType.RegionClick)
         {
             player = p;
             this.pos = pos;
@@ -20,7 +20,12 @@ namespace LotusGL.GameEvent
             return new int[]
             {
                 pos
+                
             };
+        }
+        public static GameEvent Unpack(System.IO.BinaryReader reader)
+        {
+            return new RegionClick(reader.ReadInt32(), reader.ReadInt32());
         }
     }
 }

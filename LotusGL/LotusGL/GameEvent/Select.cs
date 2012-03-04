@@ -20,5 +20,11 @@ namespace LotusGL.GameEvent
                 pos
             };
         }
+        public static GameEvent Unpack(System.IO.BinaryReader reader)
+        {
+            int pos = reader.ReadInt32();
+            Console.WriteLine("Pos: " + pos);
+            return new Select(pos);
+        }
     }
 }
