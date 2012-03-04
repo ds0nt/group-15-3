@@ -37,11 +37,8 @@ namespace LotusGL.AI
             List<Move> moves = AICalc.getPossibleMoves(p, b); // using AI calc to get the possible moves.
             if (moves.Count == 0)
             {
-<<<<<<< HEAD
                 Console.WriteLine(p.name + " Has No Moves!"); // if this guy has no move
-=======
                 //Console.WriteLine(p.name + " Has No Moves!");
->>>>>>> 5539d5ebc13ebb8431d0b461531bd1c41631bb21
                 for (int i = 0; i < LotusGame.get().players.Length; i++)
                 {
                     if (LotusGame.get().players[i] != p)
