@@ -83,6 +83,34 @@ namespace LotusGL.Graphics
                 Menu.Draw("title");
             }
         }
+        public void DrawPlayer1()
+        {
+            if (mode == Mode.MENU)
+            {
+                Menu.Draw("player1");
+            }
+        }
+        public void DrawPlayer2()
+        {
+            if (mode == Mode.MENU)
+            {
+                Menu.Draw("player2");
+            }
+        }
+        public void DrawPlayer3()
+        {
+            if (mode == Mode.MENU)
+            {
+                Menu.Draw("player3");
+            }
+        }
+        public void DrawPlayer4()
+        {
+            if (mode == Mode.MENU)
+            {
+                Menu.Draw("player4");
+            }
+        }
 
         public void DrawGameOver()
         {

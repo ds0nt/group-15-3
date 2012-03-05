@@ -16,6 +16,10 @@ namespace LotusGL.Graphics
         {
             Loaded = true;
             TextureLoader.get().loadTexture(@"..\..\images\title.bmp", "Title");
+            TextureLoader.get().loadTexture(@"..\..\images\Player1-Type.bmp", "Player1");
+            TextureLoader.get().loadTexture(@"..\..\images\Player2-Type.bmp", "Player2");
+            TextureLoader.get().loadTexture(@"..\..\images\Player1-Type.bmp", "Player3");
+            TextureLoader.get().loadTexture(@"..\..\images\Player1-Type.bmp", "Player4");
             TextureLoader.get().loadTexture(@"..\..\images\gameover.bmp", "GameOver");
         }
 
@@ -33,6 +37,18 @@ namespace LotusGL.Graphics
             {
                 case "title":
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Title"));
+                    break;
+                case "player1":
+                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Player1"));
+                    break;
+                case "player2":
+                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Player2"));
+                    break;
+                case "palyer3":
+                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Player3"));
+                    break;
+                case "player4":
+                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Player4"));
                     break;
                 case "gameover":
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("GameOver"));
