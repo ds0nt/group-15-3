@@ -48,9 +48,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AICalc.cs" />
+    <Compile Include="AI\AIStateAdvST.cs" />
+    <Compile Include="AI\AIStateAngry.cs" />
+    <Compile Include="AI\AIStateRushToEnd.cs" />
+    <Compile Include="AI\AIStateVengeful.cs" />
     <Compile Include="AI\AIStrategy.cs" />
-    <Compile Include="AI\StateStrategy.cs" />
     <Compile Include="AI\RuleStrategy.cs" />
+    <Compile Include="AI\StateStrategy.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Board.cs" />
     <Compile Include="GameEvent\AITurn.cs" />
     <Compile Include="GameEvent\ChangePlayer.cs" />

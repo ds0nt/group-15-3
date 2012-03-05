@@ -7,6 +7,9 @@ namespace LotusGL.AI
 {
     class StateStrategy : AIStrategy
     {
+        public int emotion { get; set; }
+        public int ableToMovePiece { get; set; }
+
         public void onBoardChange(Player p, Board b)
         {
             /* vector<int> possibleActiveMoves;
