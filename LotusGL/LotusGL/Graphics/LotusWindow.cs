@@ -63,6 +63,7 @@ namespace LotusGL.Graphics
 
         public void Load()
         {
+            Text.Load(new System.Drawing.Font(System.Drawing.FontFamily.GenericSerif, 12), 0, 127, false);
             Board.Load();
             Piece.Load();
             Menu.Load();
@@ -73,6 +74,7 @@ namespace LotusGL.Graphics
             Board.UnLoad();
             Piece.UnLoad();
             Menu.UnLoad();
+            Text.UnLoad();
         }
 
         public void Run()

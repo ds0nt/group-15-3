@@ -98,6 +98,11 @@ namespace LotusGL.Graphics
                 Piece.Draw(new OpenTK.Graphics.Color4(c.R, c.G, c.B, 1), new OpenTK.Vector2(x, y), layer);
         }
 
+        public void DrawText(System.Drawing.Color c, float x, float y, string str)
+        {
+            Text.Draw(new OpenTK.Graphics.Color4(c.R, c.G, c.B, 1), x, y, str);
+        }
+
         public void DrawSelected(float x, float y, int layer)
         {
             if (mode == Mode.BOARD)

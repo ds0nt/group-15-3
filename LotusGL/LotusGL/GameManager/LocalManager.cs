@@ -57,7 +57,8 @@ namespace LotusGL
                     if (move.frompos != move.topos)
                     {
                         board.movePiece(move.frompos, move.topos);
-                        LotusGame.get().net.Send(ge);
+                        if (LotusGame.get().net != null)
+                            LotusGame.get().net.Send(ge);
                         cyclePlayer();
                     }
                     break;
@@ -67,14 +68,16 @@ namespace LotusGL
                     GameEvent.Select select = (GameEvent.Select)ge;
 
                     board.selectedId = select.pos;
-                    LotusGame.get().net.Send(ge);
+                    if(LotusGame.get().net != null)
+                        LotusGame.get().net.Send(ge);
                     break;
 
 
                 case GameEvent.GameEventType.GameOver:
                     GameEvent.GameOver gameover = (GameEvent.GameOver)ge;
-                    
-                    LotusGame.get().net.Send(ge);
+
+                    if (LotusGame.get().net != null)
+                        LotusGame.get().net.Send(ge);
                     break;
                 
                 case GameEvent.GameEventType.AITurn:
@@ -86,7 +89,8 @@ namespace LotusGL
                     GameEvent.ChangePlayer playerchange = (GameEvent.ChangePlayer)ge;
                     LotusGame.get().setCurrentPlayer(playerchange.player);
 
-                    LotusGame.get().net.Send(ge);
+                    if(LotusGame.get().net != null)
+                        LotusGame.get().net.Send(ge);
                     break;
             }
         }

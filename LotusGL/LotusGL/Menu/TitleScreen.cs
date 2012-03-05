@@ -16,6 +16,7 @@ namespace LotusGL.Menu
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             graphics.DrawTitle();
+            graphics.DrawText(System.Drawing.Color.White, 0, 0, "You Rock!");
         }
 
         public GraphicsFacade.BoardRegion2D[] getRegions()

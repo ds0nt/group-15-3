@@ -72,7 +72,7 @@ namespace LotusGL
 
             board = new Board(this, players);
 
-            Console.WriteLine("Server/Client (1/2)");
+            Console.WriteLine("Server/Client/Single (1/2/3)");
             string x = Console.ReadLine();
 
             if (x.Equals("1"))
@@ -81,13 +81,17 @@ namespace LotusGL
                 ((Network.Server)net).Start();
                 manager = new LocalManager(board);
             }
-            if (x.Equals("2"))
+            else if (x.Equals("2"))
             {
                 net = new Network.Client();
                 Console.WriteLine("Enter Address:");
                 string y = Console.ReadLine();
                 ((Network.Client)net).Connect(y);
                 manager = new RemoteManager(board);
+            }
+            else
+            {
+                manager = new LocalManager(board);
             }
 
 
@@ -137,9 +141,12 @@ namespace LotusGL
 
         public void Update(Graphics.GraphicsFacade.MouseEvent m, double time)
         {
-            GameEvent.GameEvent ge = net.Receive();
-            if (ge != null)
-                FireEvent(ge);
+            if (net != null)
+            {
+                GameEvent.GameEvent ge = net.Receive();
+                if (ge != null)
+                    FireEvent(ge);
+            }
             FireScheduled();
             if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
             {

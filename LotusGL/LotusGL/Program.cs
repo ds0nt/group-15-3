@@ -13,6 +13,7 @@ namespace LotusGL
     {
         static void Main(string[] args)
         {
+            
 
             GraphicsFacade graphics = new GraphicsFacade();
             LotusGame lotus = new LotusGame(graphics);
