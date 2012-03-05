@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
+using System.Drawing;
+
 namespace LotusGL.Graphics
 {
     class TextureLoader
@@ -21,14 +24,29 @@ namespace LotusGL.Graphics
                 return;
             System.IO.FileStream r = System.IO.File.OpenRead(path);
             uint size = (uint)r.Length;
-            byte[] tex = new byte[size];
-            r.Seek(10, System.IO.SeekOrigin.Begin);
+            byte[] tex;
 
-            uint start = new System.IO.BinaryReader(r).ReadUInt32();
+            Bitmap bmp = new Bitmap(path);
+            unsafe
+            {
+                System.Drawing.Imaging.BitmapData bData = bmp.LockBits(new Rectangle(new Point(), bmp.Size),
+                    System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                // number of bytes in the bitmap
+                int byteCount = bData.Stride * bmp.Height;
+                tex = new byte[byteCount];
 
-            r.Seek(start, System.IO.SeekOrigin.Begin);
-            r.Read(tex, 0, (int)(size - start));
+                // Copy the locked bytes from memory
+                Marshal.Copy(bData.Scan0, tex, 0, byteCount);
 
+                // don't forget to unlock the bitmap!!
+                bmp.UnlockBits(bData);
+                for (int i = 0; i < tex.Length; i+=4)
+                {
+                    if (tex[i] == 0 && tex[i + 1] == 0 && tex[i + 2] == 255)
+                        tex[i + 3] = 0;
+                }
+            }
             int id;
             GL.GenTextures(1, out id);
             GL.BindTexture(TextureTarget.Texture2D, id); 
@@ -36,7 +54,7 @@ namespace LotusGL.Graphics
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (float)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (float)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (float)TextureWrapMode.ClampToEdge);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, 512, 512, 0, PixelFormat.Rgb, PixelType.UnsignedByte, tex);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, 512, 512, 0, PixelFormat.Rgba, PixelType.UnsignedByte, tex);
             
             textures[name] = id;
         }

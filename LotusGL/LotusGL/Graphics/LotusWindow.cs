@@ -63,7 +63,8 @@ namespace LotusGL.Graphics
 
         public void Load()
         {
-            Text.Load(new System.Drawing.Font(System.Drawing.FontFamily.GenericSerif, 12), 0, 127, false);
+
+            Text.Load(new System.Drawing.Font(System.Drawing.FontFamily.GenericSerif, 12, System.Drawing.FontStyle.Bold), 0, 127, true);
             Board.Load();
             Piece.Load();
             Menu.Load();
