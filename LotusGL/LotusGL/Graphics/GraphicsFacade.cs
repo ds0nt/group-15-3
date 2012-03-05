@@ -80,9 +80,11 @@ namespace LotusGL.Graphics
         {
             if (mode == Mode.MENU)
             {
-                Menu.Draw("title");
+                DrawMenu("title");
             }
         }
+
+
 
         public void DrawGameOver()
         {
@@ -90,6 +92,19 @@ namespace LotusGL.Graphics
             {
                 Menu.Draw("gameover");
             }
+        }
+
+        private void DrawMenu(string resource)
+        {
+            DrawMenu(resource, 0, 0, 512, 512);
+        }
+        private void DrawMenu(string resource, float x, float y, float width, float height)
+        {
+            x = x / 256 - 1;
+            y = (256 - y) / 256;// -1;
+            width = width / 256;
+            height = height / 256;
+            Menu.Draw(resource, x, y, width, height);
         }
 
         public void DrawPiece(System.Drawing.Color c, float x, float y, int layer)
