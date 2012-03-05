@@ -100,6 +100,8 @@ namespace LotusGL.Graphics
 
         public void DrawText(System.Drawing.Color c, float x, float y, string str)
         {
+            x = (x / 512) - 0.5f;
+            y = ((512-y) / 512) - 0.5f;
             Text.Draw(new OpenTK.Graphics.Color4(c.R, c.G, c.B, 1), x, y, str);
         }
 
@@ -121,6 +123,14 @@ namespace LotusGL.Graphics
         }
         public void setClickableRegions(BoardRegion2D[] regions)
         {
+            for (int i = 0; i < regions.Length; i++)
+            {
+                regions[i].x = regions[i].x / 256 - 1;
+                regions[i].y = regions[i].y / 256 - 1;
+                regions[i].width = regions[i].width / 256;
+                regions[i].height = regions[i].height / 256;
+            }
+
             window.regions2D = regions;
         }
 

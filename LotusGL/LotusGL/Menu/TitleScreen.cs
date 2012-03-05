@@ -16,14 +16,14 @@ namespace LotusGL.Menu
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             graphics.DrawTitle();
-            graphics.DrawText(System.Drawing.Color.White, 0, 0, "You Rock!");
+            graphics.DrawText(System.Drawing.Color.White, 128, 256, "You Rock!");
         }
 
         public GraphicsFacade.BoardRegion2D[] getRegions()
         {
             GraphicsFacade.BoardRegion2D[] ret = new GraphicsFacade.BoardRegion2D[]
             {
-                new GraphicsFacade.BoardRegion2D(1, -0.5f, 0f, 1f, 0.5f)
+                new GraphicsFacade.BoardRegion2D(1, 128, 256, 256, 128)
             };
 
             return ret;
