@@ -75,6 +75,11 @@ namespace LotusGL
             Console.WriteLine("Server/Client/Single (1/2/3)");
             string x = Console.ReadLine();
 
+            
+            
+            scheduledEvents = new List<ScheduledEvent>();
+            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.MENU;
+
             if (x.Equals("1"))
             {
                 net = new Network.Server();
@@ -92,11 +97,13 @@ namespace LotusGL
             else
             {
                 manager = new LocalManager(board);
+                if (players[currentPlayer].getAI() != null)
+                    ScheduleEvent(new GameEvent.AITurn(currentPlayer), 1);
             }
 
 
-            scheduledEvents = new List<ScheduledEvent>();
-            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.MENU;
+
+                
         }
 
         public void EndGame()
