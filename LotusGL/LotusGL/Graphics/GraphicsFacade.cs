@@ -100,8 +100,8 @@ namespace LotusGL.Graphics
 
         public void DrawText(System.Drawing.Color c, float x, float y, string str)
         {
-            x = (x / 512) - 0.5f;
-            y = ((512-y) / 512) - 0.5f;
+            x = (x / 256) - 1f;
+            y = ((256 - y) / 256);// -1f;
             Text.Draw(new OpenTK.Graphics.Color4(c.R, c.G, c.B, 1), x, y, str);
         }
 
