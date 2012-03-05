@@ -33,6 +33,7 @@ namespace LotusGL.Graphics
             Matrix4 translation = Matrix4.Identity;// Matrix4.CreateTranslation(new Vector3(-0.5f, -0.5f, 0));
             GL.LoadMatrix(ref translation);
             GL.Enable(EnableCap.Texture2D);
+            GL.Disable(EnableCap.DepthTest);
             switch(menuname)
             {
                 case "title":
@@ -65,6 +66,7 @@ namespace LotusGL.Graphics
             GL.Vertex3(1, 1, 0);
 
             GL.End();
+            GL.Enable(EnableCap.DepthTest);
             GL.PopMatrix();
         }
 

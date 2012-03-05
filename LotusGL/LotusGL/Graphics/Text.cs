@@ -60,10 +60,11 @@ namespace LotusGL.Graphics
         {
             GL.PushMatrix();
 
-            Matrix4 translation = Matrix4.CreateTranslation(new Vector3(posx, posy, -0.01f));
+            Matrix4 translation = Matrix4.CreateTranslation(new Vector3(posx, posy, 0));
 
             GL.LoadMatrix(ref translation);
             GL.Enable(EnableCap.Texture2D);
+            GL.Disable(EnableCap.DepthTest);
             GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("font"));
             GL.Begin(BeginMode.TriangleStrip);
             GL.Color4(color);
@@ -98,6 +99,7 @@ namespace LotusGL.Graphics
             }
 
             GL.End();
+            GL.Enable(EnableCap.DepthTest);
             GL.PopMatrix();
         }
         public static void UnLoad()
