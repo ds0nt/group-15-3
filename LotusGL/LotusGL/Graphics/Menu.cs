@@ -38,6 +38,15 @@ namespace LotusGL.Graphics
             {
                 case "title":
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Title"));
+                    GL.Begin(BeginMode.TriangleStrip);
+                    GL.TexCoord2(new OpenTK.Vector2d(0, 0));
+                    GL.Vertex3(-1, -1, 0);
+                    GL.TexCoord2(new OpenTK.Vector2d(1, 0));
+                    GL.Vertex3(1, -1, 0);
+                    GL.TexCoord2(new OpenTK.Vector2d(0, 1f));
+                    GL.Vertex3(-1, 1, 0);
+                    GL.TexCoord2(new OpenTK.Vector2d(1, 1f));
+                    GL.Vertex3(1, 1, 0);
                     break;
                 case "player1":
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Player1"));
@@ -55,16 +64,6 @@ namespace LotusGL.Graphics
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("GameOver"));
                     break;
             }
-            GL.Begin(BeginMode.TriangleStrip);
-            GL.TexCoord2(new OpenTK.Vector2d(0, 0));
-            GL.Vertex3(-1, -1, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(1, 0));
-            GL.Vertex3(1, -1, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(0, 1f));
-            GL.Vertex3(-1, 1, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(1, 1f));
-            GL.Vertex3(1, 1, 0);
-
             GL.End();
             GL.Enable(EnableCap.DepthTest);
             GL.PopMatrix();
