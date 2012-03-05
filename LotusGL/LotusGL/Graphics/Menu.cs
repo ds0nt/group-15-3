@@ -23,13 +23,8 @@ namespace LotusGL.Graphics
             TextureLoader.get().loadTexture(@"..\..\images\gameover.bmp", "GameOver");
         }
 
-
+        
         public static void Draw(string menuname)
-        {
-            Draw(menuname, -1, -1, 2, 2);
-        }
-
-        public static void Draw(string menuname, float x, float y, float width, float height)
         {
             if(!Loaded)
                 Load();
@@ -43,15 +38,7 @@ namespace LotusGL.Graphics
             {
                 case "title":
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Title"));
-                    GL.Begin(BeginMode.TriangleStrip);
-                    GL.TexCoord2(new OpenTK.Vector2d(0, 0));
-                    GL.Vertex3(-1, -1, 0);
-                    GL.TexCoord2(new OpenTK.Vector2d(1, 0));
-                    GL.Vertex3(1, -1, 0);
-                    GL.TexCoord2(new OpenTK.Vector2d(0, 1f));
-                    GL.Vertex3(-1, 1, 0);
-                    GL.TexCoord2(new OpenTK.Vector2d(1, 1f));
-                    GL.Vertex3(1, 1, 0);
+                    
                     break;
                 case "player1":
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Player1"));
@@ -69,22 +56,7 @@ namespace LotusGL.Graphics
                     GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("GameOver"));
                     break;
             }
-<<<<<<< HEAD
-=======
-            GL.Begin(BeginMode.TriangleStrip);
-            GL.TexCoord2(new OpenTK.Vector2d(0, 1));
-            GL.Vertex3(x, y, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(1, 1));
-            GL.Vertex3(x+width, y, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(0, 0f));
-            GL.Vertex3(x, y-height, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(1, 0f));
-            GL.Vertex3(x+width, y-height, 0);
-
->>>>>>> 6e34fa62d45874b556c719c86e70bf223992a31c
-            GL.End();
-            GL.Enable(EnableCap.DepthTest);
-            GL.PopMatrix();
+            
         }
 
         public static void DrawString(string text)

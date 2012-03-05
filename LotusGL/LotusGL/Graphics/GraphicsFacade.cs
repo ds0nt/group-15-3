@@ -132,7 +132,8 @@ namespace LotusGL.Graphics
             y = (256 - y) / 256;// -1;
             width = width / 256;
             height = height / 256;
-            Menu.Draw(resource, x, y, width, height);
+           // Menu.Draw(resource, x, y, width, height);
+            DrawMenu(resource, x, y, width, height);
         }
 
         public void DrawPiece(System.Drawing.Color c, float x, float y, int layer)
