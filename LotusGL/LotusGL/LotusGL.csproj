@@ -54,6 +54,7 @@
     <Compile Include="AI\AIStateRushToEnd.cs" />
     <Compile Include="AI\AIStateVengeful.cs" />
     <Compile Include="AI\AIStrategy.cs" />
+    <Compile Include="AI\AIMoves.cs" />
     <Compile Include="AI\RuleStrategy.cs" />
     <Compile Include="AI\StateStrategy.cs">
       <SubType>Code</SubType>
