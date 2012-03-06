@@ -5,58 +5,136 @@ using System.Text;
 
 namespace LotusGL.AI
 {
+    //IT's just a rule class. It has name and weight of the move that this AI can do.
+    class rule
+    {
+        public string name{get; set;}   //name of the rule
+        public int weight{ get; set; }  //weight of the rule. This continuously changes.
+        public rule(string n)
+        {
+            name = n;
+            weight = 100;
+        }
+    }
     class RuleStrategy : AIStrategy
     {
-        public void onBoardChange(Player p, Board b)
-        {
-            //state strategy uses this.
-        }
-        // whawt about the basic rules??
         
-        
-        //I need several choices of moves.
-        public int chooseMove()
+        ////////////////////////////////RULESTRATEGY ONLY STUFF.////////////////////////////////////////////
+  
+        rule[] rules { get; set; }
+        public RuleStrategy()
         {
-            int rule = -1;
-            // kinds of rules.
-            // highest
-            // 
-
-
-            //list of the rule
-            return rule;
+            rules = initRules();
         }
-
-
-
-
-
-        //random Move
-        public void doMove(Player p, Board b) // do random
+        public rule[] initRules()
         {
-            List<Move> moves = AICalc.getPossibleMoves(p, b); // using AI calc to get the possible moves.
-            if (moves.Count == 0)
+            rule[] rules = new rule[4];
+            
+            rule moveRandom = new rule("moveRandom");
+            rules[0] = moveRandom;
+            rule moveHighest = new rule("moveHighest");
+            rules[1] = moveHighest;
+            rule moveClosestToGoal = new rule("moveClosestToGoal");
+            rules[2] = moveClosestToGoal;
+            rule moveStartPosition = new rule("moveStartPosition");
+            rules[3] = moveStartPosition;
+            /* New rules must be added here!!
+            rule moveNew = new rule("moveNew");
+            rules[?] = moveNew;
+            */
+            return rules;
+        }
+        
+        //This chooses the move. There are rules that's already set up, and I pick thie rule 
+        //WRT the weight of it. if the weights of rules are the same, then choose one randomly.
+        public rule chooseMove()
+        {
+            rule moveOfThisTurn = null;  //this will be the move of this turn. 
+            rule[] sameWeight = new rule[1]; 
+
+
+            for (int i = 0; i < rules.Length; i++)
             {
-                Console.WriteLine(p.name + " Has No Moves!"); // if this guy has no move
-                //Console.WriteLine(p.name + " Has No Moves!");
-                for (int i = 0; i < LotusGame.get().players.Length; i++)
+                if (i == 0)
                 {
-                    if (LotusGame.get().players[i] != p)
+                    moveOfThisTurn = rules[i];
+                    sameWeight[0] = moveOfThisTurn;
+                    Console.WriteLine("first random thing is current.");
+                }
+                else
+                {
+                    if (moveOfThisTurn.weight < rules[i].weight)
                     {
-                        moves = AICalc.getPossibleMoves(LotusGame.get().players[i], b);
-                        if (moves.Count != 0)
+                        moveOfThisTurn = rules[i];
+                        sameWeight = new rule[1];
+                        sameWeight[0] = moveOfThisTurn;
+                    }
+                    else if (moveOfThisTurn.weight == rules[i].weight)
+                    {
+                        rule[] newArray = new rule[sameWeight.Length + 1];
+                        for (int j = 0; j < sameWeight.Length; j++)
                         {
-                            //Console.WriteLine("Moving " + LotusGame.get().players[i].name + "'s Piece!");
-                            break;
+                            newArray[j] = sameWeight[j];
                         }
+                        newArray[newArray.Length - 1] = rules[i];
+                        sameWeight = newArray;
+                        Console.WriteLine("one more rule is added");
                     }
                 }
             }
-            int moveid = AICalc.rand.Next(0, moves.Count - 1); // rand means it randers!
+            if (sameWeight.Length == 1)
+            {
+                moveOfThisTurn.weight--;
+                Console.WriteLine(moveOfThisTurn.name + "'s weight is now " + moveOfThisTurn.weight);
+                return moveOfThisTurn;
+            }
+            else
+            {
+                //Random random = new Random();
+                int ran = AICalc.rand.Next(0, sameWeight.Length);
+                sameWeight[ran].weight--;
+                Console.WriteLine(sameWeight[ran].name + "'s weight is now " + sameWeight[ran].weight);
+                return sameWeight[ran];
+            }
+        }
 
-            Console.WriteLine(moves[moveid].start + " " + moves[moveid].end);
-            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+
+        ////////////////////////////////FROM INTERFACE STUFF.////////////////////////////////////////////
+
+        public void doMove(Player p, Board b)
+        {
+            rule moveOfThisTurn = chooseMove();
+            AIMoves goingTo = new AIMoves();
+            switch (moveOfThisTurn.name)
+            {
+                case "moveRandom":
+                    Console.WriteLine("moveRandom");
+                    goingTo.moveRandom(p,b);
+                    break;
+                case "moveHighest":
+                    Console.WriteLine("moveHighest");
+                    goingTo.moveHighest(p, b);
+                    break;
+                case "moveClosestToGoal":
+                    Console.WriteLine("moveClosestToGoal");
+                    goingTo.moveClosestToGoal(p, b);
+                    break;
+                case "moveStartPosition":
+                    Console.WriteLine("moveStartPosition");
+                    goingTo.moveStartPosition(p, b);
+                    break;
+                /* Newly added rules must follow this rule:
+                case "moveNew":
+                    Console.WriteLine("moveNew");
+                    goingTo.moveNew(p, b);
+                    break;
+                 */
+            }
+
+        }
+        public void onBoardChange(Player p, Board b)
+        {
+            //state strategy uses this.
         }
     }
 }
