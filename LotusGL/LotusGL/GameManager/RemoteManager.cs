@@ -21,6 +21,8 @@ namespace LotusGL
                 case GameEvent.GameEventType.RegionClick:
                     GameEvent.RegionClick rc = (GameEvent.RegionClick)ge;
 
+                    if (LotusGame.get().net != null)
+                        LotusGame.get().net.Send(ge);
                     break;
 
                 case GameEvent.GameEventType.MovePiece:

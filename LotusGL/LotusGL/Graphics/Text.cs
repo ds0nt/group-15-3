@@ -40,14 +40,14 @@ namespace LotusGL.Graphics
                 Bitmap objBmpImage = new Bitmap(512, 512);
                 System.Drawing.Graphics objGraphics = System.Drawing.Graphics.FromImage(objBmpImage);
 
-                objGraphics.Clear(Color.White);
+                objGraphics.Clear(Color.Red);
                 objGraphics.SmoothingMode = SmoothingMode.None;
                 objGraphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
 
                 for (int i = first; i <= last; i++)
                 {
                     char c = Convert.ToChar(i);
-                    objGraphics.DrawString("" + c, font, new SolidBrush(Color.Black), characters[c].x, characters[c].y);
+                    objGraphics.DrawString("" + c, font, new SolidBrush(Color.White), characters[c].x, characters[c].y);
                     objGraphics.Flush();
                 }
                 objBmpImage.Save(@"..\..\images\font.bmp");
@@ -78,9 +78,9 @@ namespace LotusGL.Graphics
                 float ty2 = (size) / 512f;
                 
                 float texx = characters[chars[i]].x / 512f;
-                float texy = 1 - characters[chars[i]].y / 512f;
+                float texy = characters[chars[i]].y / 512f;
                 float texx2 = (characters[chars[i]].x + 16) / 512f;
-                float texy2 = 1 - (characters[chars[i]].y + 16) / 512f;
+                float texy2 = (characters[chars[i]].y + 16) / 512f;
 
                 GL.TexCoord2(texx, texy);
                 GL.Vertex3(tx, ty2, 0);

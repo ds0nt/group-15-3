@@ -17,11 +17,8 @@ namespace LotusGL.Menu
         {
             graphics.DrawTitle();
             graphics.DrawText(System.Drawing.Color.White, 128, 128, "128 128!");
-
             graphics.DrawText(System.Drawing.Color.White, 128, 374, "128 374!");
-
             graphics.DrawText(System.Drawing.Color.White, 256, 256, "256 256!");
-
             graphics.DrawText(System.Drawing.Color.White, 10, 10, "10 10!");
         }
 

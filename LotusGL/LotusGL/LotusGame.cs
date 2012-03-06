@@ -62,7 +62,7 @@ namespace LotusGL
         {
             players = new Player[4];
             players[0] = new Player(System.Drawing.Color.Red, "Red");
-            players[0].setAI(new AI.RuleStrategy());
+            //players[0].setAI(new AI.RuleStrategy());
             players[1] = new Player(System.Drawing.Color.Black, "Black");
             //players[1].setAI(new AI.RuleStrategy());
             players[2] = new Player(System.Drawing.Color.White, "White");
@@ -83,8 +83,13 @@ namespace LotusGL
             if (x.Equals("1"))
             {
                 net = new Network.Server();
-                ((Network.Server)net).Start();
+                ((Network.Server)net).StartListen();
                 manager = new LocalManager(board);
+                while (((Network.Server)net).streams.Count < 3)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+                ((Network.Server)net).EndListen();
             }
             else if (x.Equals("2"))
             {
@@ -100,10 +105,6 @@ namespace LotusGL
                 if (players[currentPlayer].getAI() != null)
                     ScheduleEvent(new GameEvent.AITurn(currentPlayer), 1);
             }
-
-
-
-                
         }
 
         public void EndGame()

@@ -12,7 +12,10 @@ namespace LotusGL
         public string name;
         public bool finished;
         public bool local;
+        
         AIStrategy ai;
+        
+
         public Player(Color color, string name)
         {
             finished = false;
