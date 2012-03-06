@@ -26,10 +26,10 @@ namespace LotusGL.AI.State
                     currentState = new AIStateRegular(this);
                     break;
                 case "Angry":
-                    currentState = new AIStateRegular(this);
+                    currentState = new AIStateAngry(this);
                     break;
                 case "Vengeful":
-                    currentState = new AIStateRegular(this);
+                    currentState = new AIStateVengeful(this);
                     break;
                 case "RushToEnd":
                     currentState = new AIStateRegular(this);
@@ -38,7 +38,6 @@ namespace LotusGL.AI.State
                     currentState = new AIStateRegular(this);
                     break;
             }
-            
         }
         
         public void doMove(Player p, Board b)

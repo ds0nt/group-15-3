@@ -7,10 +7,11 @@ namespace LotusGL.AI.State
 {
     class AIStateRegular : AIState
     {
+        StateStrategy state;
         int emotion { get; set; }
         public AIStateRegular(StateStrategy stateMachine)
         {
-
+            this.state = stateMachine;
         }
         public void doTurn(Player p, Board b)
         {

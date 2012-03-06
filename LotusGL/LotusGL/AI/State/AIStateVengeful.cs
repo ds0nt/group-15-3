@@ -5,11 +5,11 @@ using System.Text;
 
 namespace LotusGL.AI.State
 {
-    class AIStateVengeful : AIStrategy
+    class AIStateVengeful : AIState
     {
         public int enactedCount { get; set; }
 
-        public AIStateVengeful()
+        public AIStateVengeful(StateStrategy stateMachine)
         {
             /* this->stateMachine = stateMachine;
             //int target;
