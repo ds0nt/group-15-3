@@ -62,6 +62,8 @@
     <Compile Include="Board.cs" />
     <Compile Include="GameEvent\AITurn.cs" />
     <Compile Include="GameEvent\ChangePlayer.cs" />
+    <Compile Include="GameEvent\GameStart.cs" />
+    <Compile Include="GameEvent\SetName.cs" />
     <Compile Include="Graphics\Text.cs" />
     <Compile Include="Menu\Chat.cs" />
     <Compile Include="Menu\EnterIP.cs" />

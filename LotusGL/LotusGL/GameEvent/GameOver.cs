@@ -13,12 +13,11 @@ namespace LotusGL.GameEvent
             windex = winner;
         }
 
-        public override int[] packMe()
+        public override byte[] packMe()
         {
-            return new int[]
-            {
-                windex
-            };
+            System.IO.BinaryWriter writer = new System.IO.BinaryWriter(new System.IO.MemoryStream());
+            writer.Write(windex);
+            return ((System.IO.MemoryStream)writer.BaseStream).GetBuffer();
         }
         public static GameEvent Unpack(System.IO.BinaryReader reader)
         {

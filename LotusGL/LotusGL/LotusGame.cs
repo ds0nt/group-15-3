@@ -12,7 +12,7 @@ namespace LotusGL
     {
         static LotusGame me;
         GraphicsFacade graphics;
-        GameManager manager;
+        public GameManager manager;
         public Network.Network net;
         Board board;
         public Player[] players;
@@ -53,11 +53,10 @@ namespace LotusGL
             public GameEvent.GameEvent ge;
         }
 
-        public void LaunchGame(Player[] players, Network.Network net, GameManager manager)
+        string name = "";
+        public void LaunchGame(Player[] players)
         {
             this.players = players;
-            this.net = net;
-            this.manager = manager;
             board = Board.get();
             scheduledEvents = new List<ScheduledEvent>();
 

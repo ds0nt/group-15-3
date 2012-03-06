@@ -7,12 +7,11 @@ using LotusGL.Graphics;
 namespace LotusGL.Menu
 {
     class TitleScreen : Menu
-    {
-        GameManager manager;
-        Network.Network net;
-        
+    {   
         EnterIP enterip;
         Chat chat;
+        bool server = false;
+
 
         public TitleScreen()
         {
@@ -30,9 +29,19 @@ namespace LotusGL.Menu
         public void handleInput(char x)
         {
             if (!enterip.inputmode)
+            {
+                if (enterip.address != "")
+                {
+                    LotusGame.get().net = new Network.Client();
+                    ((Network.Client)LotusGame.get().net).Connect(enterip.address);
+                    LotusGame.get().manager = new RemoteManager();
+                    enterip.address = "";
+                }
                 chat.handleInput(x);
+            }
             else
                 enterip.handleInput(x);
+
         }
 
         public void handleRegionClick(int regionid)
@@ -40,59 +49,46 @@ namespace LotusGL.Menu
             if (regionid == 100)
             {
                 enterip.inputmode = true;
-            }
-            if (regionid == 0)
+            } 
+            if (regionid == 101)
             {
+                server = true;
+                LotusGame.get().net = new Network.Server();
+                ((Network.Server)LotusGame.get().net).StartListen();
+                LotusGame.get().manager = new LocalManager();
+            }
 
-                Console.WriteLine("Server/Client/Single (1/2/3)");
-                string x = Console.ReadLine();
-
-
-
-                Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.MENU;
-
-                if (x.Equals("1"))
+            if (regionid == 1)
+            {
+                if (LotusGame.get().manager != null)
                 {
-                    net = new Network.Server();
-                    ((Network.Server)net).StartListen();
-                    manager = new LocalManager(Board.get());
-                    while (((Network.Server)net).streams.Count < 3)
+                    if (server)
                     {
-                        System.Threading.Thread.Sleep(100);
+                        ((Network.Server)LotusGame.get().net).EndListen();
+
+                        Player[] players = new Player[4];
+
+                        players[0] = new Player(System.Drawing.Color.Red, "Red");
+                        players[1] = new Player(System.Drawing.Color.Gray, "Black");
+                        players[2] = new Player(System.Drawing.Color.White, "White");
+                        players[3] = new Player(System.Drawing.Color.Blue, "Blue");
+
+                        LotusGame.get().FireEvent(new GameEvent.GameStart(players));
                     }
-                    ((Network.Server)net).EndListen();
-                }
-                else if (x.Equals("2"))
-                {
-                    net = new Network.Client();
-                    Console.WriteLine("Enter Address:");
-                    string y = Console.ReadLine();
-                    ((Network.Client)net).Connect(y);
-                    manager = new RemoteManager(Board.get());
                 }
                 else
                 {
-                    manager = new LocalManager(Board.get());
+                    LotusGame.get().manager = new LocalManager();
+
+                    Player[] players = new Player[4];
+
+                    players[0] = new Player(System.Drawing.Color.Red, "Red");
+                    players[1] = new Player(System.Drawing.Color.Gray, "Black");
+                    players[2] = new Player(System.Drawing.Color.White, "White");
+                    players[3] = new Player(System.Drawing.Color.Blue, "Blue");
+
+                    LotusGame.get().FireEvent(new GameEvent.GameStart(players));
                 }
-            }
-            if (regionid == 1)
-            {
-                
-                
-                Player[] players = new Player[4];
-                players[0] = new Player(System.Drawing.Color.Red, "Red");
-                //players[0].setAI(new AI.RuleStrategy());
-                players[1] = new Player(System.Drawing.Color.Gray, "Black");
-                //players[1].setAI(new AI.RuleStrategy());
-                players[2] = new Player(System.Drawing.Color.White, "White");
-                //players[2].setAI(new AI.RuleStrategy());
-                players[3] = new Player(System.Drawing.Color.Blue, "Blue");
-                //players[3].setAI(new AI.RuleStrategy());
-
-                new Board(players);
-                manager = new LocalManager(Board.get());
-                LotusGame.get().LaunchGame(players, net, manager);
-
             }
         }
 
@@ -109,7 +105,8 @@ namespace LotusGL.Menu
             {
                 new GraphicsFacade.BoardRegion2D(1, 128, 256, 256, 128),
 
-                new GraphicsFacade.BoardRegion2D(100, 10, 10, 30, 30),
+                new GraphicsFacade.BoardRegion2D(100, 10, 10, 100, 100), // Client
+                new GraphicsFacade.BoardRegion2D(101, 400, 400, 100, 100), // Server
             };
             return ret;
         }

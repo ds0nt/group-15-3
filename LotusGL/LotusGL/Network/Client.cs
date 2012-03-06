@@ -43,12 +43,12 @@ namespace LotusGL.Network
         }
         public void Send(GameEvent.GameEvent willSend)
         {
-            int[] data = willSend.packMe();
+            byte[] data = willSend.packMe();
 
-            byte[] bytes = new byte[(data.Length + 2) * sizeof(int)];
+            byte[] bytes = new byte[(data.Length + 2 * sizeof(int))];
 
             BinaryWriter writer = new BinaryWriter(new MemoryStream(bytes));
-            writer.Write((data.Length + 1) * sizeof(int));
+            writer.Write((data.Length + 1 * sizeof(int)));
             writer.Write((int)willSend.type);
             for (int i = 0; i < data.Length; i++)
                 writer.Write(data[i]);

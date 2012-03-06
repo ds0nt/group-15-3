@@ -7,23 +7,35 @@ namespace LotusGL
 {
     class LocalManager : GameManager
     {
-        Board board;
-
         int currentPlayer;
         public int getCurrentPlayerID()
         {
             return currentPlayer;
         }
 
-        public LocalManager(Board b)
+        public LocalManager()
         {
-            board = b;
         }
 
         public void onGameEvent(GameEvent.GameEvent ge)
         {
+            Board board = Board.get();
             switch (ge.type)
             {
+                case GameEvent.GameEventType.GameStart:
+                    GameEvent.GameStart gs = (GameEvent.GameStart)ge;
+                    Player[] players = new Player[4];
+                    
+                    players[0] = new Player(System.Drawing.Color.Red, "Red");
+                    players[1] = new Player(System.Drawing.Color.Gray, "Black");
+                    players[2] = new Player(System.Drawing.Color.White, "White");
+                    players[3] = new Player(System.Drawing.Color.Blue, "Blue");
+                    new Board(players);
+
+                    if (LotusGame.get().net != null)
+                        LotusGame.get().net.Send(ge);
+                    LotusGame.get().LaunchGame(players);
+                    break;
                 case GameEvent.GameEventType.RegionClick:
                     GameEvent.RegionClick rc = (GameEvent.RegionClick)ge;
                     if (rc.player == currentPlayer)
@@ -101,7 +113,7 @@ namespace LotusGL
             while (LotusGame.get().players[currentPlayer].finished)
                 currentPlayer = (currentPlayer + 1) % LotusGame.get().players.Length;
             Console.WriteLine(LotusGame.get().players[currentPlayer].color);
-            int pc = board.getRemainingPlayers();
+            int pc = Board.get().getRemainingPlayers();
             if (pc == 1)
             {
                 LotusGame.get().FireEvent(new GameEvent.GameOver(currentPlayer));
@@ -119,7 +131,7 @@ namespace LotusGL
 
         private bool isSelectValid(int select, Player p)
         {
-            List<Player> starttile = board.getTile(select);
+            List<Player> starttile = Board.get().getTile(select);
             if (starttile.Count > 0 && starttile[starttile.Count - 1] == p || !canMove(p))
             {
                 return true;
@@ -129,9 +141,9 @@ namespace LotusGL
 
         private bool canMove(Player p)
         {
-            for (int i = 0; i < board.startTiles.Length + board.gameTiles.Length - 1; i++)
+            for (int i = 0; i < Board.get().startTiles.Length + Board.get().gameTiles.Length - 1; i++)
             {
-                List<Player> tile = board.getTile(i);
+                List<Player> tile = Board.get().getTile(i);
                 if (tile.Count != 0 && tile[tile.Count - 1] == p)
                     return true;
             }
@@ -140,9 +152,9 @@ namespace LotusGL
 
         private bool isMoveValid(int start, int end, Player p)
         {
-            List<Player> starttile = board.getTile(start);
-            start -= board.startTiles.Length;
-            end -= board.startTiles.Length;
+            List<Player> starttile = Board.get().getTile(start);
+            start -= Board.get().startTiles.Length;
+            end -= Board.get().startTiles.Length;
             if (starttile[starttile.Count - 1] == p || !canMove(p))
             {
                 int dist = starttile.Count;
@@ -158,7 +170,7 @@ namespace LotusGL
                 {
                     if (start < 3 && start + dist > 2)
                         dist += 3;
-                    if (end == Math.Min(start + dist, board.gameTiles.Length - 1))
+                    if (end == Math.Min(start + dist, Board.get().gameTiles.Length - 1))
                         return true;
                 }
             }

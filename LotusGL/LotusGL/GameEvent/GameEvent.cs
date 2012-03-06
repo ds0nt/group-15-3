@@ -12,7 +12,9 @@ namespace LotusGL.GameEvent
         RegionClick = 2,
         GameOver = 3,
         AITurn = 4,
-        SetPlayer = 5
+        SetPlayer = 5,
+        GameStart = 6,
+        SetName = 7,
     }
     abstract class GameEvent
     {
@@ -38,9 +40,13 @@ namespace LotusGL.GameEvent
                     return Select.Unpack(reader);
                 case (int) GameEventType.SetPlayer:
                     return ChangePlayer.Unpack(reader);
+                case (int)GameEventType.GameStart:
+                    return GameStart.Unpack(reader);
+                case (int)GameEventType.SetName:
+                    return SetName.Unpack(reader);
             }
             return null;
         }
-        public abstract int[] packMe();
+        public abstract byte[] packMe();
     }
 }
