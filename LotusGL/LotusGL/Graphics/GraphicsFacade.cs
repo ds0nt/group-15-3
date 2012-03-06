@@ -116,7 +116,7 @@ namespace LotusGL.Graphics
         {
             if (mode == Mode.MENU)
             {
-                DrawMenu("logo",60, 10, 400, 250);
+                DrawMenu("logo",100, 85, 300, 150);
             }
         }
 
@@ -154,6 +154,13 @@ namespace LotusGL.Graphics
             if (mode == Mode.MENU)
             {
                 DrawMenu("finish", 224, 400, 64, 64);
+            }
+        }
+        public void DrawIP()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("ip", 10, 450, 125, 60);
             }
         }
         public void DrawGameOver()

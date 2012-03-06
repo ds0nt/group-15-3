@@ -21,18 +21,18 @@ namespace LotusGL.Graphics
             TextureLoader.get().loadTexture(@"..\..\images\Player4-Type.bmp", "Player4");
             TextureLoader.get().loadTexture(@"..\..\images\LotusLogo.bmp", "Logo");
             TextureLoader.get().loadTexture(@"..\..\images\gameover.bmp", "GameOver");
-
             TextureLoader.get().loadTexture(@"..\..\images\chatlog.bmp", "chatlog");
             TextureLoader.get().loadTexture(@"..\..\images\chatinput.bmp", "chatinput");
             TextureLoader.get().loadTexture(@"..\..\images\ai-rule.bmp", "RuleAI");
             TextureLoader.get().loadTexture(@"..\..\images\ai-state.bmp", "StateAI");
             TextureLoader.get().loadTexture(@"..\..\images\human.bmp", "Human");
             TextureLoader.get().loadTexture(@"..\..\images\finished.bmp", "Finish");
+            TextureLoader.get().loadTexture(@"..\..\images\ip.bmp", "IP");
         }
 
        public static void Draw(string menuname)
        {
-        Draw(menuname, -1, -1, 2, 2);
+        Draw(menuname, 1, 1, 512, 512);
         }
 
        public static void Draw(string menuname, float x, float y, float width, float height)
@@ -87,6 +87,9 @@ namespace LotusGL.Graphics
                    break;
                case "finish":
                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Finish"));
+                   break;
+               case "ip":
+                   GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("IP"));
                    break;
             }
             GL.Begin(BeginMode.TriangleStrip);
