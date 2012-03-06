@@ -126,6 +126,7 @@ namespace LotusGL.Menu
         {
             graphics.DrawTitle();
             graphics.DrawLogo();
+            graphics.DrawIP();
             graphics.DrawFinish();
 
             lobby.Draw(graphics);
@@ -143,7 +144,7 @@ namespace LotusGL.Menu
                 new GraphicsFacade.BoardRegion2D(4, 130, 320, 125, 60),
                 new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
             
-                new GraphicsFacade.BoardRegion2D(100, 10, 10, 100, 100), // Client
+                new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
                 new GraphicsFacade.BoardRegion2D(101, 400, 400, 100, 100), // Server
             };
             return ret;
