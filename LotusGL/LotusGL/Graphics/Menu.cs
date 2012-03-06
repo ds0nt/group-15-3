@@ -40,11 +40,13 @@ namespace LotusGL.Graphics
            GL.PushMatrix();
 
            Matrix4 translation = Matrix4.Identity;// Matrix4.CreateTranslation(new Vector3(-0.5f, -0.5f, 0));
-           GL.LoadMatrix(ref translation);
-           GL.Enable(EnableCap.Texture2D);
-           GL.Disable(EnableCap.DepthTest);
-           switch (menuname)
-           {
+            GL.LoadMatrix(ref translation);
+            GL.Enable(EnableCap.Texture2D); 
+            GL.Enable(EnableCap.AlphaTest);
+            GL.AlphaFunc(AlphaFunction.Notequal, 0);
+            GL.Disable(EnableCap.DepthTest);
+            switch(menuname)
+            {
                case "title":
                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Title"));
                    break;
@@ -78,20 +80,21 @@ namespace LotusGL.Graphics
                case "gameover":
                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("GameOver"));
                    break;
-           }
-           GL.Begin(BeginMode.TriangleStrip);
-           GL.TexCoord2(new OpenTK.Vector2d(0, 1));
-           GL.Vertex3(x, y, 0);
-           GL.TexCoord2(new OpenTK.Vector2d(1, 1));
-           GL.Vertex3(x + width, y, 0);
-           GL.TexCoord2(new OpenTK.Vector2d(0, 0f));
-           GL.Vertex3(x, y - height, 0);
-           GL.TexCoord2(new OpenTK.Vector2d(1, 0f));
-           GL.Vertex3(x + width, y - height, 0);
-           GL.End();
-           GL.Enable(EnableCap.DepthTest);
-           GL.PopMatrix();
-       }
+            }
+            GL.Begin(BeginMode.TriangleStrip);
+            GL.TexCoord2(new OpenTK.Vector2d(0, 0));
+            GL.Vertex3(x, y, 0);
+            GL.TexCoord2(new OpenTK.Vector2d(1, 0));
+            GL.Vertex3(x+width, y, 0);
+            GL.TexCoord2(new OpenTK.Vector2d(0, 1));
+            GL.Vertex3(x, y-height, 0);
+            GL.TexCoord2(new OpenTK.Vector2d(1, 1));
+            GL.Vertex3(x+width, y-height, 0);
+
+            GL.End();
+            GL.Enable(EnableCap.DepthTest);
+            GL.PopMatrix();
+        }
 
         public static void DrawString(string text)
         {

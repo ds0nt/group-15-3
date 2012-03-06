@@ -29,13 +29,13 @@ namespace LotusGL.Graphics
             GL.Begin(BeginMode.TriangleStrip);
             GL.Color4(1f, 1f, 1f, 1f);
             
-            GL.TexCoord2(new OpenTK.Vector2d(1, 1));
-            GL.Vertex3(0, 0, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(0, 1));
-            GL.Vertex3(512, 0, 0);
             GL.TexCoord2(new OpenTK.Vector2d(1, 0));
-            GL.Vertex3(0, 512, 0);
+            GL.Vertex3(0, 0, 0);
             GL.TexCoord2(new OpenTK.Vector2d(0, 0));
+            GL.Vertex3(512, 0, 0);
+            GL.TexCoord2(new OpenTK.Vector2d(1, 1));
+            GL.Vertex3(0, 512, 0);
+            GL.TexCoord2(new OpenTK.Vector2d(0, 1));
             GL.Vertex3(512, 512, 0);
 
             GL.End();

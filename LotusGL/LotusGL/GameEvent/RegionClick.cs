@@ -19,8 +19,8 @@ namespace LotusGL.GameEvent
         {
             return new int[]
             {
-                pos
-                
+                pos,
+                player
             };
         }
         public static GameEvent Unpack(System.IO.BinaryReader reader)

@@ -43,6 +43,7 @@ namespace LotusGL.Menu
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             graphics.DrawTitle();
+
             if(p1type == 0)
                 graphics.DrawPlayer1();
             else if(p1type == 1)
@@ -83,13 +84,6 @@ namespace LotusGL.Menu
             graphics.DrawLogo();
             graphics.DrawFinish();
 
-            //graphics.DrawText(System.Drawing.Color.White, 128, 128, "128 128!");
-
-            //graphics.DrawText(System.Drawing.Color.White, 128, 374, "128 374!");
-
-            //graphics.DrawText(System.Drawing.Color.White, 256, 256, "256 256!");
-
-            //graphics.DrawText(System.Drawing.Color.White, 10, 10, "10 10!");
         }
 
         public GraphicsFacade.BoardRegion2D[] getRegions()
