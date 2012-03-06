@@ -26,8 +26,8 @@ namespace LotusGL.Graphics
             {
                 char c = Convert.ToChar(i);
                 string s = "" + c;
-                int x = ((i - first) / 16) * 16;
-                int y = ((i - first) % 16) * 16;
+                int x = ((i - first) / 16) * 32;
+                int y = ((i - first) % 16) * 32;
 
                 Character cpos;
                 cpos.x = x;
@@ -42,12 +42,12 @@ namespace LotusGL.Graphics
 
                 objGraphics.Clear(Color.Red);
                 objGraphics.SmoothingMode = SmoothingMode.None;
-                objGraphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+                objGraphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
                 for (int i = first; i <= last; i++)
                 {
                     char c = Convert.ToChar(i);
-                    objGraphics.DrawString("" + c, font, new SolidBrush(Color.White), characters[c].x, characters[c].y);
+                    objGraphics.DrawString("" + c, font, new SolidBrush(Color.White), new RectangleF(characters[c].x, characters[c].y, 32, 32));
                     objGraphics.Flush();
                 }
                 objBmpImage.Save(@"..\..\images\font.bmp");
@@ -58,6 +58,8 @@ namespace LotusGL.Graphics
 
         public static void Draw(OpenTK.Graphics.Color4 color, float posx, float posy, string str, int size = 32)
         {
+            if (str == null)
+                return;
             GL.PushMatrix();
 
             Matrix4 translation = Matrix4.CreateTranslation(new Vector3(posx, posy, 0));

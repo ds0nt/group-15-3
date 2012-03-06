@@ -10,11 +10,12 @@ namespace LotusGL.Graphics
         public enum Mode { MENU, BOARD };
         public static Mode mode;
 
-        public struct MouseEvent
+        public struct InputEvent
         {
             public int x;
             public int y;
             public int regionId;
+            public char lastKey;
         }
 
         public struct BoardRegion
@@ -48,7 +49,7 @@ namespace LotusGL.Graphics
 
         LotusWindow window;
 
-        public delegate void UpdateEventHandler(MouseEvent m, double time);
+        public delegate void UpdateEventHandler(InputEvent m, double time);
         public event UpdateEventHandler onUpdate;
         public delegate void DrawEventHandler();
         public event DrawEventHandler onDraw;
@@ -97,6 +98,15 @@ namespace LotusGL.Graphics
         private void DrawMenu(string resource)
         {
             DrawMenu(resource, 0, 0, 512, 512);
+        }
+
+        public void DrawChatLog(float x, float y, float width, float height)
+        {
+            DrawMenu("chatlog", x, y, width, height);
+        }
+        public void DrawChatInput(float x, float y, float width, float height)
+        {
+            DrawMenu("chatinput", x, y, width, height);
         }
         private void DrawMenu(string resource, float x, float y, float width, float height)
         {
@@ -149,7 +159,7 @@ namespace LotusGL.Graphics
             window.regions2D = regions;
         }
 
-        private void processUpdate(MouseEvent m, double time)
+        private void processUpdate(InputEvent m, double time)
         {
             if (onUpdate != null)
                 onUpdate(m, time);

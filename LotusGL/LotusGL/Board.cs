@@ -16,11 +16,16 @@ namespace LotusGL
         public int selectedId;
         Player[] players;
         LotusGame game;
+        
+        private static Board me;
 
-        public Board(LotusGame game, Player[] players)
+        public Board(Player[] players)
         {
+            me = this;
+            game = LotusGame.get();
+
             selectedId = int.MinValue;
-            this.game = game;
+            
             this.players = players;
 
             startTiles = new List<Player>[12];
@@ -254,5 +259,10 @@ namespace LotusGL
             return ret;
         }
 
+
+        public static Board get()
+        {
+            return me;
+        }
     }
 }
