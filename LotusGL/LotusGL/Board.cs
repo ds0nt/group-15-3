@@ -16,11 +16,17 @@ namespace LotusGL
         public int selectedId;
         Player[] players;
         LotusGame game;
+        
+        private static Board me;
+        private LotusGame lotusGame;
 
-        public Board(LotusGame game, Player[] players)
+        public Board(Player[] players)
         {
+            me = this;
+            game = LotusGame.get();
+
             selectedId = int.MinValue;
-            this.game = game;
+            
             this.players = players;
 
             startTiles = new List<Player>[12];
@@ -45,6 +51,13 @@ namespace LotusGL
             gameTiles[5].Add(players[3]);
             gameTiles[5].Add(players[3]);
             gameTiles[5].Add(players[2]);
+        }
+
+        public Board(LotusGame lotusGame, Player[] players)
+        {
+            // TODO: Complete member initialization
+            this.lotusGame = lotusGame;
+            this.players = players;
         }
         public int getRemainingPlayers()
         {
@@ -254,5 +267,10 @@ namespace LotusGL
             return ret;
         }
 
+
+        public static Board get()
+        {
+            return me;
+        }
     }
 }

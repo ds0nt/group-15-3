@@ -12,7 +12,7 @@ namespace LotusGL
     {
         static LotusGame me;
         GraphicsFacade graphics;
-        GameManager manager;
+        public GameManager manager;
         public Network.Network net;
         Board board;
         public Player[] players;
@@ -23,28 +23,28 @@ namespace LotusGL
 
         Menu.Menu currentMenu;
         TitleScreen title;
-        Menu.GameOver gameOver;
-        
         List<ScheduledEvent> scheduledEvents;
 
         static double lastTime = 0;
+        
+        public string name = "";
 
         public LotusGame(GraphicsFacade graphics)
         {
+            Console.Write("Name:");
+            name = Console.ReadLine();
+                        
             me = this;
             this.graphics = graphics;
 
-
-            title = new TitleScreen();
-            gameOver = new Menu.GameOver();
-            currentMenu = title;
-
-
-            StartGame();
             graphics.Init();
             graphics.onUpdate += new GraphicsFacade.UpdateEventHandler(this.Update);
             graphics.onDraw += new GraphicsFacade.DrawEventHandler(this.Draw);
-            graphics.Run();
+
+            title = new TitleScreen();
+            currentMenu = title;
+            
+            graphics.Run(); 
         }
 
         public static LotusGame get()
@@ -58,58 +58,24 @@ namespace LotusGL
             public GameEvent.GameEvent ge;
         }
 
-        public void StartGame()
+        
+        public void LaunchGame(Player[] players)
         {
-            players = new Player[4];
-            players[0] = new Player(System.Drawing.Color.Red, "Red");
-            players[0].setAI(new AI.Rule.RuleStrategy());
-            players[1] = new Player(System.Drawing.Color.Black, "Black");
-            players[1].setAI(new AI.Rule.RuleStrategy());
-            players[2] = new Player(System.Drawing.Color.White, "White");
-            players[2].setAI(new AI.Rule.RuleStrategy());
-            players[3] = new Player(System.Drawing.Color.Blue, "Blue");
-            players[3].setAI(new AI.Rule.RuleStrategy());
-
-            board = new Board(this, players);
-
-            Console.WriteLine("Server/Client/Single (1/2/3)");
-            string x = Console.ReadLine();
-
-            
-            
+            this.players = players;
+            board = Board.get();
             scheduledEvents = new List<ScheduledEvent>();
-            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.MENU;
 
-            if (x.Equals("1"))
-            {
-                net = new Network.Server();
-                ((Network.Server)net).StartListen();
-                manager = new LocalManager(board);
-                while (((Network.Server)net).streams.Count < 3)
-                {
-                    System.Threading.Thread.Sleep(100);
-                }
-                ((Network.Server)net).EndListen();
-            }
-            else if (x.Equals("2"))
-            {
-                net = new Network.Client();
-                Console.WriteLine("Enter Address:");
-                string y = Console.ReadLine();
-                ((Network.Client)net).Connect(y);
-                manager = new RemoteManager(board);
-            }
-            else
-            {
-                manager = new LocalManager(board);
-                if (players[currentPlayer].getAI() != null)
-                    ScheduleEvent(new GameEvent.AITurn(currentPlayer), 1);
-            }
+            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
         }
 
         public void EndGame()
         {
             Graphics.GraphicsFacade.mode = GraphicsFacade.Mode.MENU;
+            board = null;
+            net = null;
+            manager = null;
+            players = null;
+            scheduledEvents.Clear();
         }
 
         public void ScheduleEvent(GameEvent.GameEvent ge, double seconds)
@@ -147,39 +113,59 @@ namespace LotusGL
             manager.onGameEvent(ge);
         }
 
-        public void Update(Graphics.GraphicsFacade.MouseEvent m, double time)
+        public void AddName(string name)
         {
+            title.AddName(name);
+        }
+        public void SetLobby(Menu.LobbyData lobby)
+        {
+            title.SetLobby(lobby);
+        }
+
+        public void Update(Graphics.GraphicsFacade.InputEvent m, double time)
+        {
+
+            if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
+            {
+                title.handleInput(m.lastKey);
+                if (m.regionId >= 0)
+                    currentMenu.handleRegionClick(m.regionId);
+
+                graphics.setClickableRegions(currentMenu.getRegions());
+            }
+            else
+            {
+                if (board != null)
+                {
+                    if (m.regionId >= 0)
+                        FireEvent(new GameEvent.RegionClick(m.regionId));
+                    graphics.setClickableRegions(board.getRegions());
+                }
+            }
+
+
             if (net != null)
             {
                 GameEvent.GameEvent ge = net.Receive();
                 if (ge != null)
                     FireEvent(ge);
             }
-            FireScheduled();
-            if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
-            {
-                if (m.regionId >= 0)
-                    currentMenu.handleRegionClick(m.regionId);
-                graphics.setClickableRegions(currentMenu.getRegions());
-            }
-            else
-            {
-                if (players[currentPlayer].local)
-                {
-                    if (m.regionId >= 0)
-                        FireEvent(new GameEvent.RegionClick(m.regionId, currentPlayer));
-                }
 
-                graphics.setClickableRegions(board.getRegions());
-            }
+            if(scheduledEvents != null)
+                FireScheduled();
+
+
 
             lastTime += time;
         }
 
+
         public void Draw()
         {
-            currentMenu.Draw(graphics);
-            board.Draw(graphics);
+            if(board != null)
+                board.Draw(graphics);
+            if(currentMenu != null)
+                currentMenu.Draw(graphics);
         }
 
         public void setCurrentPlayer(int playerindex)

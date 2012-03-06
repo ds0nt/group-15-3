@@ -15,7 +15,7 @@ namespace LotusGL.AI.State
         }
         public void doTurn(Player p, Board b)
         {
-            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(-100, LotusGame.get().currentPlayer), 0.1f);
+            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(-100), 0.1f);
         }
         public void onBoardChanbe(Player p, Board b)
         {

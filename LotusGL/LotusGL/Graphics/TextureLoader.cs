@@ -31,7 +31,7 @@ namespace LotusGL.Graphics
             {
                 System.Drawing.Imaging.BitmapData bData = bmp.LockBits(new Rectangle(new Point(), bmp.Size),
                     System.Drawing.Imaging.ImageLockMode.ReadOnly,
-                    System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 // number of bytes in the bitmap
                 int byteCount = bData.Stride * bmp.Height;
                 tex = new byte[byteCount];

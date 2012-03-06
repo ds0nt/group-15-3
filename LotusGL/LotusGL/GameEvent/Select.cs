@@ -13,12 +13,11 @@ namespace LotusGL.GameEvent
             this.pos = pos;
         }
 
-        public override int[] packMe()
+        public override byte[] packMe()
         {
-            return new int[]
-            {
-                pos
-            };
+            System.IO.BinaryWriter writer = new System.IO.BinaryWriter(new System.IO.MemoryStream());
+            writer.Write(pos);
+            return ((System.IO.MemoryStream)writer.BaseStream).GetBuffer();
         }
         public static GameEvent Unpack(System.IO.BinaryReader reader)
         {

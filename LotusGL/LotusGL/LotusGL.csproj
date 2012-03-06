@@ -63,7 +63,12 @@
     <Compile Include="Board.cs" />
     <Compile Include="GameEvent\AITurn.cs" />
     <Compile Include="GameEvent\ChangePlayer.cs" />
+    <Compile Include="GameEvent\GameStart.cs" />
+    <Compile Include="GameEvent\SetName.cs" />
+    <Compile Include="GameEvent\UpdateLobby.cs" />
     <Compile Include="Graphics\Text.cs" />
+    <Compile Include="Menu\Chat.cs" />
+    <Compile Include="Menu\EnterIP.cs" />
     <Compile Include="Menu\GameOver.cs" />
     <Compile Include="GameEvent\GameOver.cs" />
     <Compile Include="GameManager\GameManager.cs" />
@@ -80,6 +85,7 @@
     <Compile Include="Graphics\TextureLoader.cs" />
     <Compile Include="Graphics\LotusWindow.cs" />
     <Compile Include="LotusGame.cs" />
+    <Compile Include="Menu\LobbyData.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Network\Client.cs" />
     <Compile Include="Network\Network.cs" />

@@ -10,7 +10,6 @@ namespace LotusGL.Graphics
     {
 
         static bool Loaded = false;
-        static float height = 10;
 
         public static void Load()
         {
@@ -21,6 +20,8 @@ namespace LotusGL.Graphics
         
         public static void Draw()
         {
+            if (!Loaded)
+                Load();
 
             GL.Enable(EnableCap.Texture2D);
             

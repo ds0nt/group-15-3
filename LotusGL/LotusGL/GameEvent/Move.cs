@@ -14,13 +14,12 @@ namespace LotusGL.GameEvent
             this.topos = topos;
         }
 
-        public override int[] packMe()
+        public override byte[] packMe()
         {
-            return new int[]
-            {
-                frompos,
-                topos
-            };
+            System.IO.BinaryWriter writer = new System.IO.BinaryWriter(new System.IO.MemoryStream());
+            writer.Write(frompos);
+            writer.Write(topos);
+            return ((System.IO.MemoryStream)writer.BaseStream).GetBuffer();
         }
         public static GameEvent Unpack(System.IO.BinaryReader reader)
         {
@@ -28,3 +27,4 @@ namespace LotusGL.GameEvent
         }
     }
 }
+

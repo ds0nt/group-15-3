@@ -25,8 +25,8 @@ namespace LotusGL.AI
                 int moveid = AICalc.rand.Next(0, moves.Count - 1); // rand means it randers!
                 Console.WriteLine("AIMoves . Function Random move called!!!");
                 Console.WriteLine("Move I make: " + moves[moveid].start + " to " + moves[moveid].end);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
             }
         }
         //move the highest one!
@@ -63,15 +63,15 @@ namespace LotusGL.AI
                 {
                     
                     Console.WriteLine("There was only one highest: "+ highest.start + " to " + highest.end);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(highest.start, LotusGame.get().currentPlayer), 0.1f);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(highest.end, LotusGame.get().currentPlayer), 0.2f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(highest.start), 0.1f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(highest.end), 0.2f);
                 }
                 else
                 {
                     int ran = AICalc.rand.Next(0, sameHeight.Count);
                     Console.WriteLine(sameHeight.Count + " number of highest, choosed :"+ sameHeight[ran].start + " to " + sameHeight[ran].end);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(sameHeight[ran].start, LotusGame.get().currentPlayer), 0.1f);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(sameHeight[ran].end, LotusGame.get().currentPlayer), 0.2f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(sameHeight[ran].start), 0.1f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(sameHeight[ran].end), 0.2f);
                 }
             }
         }
@@ -85,8 +85,7 @@ namespace LotusGL.AI
                 moveRandomOpponentsPiece(p, b);
             }
             else
-            {
-                
+            {   
                 List<Move> twoDirectionHandle = new List<Move>();
                 List<Move> startPosition = new List<Move>(); //just in case!
                 Move closeToGoal = moves[0];
@@ -197,8 +196,8 @@ namespace LotusGL.AI
                     int ran = AICalc.rand.Next(0, twoDirectionHandle.Count);
                     Console.WriteLine(startPosition.Count + " " + ran);
                     Console.WriteLine(startPosition.Count + " number of piceces closeTogoal , choosed :" + startPosition[ran].start + " to " + startPosition[ran].end);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].start, LotusGame.get().currentPlayer), 0.1f);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].end, LotusGame.get().currentPlayer), 0.2f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].start), 0.1f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].end), 0.2f);
                         
                 }
                 else
@@ -207,8 +206,8 @@ namespace LotusGL.AI
                     {
 
                         Console.WriteLine("There was only one close To goal: " + closeToGoal.start + " to " + closeToGoal.end);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToGoal.start, LotusGame.get().currentPlayer), 0.1f);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToGoal.end, LotusGame.get().currentPlayer), 0.2f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToGoal.start), 0.1f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToGoal.end), 0.2f);
                     }
                     else
                     {
@@ -217,8 +216,8 @@ namespace LotusGL.AI
                             int ran = AICalc.rand.Next(0, twoDirectionHandle.Count);
                             Console.WriteLine(twoDirectionHandle.Count + " " + ran);
                             Console.WriteLine(twoDirectionHandle.Count + " number of piceces closeTogoal , choosed :" + twoDirectionHandle[ran].start + " to " + twoDirectionHandle[ran].end);
-                            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].start, LotusGame.get().currentPlayer), 0.1f);
-                            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].end, LotusGame.get().currentPlayer), 0.2f);
+                            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].start), 0.1f);
+                            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].end), 0.2f);
                         }
                         catch (Exception ex)
                         {
@@ -239,7 +238,6 @@ namespace LotusGL.AI
             }
             else
             {
-
                 List<Move> twoDirectionHandle = new List<Move>();
                 List<Move> startPosition = new List<Move>();
                 Move closeToStart = moves[0];
@@ -346,8 +344,8 @@ namespace LotusGL.AI
                 {
                     int ran = AICalc.rand.Next(0, startPosition.Count);
                     Console.WriteLine(startPosition.Count + " number of piceces at startPosition , choosed :" + startPosition[ran].start + " to " + startPosition[ran].end);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].start, LotusGame.get().currentPlayer), 0.1f);
-                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].end, LotusGame.get().currentPlayer), 0.2f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].start), 0.1f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(startPosition[ran].end), 0.2f);
                 }
                 else
                 {
@@ -355,15 +353,15 @@ namespace LotusGL.AI
                     {
 
                         Console.WriteLine("There was only one close To Start: " + closeToStart.start + " to " + closeToStart.end);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToStart.start, LotusGame.get().currentPlayer), 0.1f);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToStart.end, LotusGame.get().currentPlayer), 0.2f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToStart.start), 0.1f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(closeToStart.end), 0.2f);
                     }
                     else
                     {
                         int ran = AICalc.rand.Next(0, twoDirectionHandle.Count);
                         Console.WriteLine(twoDirectionHandle.Count + " number of piceces closeToStart , choosed :" + twoDirectionHandle[ran].start + " to " + twoDirectionHandle[ran].end);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].start, LotusGame.get().currentPlayer), 0.1f);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].end, LotusGame.get().currentPlayer), 0.2f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].start), 0.1f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(twoDirectionHandle[ran].end), 0.2f);
                     }
                 }
             }
@@ -383,8 +381,8 @@ namespace LotusGL.AI
                 ----------coding
                 Console.WriteLine("AIMoves . Function New move called!!!");
                 Console.WriteLine("Move I make: " + moves[moveid].start + " to " + moves[moveid].end);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, 0.1f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, 0.2f);
             }
         }
         */
@@ -410,8 +408,8 @@ namespace LotusGL.AI
                         int moveid = AICalc.rand.Next(0, moves.Count - 1);
                         moveMade = true;
                         Console.WriteLine("Move I make: "+ "player " + i +", " + moves[moveid].start + " to " + moves[moveid].end);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
                     }
                 }
                 Console.WriteLine(count);

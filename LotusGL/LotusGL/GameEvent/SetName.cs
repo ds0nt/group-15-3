@@ -5,26 +5,25 @@ using System.Text;
 
 namespace LotusGL.GameEvent
 {
-    class ChangePlayer : GameEvent
+    class SetName : GameEvent
     {
-        public int player;
-        
-        public ChangePlayer(int player)
-            : base(GameEventType.SetPlayer)
+        public string name;
+        public SetName(string name)
+            : base(GameEventType.SetName)
         {
-            this.player = player;
+            this.name = name;
         }
 
         public override byte[] packMe()
         {
             System.IO.BinaryWriter writer = new System.IO.BinaryWriter(new System.IO.MemoryStream());
-            writer.Write(player);
+            writer.Write(name);
             return ((System.IO.MemoryStream)writer.BaseStream).GetBuffer();
         }
 
         public static GameEvent Unpack(System.IO.BinaryReader reader)
         {
-            return new ChangePlayer(reader.ReadInt32());
+            return new SetName(reader.ReadString());
         }
     }
 }

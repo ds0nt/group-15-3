@@ -27,9 +27,9 @@ namespace LotusGL.Graphics
         int dw, dx, dy, mx, my, mb;
         public GraphicsFacade.BoardRegion[] regions;
         public GraphicsFacade.BoardRegion2D[] regions2D;
-        
 
-        public delegate void UpdateEventHandler(GraphicsFacade.MouseEvent m, double time);
+
+        public delegate void UpdateEventHandler(GraphicsFacade.InputEvent m, double time);
         public event UpdateEventHandler onUpdate;
 
         public delegate void DrawEventHandler();
@@ -55,7 +55,8 @@ namespace LotusGL.Graphics
             window.Mouse.Move += this.onMouseMove;
             window.Mouse.WheelChanged += this.onWheelChanged;
             window.MouseLeave += this.onMouseLeave;
-
+            window.Keyboard.KeyDown += this.onKeyDown;
+            window.Keyboard.KeyUp += this.onKeyUp;
             GL.ClearColor(0.0f, 0.0f, 0.2f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
             GL.CullFace(CullFaceMode.Front);
@@ -64,7 +65,7 @@ namespace LotusGL.Graphics
         public void Load()
         {
 
-            Text.Load(new System.Drawing.Font(System.Drawing.FontFamily.GenericSerif, 12, System.Drawing.FontStyle.Bold), 0, 127, true);
+            Text.Load(new System.Drawing.Font("Gotham Medium", 12, System.Drawing.FontStyle.Bold), 0, 127, false);
             Board.Load();
             Piece.Load();
             Menu.Load();
@@ -131,7 +132,8 @@ namespace LotusGL.Graphics
 
             if (onUpdate != null)
             {
-                GraphicsFacade.MouseEvent m = new GraphicsFacade.MouseEvent();
+                GraphicsFacade.InputEvent m = new GraphicsFacade.InputEvent();
+                m.lastKey = lastkey;
                 m.regionId = m.x = m.y = int.MinValue;
                 if (mx != 0 && my != 0)
                 {   
@@ -150,7 +152,7 @@ namespace LotusGL.Graphics
                 onUpdate(m, window.RenderTime);
             }
             window.SwapBuffers();
-                
+            lastkey = char.MinValue;    
             mb = mx = my = dw = dx = dy = 0;
             
         }
@@ -161,6 +163,104 @@ namespace LotusGL.Graphics
             Console.WriteLine(window.Width);
 
             GL.Viewport(0, 0, window.Width, window.Height);
+        }
+
+        char lastkey;
+        bool shiftdown = false;
+        void onKeyUp(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case OpenTK.Input.Key.ShiftLeft:
+                case OpenTK.Input.Key.ShiftRight:
+                    shiftdown = false;
+                    return;
+            }
+        }
+        
+        void onKeyDown(object sender, OpenTK.Input.KeyboardKeyEventArgs e)
+        {
+            char x = (char)e.Key;
+
+            switch (e.Key)
+            {
+                case OpenTK.Input.Key.Enter:
+                case OpenTK.Input.Key.KeypadEnter:
+                    lastkey = (char)1;
+                    return;
+                case OpenTK.Input.Key.BackSpace:
+                    lastkey = (char)2;
+                    return;
+                case OpenTK.Input.Key.Space:
+                    lastkey = ' ';
+                    return;
+                case OpenTK.Input.Key.Period:
+                    lastkey = '.';
+                    return;
+                case OpenTK.Input.Key.Number1:
+                    if (shiftdown)
+                        lastkey = '!';
+                    else
+                        lastkey = '1';
+                    return;
+                case OpenTK.Input.Key.Number2:
+                    lastkey = '2';
+                    return;
+                case OpenTK.Input.Key.Number3:
+                    lastkey = '3';
+                    return;
+                case OpenTK.Input.Key.Number4:
+                    lastkey = '4';
+                    return;
+                case OpenTK.Input.Key.Number5:
+                    lastkey = '5';
+                    return;
+                case OpenTK.Input.Key.Number6:
+                    lastkey = '6';
+                    return;
+                case OpenTK.Input.Key.Number7:
+                    lastkey = '7';
+                    return;
+                case OpenTK.Input.Key.Number8:
+                    lastkey = '8';
+                    return;
+                case OpenTK.Input.Key.Number9:
+                    lastkey = '9';
+                    return;
+                case OpenTK.Input.Key.Number0:
+                    lastkey = '0';
+                    return;
+                case OpenTK.Input.Key.Slash:
+                    if (shiftdown)
+                        lastkey = '?';
+                    return;
+                case OpenTK.Input.Key.ShiftLeft:
+                case OpenTK.Input.Key.ShiftRight:
+                    shiftdown = true;
+                    return;
+            }
+
+            if(shiftdown)
+            {
+                if (e.Key >= OpenTK.Input.Key.A && e.Key <= OpenTK.Input.Key.Z)
+                {
+                    lastkey = (char)(x - ((char)OpenTK.Input.Key.A) + 'A');
+                    return;
+                }
+            }
+            else
+            {
+                if (e.Key >= OpenTK.Input.Key.A && e.Key <= OpenTK.Input.Key.Z)
+                {
+                    lastkey = (char)(x - ((char)OpenTK.Input.Key.A) + 'a');
+                    return;
+                }
+                else
+                {
+                    
+                }
+
+            }
         }
 
         float hx, hy;

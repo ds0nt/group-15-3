@@ -7,17 +7,35 @@ namespace LotusGL
 {
     class RemoteManager : GameManager
     {
-        Board board;
-
-        public RemoteManager(Board b)
+        public RemoteManager()
         {
-            board = b;
         }
 
         public void onGameEvent(GameEvent.GameEvent ge)
         {
+            Board board = Board.get();
             switch (ge.type)
             {
+                case GameEvent.GameEventType.UpdateLobby:
+                    GameEvent.UpdateLobby ul = (GameEvent.UpdateLobby)ge;
+
+                    LotusGame.get().SetLobby(ul.lobby);
+                    break;
+                case GameEvent.GameEventType.SetName:
+                    GameEvent.SetName sn = (GameEvent.SetName)ge;
+                    
+                    if (LotusGame.get().net != null)
+                        LotusGame.get().net.Send(ge);
+                    break;
+
+                case GameEvent.GameEventType.GameStart:
+                    GameEvent.GameStart gs = (GameEvent.GameStart)ge;
+
+                    Player[] players = gs.players;
+                    new Board(players);
+
+                    LotusGame.get().LaunchGame(players);
+                    break;
                 case GameEvent.GameEventType.RegionClick:
                     GameEvent.RegionClick rc = (GameEvent.RegionClick)ge;
 
