@@ -122,6 +122,7 @@ namespace LotusGL.Menu
         {
             graphics.DrawTitle();
             graphics.DrawIP();
+            graphics.DrawHost();
 
             if(p1type == 0)
                 graphics.DrawPlayer1();
@@ -178,7 +179,7 @@ namespace LotusGL.Menu
                 new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
             
                 new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
-                new GraphicsFacade.BoardRegion2D(101, 400, 400, 100, 100), // Server
+                new GraphicsFacade.BoardRegion2D(101,377, 450, 125, 60), // Server
             };
             return ret;
         }

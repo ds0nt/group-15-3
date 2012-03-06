@@ -163,6 +163,13 @@ namespace LotusGL.Graphics
                 DrawMenu("ip", 10, 450, 125, 60);
             }
         }
+        public void DrawHost()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("host", 377, 450, 125, 60);
+            }
+        }
         public void DrawGameOver()
         {
             if (mode == Mode.MENU)
