@@ -54,8 +54,6 @@ namespace LotusGL.Menu
 
         public void Draw(Graphics.GraphicsFacade graphics)
         {
-            graphics.DrawGameOver();
-
             float chatx = 128;
             float chaty = 30;
             float spacing = 14;

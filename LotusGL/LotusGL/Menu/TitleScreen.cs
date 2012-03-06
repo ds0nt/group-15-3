@@ -10,7 +10,16 @@ namespace LotusGL.Menu
     {
         GameManager manager;
         Network.Network net;
+        
+        EnterIP enterip;
+        Chat chat;
 
+        public TitleScreen()
+        {
+            enterip = new EnterIP();
+            chat = new Chat();
+        }
+        
         enum MenuState
         {
             MainMenu,
@@ -18,10 +27,20 @@ namespace LotusGL.Menu
             NetworkMenu
         }
 
+        public void handleInput(char x)
+        {
+            if (!enterip.inputmode)
+                chat.handleInput(x);
+            else
+                enterip.handleInput(x);
+        }
+
         public void handleRegionClick(int regionid)
         {
             if (regionid == 100)
-
+            {
+                enterip.inputmode = true;
+            }
             if (regionid == 0)
             {
 
@@ -80,6 +99,8 @@ namespace LotusGL.Menu
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             graphics.DrawTitle();
+            enterip.Draw(graphics);
+            chat.Draw(graphics);
         }
 
         public GraphicsFacade.BoardRegion2D[] getRegions()
@@ -87,6 +108,8 @@ namespace LotusGL.Menu
             GraphicsFacade.BoardRegion2D[] ret = new GraphicsFacade.BoardRegion2D[]
             {
                 new GraphicsFacade.BoardRegion2D(1, 128, 256, 256, 128),
+
+                new GraphicsFacade.BoardRegion2D(100, 10, 10, 30, 30),
             };
             return ret;
         }

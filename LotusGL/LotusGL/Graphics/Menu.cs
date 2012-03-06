@@ -10,8 +10,7 @@ namespace LotusGL.Graphics
     class Menu
     {
         static bool Loaded = false;
-        static float height = 10;
-        
+
         public static void Load()
         {
             Loaded = true;

@@ -7,7 +7,7 @@ namespace LotusGL.Menu
 {
     class EnterIP : Menu
     {
-        bool inputmode;
+        public bool inputmode;
         public string address;
 
         public EnterIP()
@@ -46,12 +46,6 @@ namespace LotusGL.Menu
 
         public void Draw(Graphics.GraphicsFacade graphics)
         {
-            graphics.DrawGameOver();
-
-            float chatx = 128;
-            float chaty = 30;
-            float spacing = 14;
-
             if (inputmode)
             {
                 graphics.DrawChatInput(128 - 16, 256 - 32, 256 + 32, 64);

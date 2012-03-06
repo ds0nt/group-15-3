@@ -23,8 +23,6 @@ namespace LotusGL
 
         Menu.Menu currentMenu;
         TitleScreen title;
-        Menu.GameOver gameOver;
-        Menu.Chat chat;
         List<ScheduledEvent> scheduledEvents;
 
         static double lastTime = 0;
@@ -39,8 +37,6 @@ namespace LotusGL
             graphics.onDraw += new GraphicsFacade.DrawEventHandler(this.Draw);
 
             title = new TitleScreen();
-            gameOver = new Menu.GameOver();
-            chat = new Menu.Chat();
             currentMenu = title;
             
             graphics.Run(); 
@@ -116,9 +112,9 @@ namespace LotusGL
         public void Update(Graphics.GraphicsFacade.InputEvent m, double time)
         {
 
-            chat.handleInput(m.lastKey);
             if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
             {
+                title.handleInput(m.lastKey);
                 if (m.regionId >= 0)
                     currentMenu.handleRegionClick(m.regionId);
 
@@ -160,7 +156,6 @@ namespace LotusGL
                 board.Draw(graphics);
             if(currentMenu != null)
                 currentMenu.Draw(graphics);
-            chat.Draw(graphics);
         }
 
         public void setCurrentPlayer(int playerindex)
