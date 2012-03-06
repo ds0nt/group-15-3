@@ -8,10 +8,16 @@ namespace LotusGL.GameEvent
     class RegionClick : GameEvent
     {
         public int pos;
-        public int player;
-        public RegionClick(int pos, int p) : base(GameEventType.RegionClick)
+        public string name;
+        public RegionClick(int pos)
+            : base(GameEventType.RegionClick)
         {
-            player = p;
+            this.pos = pos;
+            this.name = LotusGame.get().name;
+        }
+        public RegionClick(int pos, string name) : base(GameEventType.RegionClick)
+        {
+            this.name = name;
             this.pos = pos;
         }
 
@@ -19,13 +25,13 @@ namespace LotusGL.GameEvent
         {
             System.IO.BinaryWriter writer = new System.IO.BinaryWriter(new System.IO.MemoryStream());
             writer.Write(pos);
-            writer.Write(player);
+            writer.Write(name);
             return ((System.IO.MemoryStream)writer.BaseStream).GetBuffer();
         }
 
         public static GameEvent Unpack(System.IO.BinaryReader reader)
         {
-            return new RegionClick(reader.ReadInt32(), reader.ReadInt32());
+            return new RegionClick(reader.ReadInt32(), reader.ReadString());
         }
     }
 }

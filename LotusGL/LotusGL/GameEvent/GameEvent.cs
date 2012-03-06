@@ -15,6 +15,7 @@ namespace LotusGL.GameEvent
         SetPlayer = 5,
         GameStart = 6,
         SetName = 7,
+        UpdateLobby = 8,
     }
     abstract class GameEvent
     {
@@ -44,6 +45,8 @@ namespace LotusGL.GameEvent
                     return GameStart.Unpack(reader);
                 case (int)GameEventType.SetName:
                     return SetName.Unpack(reader);
+                case (int)GameEventType.UpdateLobby:
+                    return UpdateLobby.Unpack(reader);
             }
             return null;
         }

@@ -22,27 +22,36 @@ namespace LotusGL
             Board board = Board.get();
             switch (ge.type)
             {
-                case GameEvent.GameEventType.GameStart:
-                    GameEvent.GameStart gs = (GameEvent.GameStart)ge;
-                    Player[] players = new Player[4];
-                    
-                    players[0] = new Player(System.Drawing.Color.Red, "Red");
-                    players[1] = new Player(System.Drawing.Color.Gray, "Black");
-                    players[2] = new Player(System.Drawing.Color.White, "White");
-                    players[3] = new Player(System.Drawing.Color.Blue, "Blue");
-                    new Board(players);
+                case GameEvent.GameEventType.UpdateLobby:
+                    GameEvent.UpdateLobby ul = (GameEvent.UpdateLobby)ge;
 
                     if (LotusGame.get().net != null)
                         LotusGame.get().net.Send(ge);
-                    LotusGame.get().LaunchGame(players);
+                    break;
+
+                case GameEvent.GameEventType.SetName:
+                    GameEvent.SetName sn = (GameEvent.SetName)ge;
+                    LotusGame.get().AddName(sn.name);
+                    break;
+                case GameEvent.GameEventType.GameStart:
+                    GameEvent.GameStart gs = (GameEvent.GameStart)ge;
+
+                    new Board(gs.players);
+
+                    if (LotusGame.get().net != null)
+                        LotusGame.get().net.Send(ge);
+
+                    LotusGame.get().LaunchGame(gs.players);
+                    currentPlayer = -1;
+                    cyclePlayer();
                     break;
                 case GameEvent.GameEventType.RegionClick:
                     GameEvent.RegionClick rc = (GameEvent.RegionClick)ge;
-                    if (rc.player == currentPlayer)
+                    if (rc.name == LotusGame.get().players[currentPlayer].name || LotusGame.get().players[currentPlayer].getAI() != null)
                     {
                         if (board.selectedId == int.MinValue) // Select Piece
                         {
-                            if (isSelectValid(rc.pos, LotusGame.get().players[rc.player]))
+                            if (isSelectValid(rc.pos, LotusGame.get().players[currentPlayer]))
                             {
                                 LotusGame.get().FireEvent(new GameEvent.Select(rc.pos));
                             }
@@ -51,7 +60,7 @@ namespace LotusGL
                                 LotusGame.get().FireEvent(new GameEvent.Select(int.MinValue));
                             }
                         }
-                        else if (isMoveValid(board.selectedId, rc.pos, LotusGame.get().players[rc.player])) // Move Piece
+                        else if (isMoveValid(board.selectedId, rc.pos, LotusGame.get().players[currentPlayer])) // Move Piece
                         {
                             LotusGame.get().FireEvent(new GameEvent.Move(board.selectedId, rc.pos));
                         }

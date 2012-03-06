@@ -12,27 +12,15 @@ namespace LotusGL.Menu
         EnterIP enterip;
         Chat chat;
         bool server = false;
-
-        
-        int p1type = 0;
-        int p2type = 0;
-        int p3type = 0;
-        int p4type = 0;
-
+        LobbyData lobby;
 
         public TitleScreen()
         {
+            lobby = new LobbyData();
             enterip = new EnterIP();
             chat = new Chat();
         }
         
-        enum MenuState
-        {
-            MainMenu,
-            PlayerMenu,
-            NetworkMenu
-        }
-
         public void handleInput(char x)
         {
             if (!enterip.inputmode)
@@ -40,8 +28,11 @@ namespace LotusGL.Menu
                 if (enterip.address != "")
                 {
                     LotusGame.get().net = new Network.Client();
-                    ((Network.Client)LotusGame.get().net).Connect(enterip.address);
-                    LotusGame.get().manager = new RemoteManager();
+                    if (((Network.Client)LotusGame.get().net).Connect(enterip.address))
+                    {
+                        LotusGame.get().manager = new RemoteManager();
+                        LotusGame.get().FireEvent(new GameEvent.SetName(LotusGame.get().name));
+                    }
                     enterip.address = "";
                 }
                 chat.handleInput(x);
@@ -54,10 +45,13 @@ namespace LotusGL.Menu
 
         public void handleRegionClick(int regionid)
         {
+            //Join Activate!
             if (regionid == 100)
             {
                 enterip.inputmode = true;
             } 
+
+            // Server Activate!
             if (regionid == 101)
             {
                 server = true;
@@ -66,104 +60,77 @@ namespace LotusGL.Menu
                 LotusGame.get().manager = new LocalManager();
             }
 
+
+            //Game Activate!
             if (regionid == 1)
             {
                 if (LotusGame.get().manager != null)
                 {
                     if (server)
                     {
+                        //Server
                         ((Network.Server)LotusGame.get().net).EndListen();
 
-                        Player[] players = new Player[4];
-
-                        players[0] = new Player(System.Drawing.Color.Red, "Red");
-                        players[1] = new Player(System.Drawing.Color.Gray, "Black");
-                        players[2] = new Player(System.Drawing.Color.White, "White");
-                        players[3] = new Player(System.Drawing.Color.Blue, "Blue");
-
-                        LotusGame.get().FireEvent(new GameEvent.GameStart(players));
+                        LotusGame.get().FireEvent(new GameEvent.GameStart(lobby.createPlayers()));
+                        Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
                     }
                 }
                 else
                 {
+                    //Single Player
                     LotusGame.get().manager = new LocalManager();
 
-                    Player[] players = new Player[4];
-
-                    players[0] = new Player(System.Drawing.Color.Red, "Red");
-                    players[1] = new Player(System.Drawing.Color.Gray, "Black");
-                    players[2] = new Player(System.Drawing.Color.White, "White");
-                    players[3] = new Player(System.Drawing.Color.Blue, "Blue");
-
-                    LotusGame.get().FireEvent(new GameEvent.GameStart(players));
+                    LotusGame.get().FireEvent(new GameEvent.GameStart(lobby.createPlayers()));
+                    Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
                 }
-                Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
-            }
-            else if (regionid == 2)
-            {
-                p1type = (p1type + 1) % 4;
                 
+                //Client doesnt get to :p
             }
-             else if (regionid == 3)
+            if (LotusGame.get().manager == null || server == true)
             {
-                p2type = (p2type + 1) % 4;
-             }
-             else if (regionid == 4)
-            {
-                 p3type = (p3type + 1) % 4;
-             }
-             else if(regionid == 5)
-            {
-                p4type = (p4type + 1) % 4;
+                if (regionid == 2)
+                {
+                    lobby.pnext(0);
+                }
+                else if (regionid == 3)
+                {
+                    lobby.pnext(1);
+                }
+                else if (regionid == 4)
+                {
+                    lobby.pnext(2);
+                }
+                else if (regionid == 5)
+                {
+                    lobby.pnext(3);
+                }
+                if (LotusGame.get().manager != null)
+                    LotusGame.get().FireEvent(new GameEvent.UpdateLobby(lobby));
             }
         }
-       
+
+        public void AddName(string name)
+        {
+            lobby.AddName(name);
+            if (LotusGame.get().manager != null)
+                LotusGame.get().FireEvent(new GameEvent.UpdateLobby(lobby));
+        }
+
+        public void SetLobby(LobbyData lobby)
+        {
+            this.lobby = lobby;
+        }
+
+
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             graphics.DrawTitle();
-            enterip.Draw(graphics);
-            chat.Draw(graphics);
-
-            if(p1type == 0)
-                graphics.DrawPlayer1();
-            else if(p1type == 1)
-                graphics.DrawRuleAI(130, 260, 125, 60);
-            else if(p1type == 2)
-                graphics.DrawStateAI(130, 260, 125, 60);
-            else
-                graphics.DrawHuman(130, 260, 125, 60);
-
-            if (p2type == 0)
-                graphics.DrawPlayer2();
-            else if (p2type == 1)
-                graphics.DrawRuleAI(256, 260, 125, 60);
-            else if (p2type == 2)
-                graphics.DrawStateAI(256, 260, 125, 60);
-            else
-                graphics.DrawHuman(256, 260, 125, 60);
-           
-            if (p3type == 0)
-                graphics.DrawPlayer3();
-            else if (p3type == 1)
-                graphics.DrawRuleAI(130, 320, 125, 60);
-            else if (p3type == 2)
-                graphics.DrawStateAI(130, 320, 125, 60);
-            else 
-                graphics.DrawHuman(130, 320, 125, 60);
-
-            if (p4type == 0)
-                graphics.DrawPlayer4();
-            else if (p4type == 1)
-                graphics.DrawRuleAI(256, 320, 125, 60);
-            else if (p4type == 2)
-                graphics.DrawStateAI(256, 320, 125, 60);
-            else
-                graphics.DrawHuman(256, 320, 125, 60);
-           
-            
             graphics.DrawLogo();
             graphics.DrawFinish();
 
+            lobby.Draw(graphics);
+            enterip.Draw(graphics);
+            chat.Draw(graphics);
         }
 
         public GraphicsFacade.BoardRegion2D[] getRegions()

@@ -24,8 +24,8 @@ namespace LotusGL.AI
                 int moveid = AICalc.rand.Next(0, moves.Count - 1); // rand means it randers!
                 Console.WriteLine("AIMoves . Function Random move called!!!");
                 Console.WriteLine("Move I make: " + moves[moveid].start + " to " + moves[moveid].end);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
             }
         }
         //move the highest one!
@@ -41,8 +41,8 @@ namespace LotusGL.AI
                 int moveid = AICalc.rand.Next(0, moves.Count - 1); // rand means it randers!
                 Console.WriteLine("AIMoves . Function highest move called!!!");
                 Console.WriteLine("Move I make: " + moves[moveid].start + " to " + moves[moveid].end);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
             }
         }
         //move the one that's close to the goal.
@@ -58,8 +58,8 @@ namespace LotusGL.AI
                 int moveid = AICalc.rand.Next(0, moves.Count - 1); // rand means it randers!
                 Console.WriteLine("AIMoves . Function ClosestToGoal move called!!!");
                 Console.WriteLine("Move I make: " + moves[moveid].start + " to " + moves[moveid].end);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
             }
         }
         //move the one that's close to the start position.
@@ -75,8 +75,8 @@ namespace LotusGL.AI
                 int moveid = AICalc.rand.Next(0, moves.Count - 1); // rand means it randers!
                 Console.WriteLine("AIMoves . Function StartPosition move called!!!");
                 Console.WriteLine("Move I make: " + moves[moveid].start + " to " + moves[moveid].end);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, LotusGame.get().currentPlayer), 0.1f);
-                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, LotusGame.get().currentPlayer), 0.2f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
             }
         }
         /* New rule should follow following format:
@@ -119,8 +119,8 @@ namespace LotusGL.AI
                     {
                         int moveid = AICalc.rand.Next(0, moves.Count - 1);
                         Console.WriteLine("Move I make: " + moves[moveid].start + " to " + moves[moveid].end);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start, i), 0.1f);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end, i), 0.2f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
                         break;
                     }
                 }
