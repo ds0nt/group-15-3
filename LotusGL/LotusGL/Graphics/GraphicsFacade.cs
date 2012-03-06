@@ -116,7 +116,7 @@ namespace LotusGL.Graphics
         {
             if (mode == Mode.MENU)
             {
-                DrawMenu("logo",60, 10, 400, 250);
+                DrawMenu("logo",100, 85, 300, 150);
             }
         }
 

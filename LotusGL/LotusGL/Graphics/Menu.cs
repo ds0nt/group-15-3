@@ -32,7 +32,7 @@ namespace LotusGL.Graphics
 
        public static void Draw(string menuname)
        {
-        Draw(menuname, -1, -1, 2, 2);
+        Draw(menuname, 1, 1, 512, 512);
         }
 
        public static void Draw(string menuname, float x, float y, float width, float height)
