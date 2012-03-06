@@ -62,13 +62,13 @@ namespace LotusGL
         {
             players = new Player[4];
             players[0] = new Player(System.Drawing.Color.Red, "Red");
-            players[0].setAI(new AI.RuleStrategy());
+            players[0].setAI(new AI.Rule.RuleStrategy());
             players[1] = new Player(System.Drawing.Color.Black, "Black");
-            players[1].setAI(new AI.RuleStrategy());
+            players[1].setAI(new AI.Rule.RuleStrategy());
             players[2] = new Player(System.Drawing.Color.White, "White");
-            players[2].setAI(new AI.RuleStrategy());
+            players[2].setAI(new AI.Rule.RuleStrategy());
             players[3] = new Player(System.Drawing.Color.Blue, "Blue");
-            players[3].setAI(new AI.RuleStrategy());
+            players[3].setAI(new AI.Rule.RuleStrategy());
 
             board = new Board(this, players);
 

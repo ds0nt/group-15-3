@@ -30,11 +30,15 @@ namespace LotusGL
                     {
                         if (board.selectedId == int.MinValue) // Select Piece
                         {
-                            if (isSelectValid(rc.pos, LotusGame.get().players[rc.player]))
+                            if (rc.pos == -100)
+                            {
+                                cyclePlayer();
+                            }
+                            else if (isSelectValid(rc.pos, LotusGame.get().players[rc.player]))
                             {
                                 LotusGame.get().FireEvent(new GameEvent.Select(rc.pos));
                             }
-                            else //Deselect
+                            else//Deselect
                             {
                                 LotusGame.get().FireEvent(new GameEvent.Select(int.MinValue));
                             }
@@ -112,13 +116,12 @@ namespace LotusGL
             
             if (LotusGame.get().players[currentPlayer].getAI() != null)
             {
-                Console.WriteLine("Herpies!");
                 LotusGame.get().ScheduleEvent(new GameEvent.AITurn(currentPlayer), 0.0f);
             }
         }
 
         private bool isSelectValid(int select, Player p)
-        {
+        {   
             List<Player> starttile = board.getTile(select);
             if (starttile.Count > 0 && starttile[starttile.Count - 1] == p || !canMove(p))
             {

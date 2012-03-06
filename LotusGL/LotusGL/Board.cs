@@ -149,10 +149,10 @@ namespace LotusGL
                 }
             }
             if(selectedId != int.MinValue)
-            {
+            {   
                 PointF selpos = getPosition(selectedId);
                 graphics.DrawSelected(selpos.X, selpos.Y, getTile(selectedId).Count);
-            }
+             }
         }
 
         //Create the locations of each position on the board (the top left coordinate)

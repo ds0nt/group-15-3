@@ -49,14 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AICalc.cs" />
-    <Compile Include="AI\AIStateAdvST.cs" />
-    <Compile Include="AI\AIStateAngry.cs" />
-    <Compile Include="AI\AIStateRushToEnd.cs" />
-    <Compile Include="AI\AIStateVengeful.cs" />
+    <Compile Include="AI\State\AIStateAdvST.cs" />
+    <Compile Include="AI\State\AIStateAngry.cs" />
+    <Compile Include="AI\State\AIStateRushToEnd.cs" />
+    <Compile Include="AI\State\AIStateVengeful.cs" />
     <Compile Include="AI\AIStrategy.cs" />
     <Compile Include="AI\AIMoves.cs" />
-    <Compile Include="AI\RuleStrategy.cs" />
-    <Compile Include="AI\StateStrategy.cs">
+    <Compile Include="AI\Rule\RuleStrategy.cs" />
+    <Compile Include="AI\State\AIStateRegular.cs" />
+    <Compile Include="AI\State\StateStrategy.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Board.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Menu\TitleScreen.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
