@@ -5,12 +5,19 @@ using System.Text;
 using LotusGL.Graphics;
 
 namespace LotusGL.Menu
-{
+{   
+
     class TitleScreen : Menu
     {   
         EnterIP enterip;
         Chat chat;
         bool server = false;
+
+        
+        int p1type = 0;
+        int p2type = 0;
+        int p3type = 0;
+        int p4type = 0;
 
 
         public TitleScreen()
@@ -43,6 +50,7 @@ namespace LotusGL.Menu
                 enterip.handleInput(x);
 
         }
+
 
         public void handleRegionClick(int regionid)
         {
@@ -89,26 +97,90 @@ namespace LotusGL.Menu
 
                     LotusGame.get().FireEvent(new GameEvent.GameStart(players));
                 }
+                Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+            }
+            else if (regionid == 2)
+            {
+                p1type = (p1type + 1) % 4;
+                
+            }
+             else if (regionid == 3)
+            {
+                p2type = (p2type + 1) % 4;
+             }
+             else if (regionid == 4)
+            {
+                 p3type = (p3type + 1) % 4;
+             }
+             else if(regionid == 5)
+            {
+                p4type = (p4type + 1) % 4;
             }
         }
-
+       
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             graphics.DrawTitle();
             enterip.Draw(graphics);
             chat.Draw(graphics);
+
+            if(p1type == 0)
+                graphics.DrawPlayer1();
+            else if(p1type == 1)
+                graphics.DrawRuleAI(130, 260, 125, 60);
+            else if(p1type == 2)
+                graphics.DrawStateAI(130, 260, 125, 60);
+            else
+                graphics.DrawHuman(130, 260, 125, 60);
+
+            if (p2type == 0)
+                graphics.DrawPlayer2();
+            else if (p2type == 1)
+                graphics.DrawRuleAI(256, 260, 125, 60);
+            else if (p2type == 2)
+                graphics.DrawStateAI(256, 260, 125, 60);
+            else
+                graphics.DrawHuman(256, 260, 125, 60);
+           
+            if (p3type == 0)
+                graphics.DrawPlayer3();
+            else if (p3type == 1)
+                graphics.DrawRuleAI(130, 320, 125, 60);
+            else if (p3type == 2)
+                graphics.DrawStateAI(130, 320, 125, 60);
+            else 
+                graphics.DrawHuman(130, 320, 125, 60);
+
+            if (p4type == 0)
+                graphics.DrawPlayer4();
+            else if (p4type == 1)
+                graphics.DrawRuleAI(256, 320, 125, 60);
+            else if (p4type == 2)
+                graphics.DrawStateAI(256, 320, 125, 60);
+            else
+                graphics.DrawHuman(256, 320, 125, 60);
+           
+            
+            graphics.DrawLogo();
+            graphics.DrawFinish();
+
         }
 
         public GraphicsFacade.BoardRegion2D[] getRegions()
         {
             GraphicsFacade.BoardRegion2D[] ret = new GraphicsFacade.BoardRegion2D[]
             {
-                new GraphicsFacade.BoardRegion2D(1, 128, 256, 256, 128),
-
+                new GraphicsFacade.BoardRegion2D(1, 224, 400, 64, 64), //Start button
+                new GraphicsFacade.BoardRegion2D(2, 130,260,125,60),
+                new GraphicsFacade.BoardRegion2D(3, 256, 260,125,60),
+                new GraphicsFacade.BoardRegion2D(4, 130, 320, 125, 60),
+                new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
+            
                 new GraphicsFacade.BoardRegion2D(100, 10, 10, 100, 100), // Client
                 new GraphicsFacade.BoardRegion2D(101, 400, 400, 100, 100), // Server
             };
             return ret;
         }
+       
     }
 }

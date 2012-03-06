@@ -84,9 +84,78 @@ namespace LotusGL.Graphics
                 DrawMenu("title");
             }
         }
+        public void DrawPlayer1()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("player1",130,260,125,60);
+            }
+        }
+        public void DrawPlayer2()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("player2", 256, 260,125,60);
+            }
+        }
+        public void DrawPlayer3()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("player3", 130,320, 125, 60);
+            }
+        }
+        public void DrawPlayer4()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("player4", 256, 320, 125, 60);
+            }
+        }
+        public void DrawLogo()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("logo",60, 10, 400, 250);
+            }
+        }
 
 
-
+        public void DrawRuleAI(float x, float y, float width, float height)
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("ruleAI", x, y, width, height);
+            }
+        }
+        public void DrawStateAI(float x, float y, float width, float height)
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("stateAI", x, y, width, height);
+            }
+        }
+        public void DrawHuman(float x, float y, float width, float height)
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("human", x, y, width, height);
+            }
+        }
+        public void DrawNoPlayer(float x, float y, float width, float height)
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("noPlayer", x, y, width, height);
+            }
+        }
+        public void DrawFinish()
+        {
+            if (mode == Mode.MENU)
+            {
+                DrawMenu("finish", 224, 400, 64, 64);
+            }
+        }
         public void DrawGameOver()
         {
             if (mode == Mode.MENU)
