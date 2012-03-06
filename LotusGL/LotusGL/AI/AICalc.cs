@@ -17,14 +17,18 @@ namespace LotusGL.AI
 
     class AICalc
     {
-        public static Random rand = new Random();
+        /////////////// RANDOM NUMBER////////////////////// 
+        public static Random rand = new Random(); //please don't define extra but just use this !!
+
+
+        ////////////// Get Possible Moves//////////////////
         public static List<Move> getPossibleMoves(Player player, Board b)
         {
-	        List<Move> Moves = new List<Move>();
+	        List<Move> Moves = new List<Move>(); //initialize empty moves.
 
-	        for(int i = 0; i < b.startTiles.Length + b.gameTiles.Length - 1; i++)
+	        for(int i = 0; i < b.startTiles.Length + b.gameTiles.Length - 1; i++) //for/while #of start tiles and # of game tiles
 	        {
-                List<Player> tile = b.getTile(i);
+                List<Player> tile = b.getTile(i);       //gets tiles of current player's peices are currently lading on
 		        if(tile.Count > 0 && tile[tile.Count-1] == player)
 		        {
                     int dist = tile.Count;
@@ -47,14 +51,17 @@ namespace LotusGL.AI
         }
 
 
-        //not done. working on it right now --- Seung Youb.
-        public static Move highestOf(Player p, Board b)
+        ///////////////////////////Calculate the distance.//////////////////////////////
+        ///you can use this ONLY AFTER you'd got the possible moves. this won't work for any random moves.
+        ///this will only work for the moves that had start and end points.
+        public static int distance(Move m, Board b) //simpler version of Distance. doesn't handle invalied moves.
         {
-            List<Move> moves = getPossibleMoves(p,b);
-            
-            Move move = moves[0];
+            int dist=0;
+            //let's get the starting points height
+            dist = b.getTile(m.start).Count;
 
-            return move;
+
+            return dist;  
         }
     }
 }

@@ -21,26 +21,26 @@ namespace LotusGL.AI
         
         ////////////////////////////////RULESTRATEGY ONLY STUFF.////////////////////////////////////////////
   
-        rule[] rules { get; set; }
+        List<rule> rules { get; set; }
         public RuleStrategy()
         {
             rules = initRules();
         }
-        public rule[] initRules()
+        public List<rule> initRules()
         {
-            rule[] rules = new rule[4];
+            List<rule> rules = new List<rule>();
             
             rule moveRandom = new rule("moveRandom");
-            rules[0] = moveRandom;
+            rules.Add(moveRandom);
             rule moveHighest = new rule("moveHighest");
-            rules[1] = moveHighest;
+            rules.Add(moveHighest);
             rule moveClosestToGoal = new rule("moveClosestToGoal");
-            rules[2] = moveClosestToGoal;
+            rules.Add(moveClosestToGoal);
             rule moveStartPosition = new rule("moveStartPosition");
-            rules[3] = moveStartPosition;
+            rules.Add(moveStartPosition);
             /* New rules must be added here!!
             rule moveNew = new rule("moveNew");
-            rules[?] = moveNew;
+            rules.Add(moveNew);
             */
             return rules;
         }
@@ -50,15 +50,15 @@ namespace LotusGL.AI
         public rule chooseMove()
         {
             rule moveOfThisTurn = null;  //this will be the move of this turn. 
-            rule[] sameWeight = new rule[1]; 
+            List<rule> sameWeight = new List<rule>(); 
 
 
-            for (int i = 0; i < rules.Length; i++)
+            for (int i = 0; i < rules.Count; i++)
             {
                 if (i == 0)
                 {
                     moveOfThisTurn = rules[i];
-                    sameWeight[0] = moveOfThisTurn;
+                    sameWeight.Add(moveOfThisTurn);
                     Console.WriteLine("first random thing is current.");
                 }
                 else
@@ -66,23 +66,24 @@ namespace LotusGL.AI
                     if (moveOfThisTurn.weight < rules[i].weight)
                     {
                         moveOfThisTurn = rules[i];
-                        sameWeight = new rule[1];
-                        sameWeight[0] = moveOfThisTurn;
+                        sameWeight = new List<rule>();
+                        sameWeight.Add(moveOfThisTurn);
                     }
                     else if (moveOfThisTurn.weight == rules[i].weight)
                     {
-                        rule[] newArray = new rule[sameWeight.Length + 1];
-                        for (int j = 0; j < sameWeight.Length; j++)
-                        {
-                            newArray[j] = sameWeight[j];
-                        }
-                        newArray[newArray.Length - 1] = rules[i];
-                        sameWeight = newArray;
+                        //rule[] newArray = new rule[sameWeight.Length + 1];
+                        //for (int j = 0; j < sameWeight.Length; j++)
+                        //{
+                        //    newArray[j] = sameWeight[j];
+                        //}
+                        //newArray[newArray.Length - 1] = rules[i];
+                        //sameWeight = newArray;
+                        sameWeight.Add(rules[i]);
                         Console.WriteLine("one more rule is added");
                     }
                 }
             }
-            if (sameWeight.Length == 1)
+            if (sameWeight.Count == 1)
             {
                 moveOfThisTurn.weight--;
                 Console.WriteLine(moveOfThisTurn.name + "'s weight is now " + moveOfThisTurn.weight);
@@ -91,7 +92,7 @@ namespace LotusGL.AI
             else
             {
                 //Random random = new Random();
-                int ran = AICalc.rand.Next(0, sameWeight.Length);
+                int ran = AICalc.rand.Next(0, sameWeight.Count);
                 sameWeight[ran].weight--;
                 Console.WriteLine(sameWeight[ran].name + "'s weight is now " + sameWeight[ran].weight);
                 return sameWeight[ran];
