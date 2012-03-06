@@ -121,8 +121,7 @@ namespace LotusGL.Menu
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             graphics.DrawTitle();
-            enterip.Draw(graphics);
-            chat.Draw(graphics);
+            graphics.DrawIP();
 
             if(p1type == 0)
                 graphics.DrawPlayer1();
@@ -162,6 +161,8 @@ namespace LotusGL.Menu
            
             
             graphics.DrawLogo();
+            enterip.Draw(graphics);
+            chat.Draw(graphics);
             graphics.DrawFinish();
 
         }
@@ -176,7 +177,7 @@ namespace LotusGL.Menu
                 new GraphicsFacade.BoardRegion2D(4, 130, 320, 125, 60),
                 new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
             
-                new GraphicsFacade.BoardRegion2D(100, 10, 10, 100, 100), // Client
+                new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
                 new GraphicsFacade.BoardRegion2D(101, 400, 400, 100, 100), // Server
             };
             return ret;
