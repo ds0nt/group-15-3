@@ -67,6 +67,8 @@ namespace LotusGL.Menu
                     LotusGame.get().net = new Network.Server();
                     ((Network.Server)LotusGame.get().net).StartListen();
                     LotusGame.get().manager = new LocalManager();
+
+                    LotusGame.get().Chat("Waiting For Connections...");
                 }
             }
 
@@ -130,6 +132,8 @@ namespace LotusGL.Menu
             lobby.AddName(name);
             if (LotusGame.get().manager != null)
                 LotusGame.get().FireEvent(new GameEvent.UpdateLobby(lobby));
+
+            LotusGame.get().Chat("Player " + name + " has joined.");
         }
 
         public void SetLobby(LobbyData lobby)
