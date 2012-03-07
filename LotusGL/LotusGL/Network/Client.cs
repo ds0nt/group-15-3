@@ -12,17 +12,38 @@ namespace LotusGL.Network
     class Client : Network
     {
         NetworkStream stream;
-        TcpClient tcp;
+        Socket sock;
 
         public bool Connect(string ip)
         {
             try
             {
-                tcp = new TcpClient();
-                tcp.Connect(ip, 8010);
-                stream = tcp.GetStream();
-                Console.WriteLine("Connected to Server Successfully!!");
-                return true;
+
+                sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Connect using a timeout (5 seconds)
+
+                IAsyncResult result = sock.BeginConnect(ip, 8010, null, null);
+
+
+
+                Console.WriteLine("Connecting");
+
+                bool success = result.AsyncWaitHandle.WaitOne(2000, true);
+                if (sock.Connected)
+                {
+                    stream = new NetworkStream(sock);
+
+                    LotusGame.get().Chat("Connection Established");
+                    Console.WriteLine("Connection Established");
+                }
+                else
+                {
+                    LotusGame.get().Chat("Connection Failed");
+                    Console.WriteLine("Connection Failed");
+                }
+                
+                return sock.Connected;
             }
             catch (Exception ex)
             {
@@ -34,7 +55,7 @@ namespace LotusGL.Network
         {
             try
             {
-                tcp.Close();
+                sock.Close();
             }
             catch (Exception ex)
             {

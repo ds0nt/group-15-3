@@ -22,6 +22,17 @@ namespace LotusGL
             Board board = Board.get();
             switch (ge.type)
             {
+                case GameEvent.GameEventType.ChatMessage:
+                    GameEvent.ChatMessage cm = (GameEvent.ChatMessage)ge;
+
+                    LotusGame.get().Chat(cm.message);
+
+                    if (LotusGame.get().net != null)
+                    {
+                        cm.bounced = true;
+                        LotusGame.get().net.Send(ge);
+                    }
+                    break;
                 case GameEvent.GameEventType.UpdateLobby:
                     GameEvent.UpdateLobby ul = (GameEvent.UpdateLobby)ge;
 
@@ -122,6 +133,12 @@ namespace LotusGL
 
         private void cyclePlayer()
         {
+            for (int i = 0; i < LotusGame.get().players.Length; i++)
+            {
+                if (LotusGame.get().players[i].getAI() != null)
+                    LotusGame.get().players[i].getAI().onBoardChange(LotusGame.get().players[i], Board.get());
+            }
+
             currentPlayer = (currentPlayer + 1) % LotusGame.get().players.Length;
             while (LotusGame.get().players[currentPlayer].finished)
                 currentPlayer = (currentPlayer + 1) % LotusGame.get().players.Length;

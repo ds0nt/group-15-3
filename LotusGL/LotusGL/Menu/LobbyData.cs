@@ -60,6 +60,8 @@ namespace LotusGL.Menu
 
         public void Draw(Graphics.GraphicsFacade graphics)
         {
+            if (Graphics.GraphicsFacade.mode != Graphics.GraphicsFacade.Mode.MENU)
+                return;
             for (int i = 0; i < 4; i++)
             {
                 switch (ptype[i])
@@ -90,6 +92,7 @@ namespace LotusGL.Menu
                     case 3:
                         graphics.DrawHuman(x[i], y[i], width, height);
                         break;
+                    
                 }
                 graphics.DrawText(System.Drawing.Color.White, x[i], y[i] + 60, pname[i]);
             }      

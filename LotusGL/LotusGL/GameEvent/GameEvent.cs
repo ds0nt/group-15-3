@@ -16,7 +16,9 @@ namespace LotusGL.GameEvent
         GameStart = 6,
         SetName = 7,
         UpdateLobby = 8,
+        ChatMessage = 9,
     }
+
     abstract class GameEvent
     {
         public GameEventType type;
@@ -47,6 +49,8 @@ namespace LotusGL.GameEvent
                     return SetName.Unpack(reader);
                 case (int)GameEventType.UpdateLobby:
                     return UpdateLobby.Unpack(reader);
+                case (int)GameEventType.ChatMessage:
+                    return ChatMessage.Unpack(reader);
             }
             return null;
         }

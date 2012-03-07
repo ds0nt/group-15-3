@@ -64,6 +64,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="GameEvent\AITurn.cs" />
     <Compile Include="GameEvent\ChangePlayer.cs" />
+    <Compile Include="GameEvent\ChatMessage.cs" />
     <Compile Include="GameEvent\GameStart.cs" />
     <Compile Include="GameEvent\SetName.cs" />
     <Compile Include="GameEvent\UpdateLobby.cs" />

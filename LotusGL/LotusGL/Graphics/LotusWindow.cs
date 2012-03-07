@@ -65,7 +65,7 @@ namespace LotusGL.Graphics
         public void Load()
         {
 
-            Text.Load(new System.Drawing.Font("Gotham Medium", 12, System.Drawing.FontStyle.Bold), 0, 127, false);
+            Text.Load(new System.Drawing.Font("Gotham Medium", 8, System.Drawing.FontStyle.Regular), 0, 127, false);
             Board.Load();
             Piece.Load();
             Menu.Load();

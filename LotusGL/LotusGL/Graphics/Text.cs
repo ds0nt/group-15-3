@@ -26,8 +26,8 @@ namespace LotusGL.Graphics
             {
                 char c = Convert.ToChar(i);
                 string s = "" + c;
-                int x = ((i - first) / 16) * 32;
-                int y = ((i - first) % 16) * 32;
+                int x = ((i - first) / 16) * 16;
+                int y = ((i - first) % 16) * 16;
 
                 Character cpos;
                 cpos.x = x;
@@ -47,7 +47,7 @@ namespace LotusGL.Graphics
                 for (int i = first; i <= last; i++)
                 {
                     char c = Convert.ToChar(i);
-                    objGraphics.DrawString("" + c, font, new SolidBrush(Color.White), new RectangleF(characters[c].x, characters[c].y, 32, 32));
+                    objGraphics.DrawString("" + c, font, new SolidBrush(Color.White), new RectangleF(characters[c].x, characters[c].y, 16, 16));
                     objGraphics.Flush();
                 }
                 objBmpImage.Save(@"..\..\images\font.bmp");
@@ -74,14 +74,14 @@ namespace LotusGL.Graphics
             char[] chars = str.ToCharArray();
             for (int i = 0; i < chars.Length; i++)
             {
-                float tx = (i * size) / 512f;
+                float tx = (i * size/2) / 512f;
                 float ty = 0;
-                float tx2 = ((i + 1) * size) / 512f;
+                float tx2 = ((i + 1) * size/2) / 512f;
                 float ty2 = (size) / 512f;
                 
                 float texx = characters[chars[i]].x / 512f;
                 float texy = characters[chars[i]].y / 512f;
-                float texx2 = (characters[chars[i]].x + 16) / 512f;
+                float texx2 = (characters[chars[i]].x + 8) / 512f;
                 float texy2 = (characters[chars[i]].y + 16) / 512f;
 
                 GL.TexCoord2(texx, texy);

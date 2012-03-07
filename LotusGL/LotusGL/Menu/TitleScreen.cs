@@ -13,6 +13,7 @@ namespace LotusGL.Menu
         Chat chat;
         bool server = false;
         LobbyData lobby;
+        int hostNum = 0;
 
         public TitleScreen()
         {
@@ -25,13 +26,18 @@ namespace LotusGL.Menu
         {
             if (!enterip.inputmode)
             {
-                if (enterip.address != "")
+                if (enterip.address != "" && LotusGame.get().manager == null)
                 {
+                    enterip.inputmode = false;
                     LotusGame.get().net = new Network.Client();
                     if (((Network.Client)LotusGame.get().net).Connect(enterip.address))
                     {
                         LotusGame.get().manager = new RemoteManager();
                         LotusGame.get().FireEvent(new GameEvent.SetName(LotusGame.get().name));
+                    }
+                    else
+                    {
+                        LotusGame.get().net = null;
                     }
                     enterip.address = "";
                 }
@@ -48,16 +54,22 @@ namespace LotusGL.Menu
             //Join Activate!
             if (regionid == 100)
             {
-                enterip.inputmode = true;
+                if(server == false)
+                    enterip.inputmode = true;
             } 
 
             // Server Activate!
             if (regionid == 101)
             {
-                server = true;
-                LotusGame.get().net = new Network.Server();
-                ((Network.Server)LotusGame.get().net).StartListen();
-                LotusGame.get().manager = new LocalManager();
+                if (LotusGame.get().net == null)
+                {
+                    server = true;
+                    LotusGame.get().net = new Network.Server();
+                    ((Network.Server)LotusGame.get().net).StartListen();
+                    LotusGame.get().manager = new LocalManager();
+
+                    LotusGame.get().Chat("Waiting For Connections...");
+                }
             }
 
 
@@ -104,6 +116,12 @@ namespace LotusGL.Menu
                 {
                     lobby.pnext(3);
                 }
+                else if (regionid == 101)
+                {
+                    hostNum = 1;
+                }
+               
+                
                 if (LotusGame.get().manager != null)
                     LotusGame.get().FireEvent(new GameEvent.UpdateLobby(lobby));
             }
@@ -114,6 +132,8 @@ namespace LotusGL.Menu
             lobby.AddName(name);
             if (LotusGame.get().manager != null)
                 LotusGame.get().FireEvent(new GameEvent.UpdateLobby(lobby));
+
+            LotusGame.get().Chat("Player " + name + " has joined.");
         }
 
         public void SetLobby(LobbyData lobby)
@@ -121,12 +141,27 @@ namespace LotusGL.Menu
             this.lobby = lobby;
         }
 
+        public void Chat(string msg)
+        {
+            chat.addMessage(msg);
+        }
 
         public void Draw(Graphics.GraphicsFacade graphics)
         {
+           
             graphics.DrawTitle();
             graphics.DrawLogo();
             graphics.DrawIP();
+          //  graphics.DrawSkip();
+            if (hostNum == 1)
+            {
+                graphics.DrawHosting();
+            }
+            else
+            {
+                graphics.DrawHost();
+            }
+            
             graphics.DrawFinish();
 
             lobby.Draw(graphics);
@@ -145,7 +180,8 @@ namespace LotusGL.Menu
                 new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
             
                 new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
-                new GraphicsFacade.BoardRegion2D(101, 400, 400, 100, 100), // Server
+                new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
+               // new Graphic
             };
             return ret;
         }
