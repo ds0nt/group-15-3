@@ -99,6 +99,9 @@ namespace LotusGL.Graphics
                case "hosting":
                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Hosting"));
                    break;
+               case "skip":
+                   GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Skip"));
+                   break;
             }
             GL.Begin(BeginMode.TriangleStrip);
             GL.Color4(OpenTK.Graphics.Color4.White);

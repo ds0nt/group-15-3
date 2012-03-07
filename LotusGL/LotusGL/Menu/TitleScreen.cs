@@ -152,7 +152,8 @@ namespace LotusGL.Menu
             graphics.DrawTitle();
             graphics.DrawLogo();
             graphics.DrawIP();
-          //  graphics.DrawSkip();
+            graphics.DrawSkip();
+            
             if (hostNum == 1)
             {
                 graphics.DrawHosting();
@@ -181,7 +182,7 @@ namespace LotusGL.Menu
             
                 new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
                 new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
-               // new Graphic
+                new GraphicsFacade.BoardRegion2D(102,434,10, 64, 64)//skip
             };
             return ret;
         }
