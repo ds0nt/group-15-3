@@ -7,7 +7,7 @@ namespace LotusGL.AI.State
 {
     class AIStateRushToEnd : AIState
     {
-        public AIStateRushToEnd(StateStrategy stateMachine)
+        public AIStateRushToEnd()
         {
             // this->stateMachine = stateMachine;
         }

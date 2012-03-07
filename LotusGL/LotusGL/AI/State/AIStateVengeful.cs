@@ -9,7 +9,7 @@ namespace LotusGL.AI.State
     {
         public int enactedCount { get; set; }
 
-        public AIStateVengeful(StateStrategy stateMachine)
+        public AIStateVengeful()
         {
             /* this->stateMachine = stateMachine;
             //int target;
