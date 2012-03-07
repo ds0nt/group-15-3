@@ -90,6 +90,7 @@ namespace LotusGL.Menu
                     case 3:
                         graphics.DrawHuman(x[i], y[i], width, height);
                         break;
+                    
                 }
                 graphics.DrawText(System.Drawing.Color.White, x[i], y[i] + 60, pname[i]);
             }      

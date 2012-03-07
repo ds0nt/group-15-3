@@ -16,6 +16,8 @@ namespace LotusGL.Graphics
             Loaded = true;
             TextureLoader.get().loadTexture(@"..\..\images\marble.bmp", "marble");
             TextureLoader.get().loadTexture(@"..\..\images\board.bmp", "board");
+            TextureLoader.get().loadTexture(@"..\..\images\skip.bmp", "Skip");
+
         }
         
         public static void Draw()
@@ -26,7 +28,7 @@ namespace LotusGL.Graphics
             GL.Enable(EnableCap.Texture2D);
             
             GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("board"));
-            
+           
             GL.Begin(BeginMode.TriangleStrip);
             GL.Color4(1f, 1f, 1f, 1f);
             
@@ -88,6 +90,7 @@ namespace LotusGL.Graphics
             GL.Vertex3(0, 512, -20);
 
             GL.End();
+
         }
 
         public static void UnLoad()

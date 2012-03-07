@@ -29,6 +29,7 @@ namespace LotusGL.Graphics
             TextureLoader.get().loadTexture(@"..\..\images\finished.bmp", "Finish");
             TextureLoader.get().loadTexture(@"..\..\images\ip.bmp", "IP");
             TextureLoader.get().loadTexture(@"..\..\images\host.bmp", "Host");
+            TextureLoader.get().loadTexture(@"..\..\images\hosting.bmp", "Hosting");
         }
 
        public static void Draw(string menuname)
@@ -94,6 +95,9 @@ namespace LotusGL.Graphics
                    break;
                case "host":
                    GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Host"));
+                   break;
+               case "hosting":
+                   GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("Hosting"));
                    break;
             }
             GL.Begin(BeginMode.TriangleStrip);

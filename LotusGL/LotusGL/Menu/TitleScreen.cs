@@ -13,6 +13,7 @@ namespace LotusGL.Menu
         Chat chat;
         bool server = false;
         LobbyData lobby;
+        int hostNum = 0;
 
         public TitleScreen()
         {
@@ -113,6 +114,12 @@ namespace LotusGL.Menu
                 {
                     lobby.pnext(3);
                 }
+                else if (regionid == 101)
+                {
+                    hostNum = 1;
+                }
+               
+                
                 if (LotusGame.get().manager != null)
                     LotusGame.get().FireEvent(new GameEvent.UpdateLobby(lobby));
             }
@@ -137,10 +144,20 @@ namespace LotusGL.Menu
 
         public void Draw(Graphics.GraphicsFacade graphics)
         {
+           
             graphics.DrawTitle();
             graphics.DrawLogo();
             graphics.DrawIP();
-            graphics.DrawHost();
+          //  graphics.DrawSkip();
+            if (hostNum == 1)
+            {
+                graphics.DrawHosting();
+            }
+            else
+            {
+                graphics.DrawHost();
+            }
+            
             graphics.DrawFinish();
 
             lobby.Draw(graphics);
@@ -160,6 +177,7 @@ namespace LotusGL.Menu
             
                 new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
                 new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
+               // new Graphic
             };
             return ret;
         }
