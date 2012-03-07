@@ -214,10 +214,10 @@ namespace LotusGL.Graphics
             Menu.Draw(resource, x, y, width, height);
         }
 
-        public void DrawPiece(System.Drawing.Color c, float x, float y, int layer)
+        public void DrawPiece(System.Drawing.Color c, float x, float y, int layer, bool cpupiece)
         {
             if(mode == Mode.BOARD)
-                Piece.Draw(new OpenTK.Graphics.Color4(c.R, c.G, c.B, 1), new OpenTK.Vector2(x, y), layer);
+                Piece.Draw(new OpenTK.Graphics.Color4(c.R, c.G, c.B, 1), new OpenTK.Vector2(x, y), layer, cpupiece);
         }
 
         public void DrawText(System.Drawing.Color c, float x, float y, string str)

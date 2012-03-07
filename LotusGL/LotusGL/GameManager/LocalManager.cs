@@ -64,8 +64,11 @@ namespace LotusGL
                         {
                             if (rc.pos == -100)
                             {
-                                if(!canMove(LotusGame.get().players[currentPlayer]))
+                                if (!canMove(LotusGame.get().players[currentPlayer]))
+                                {
+                                    LotusGame.get().FireEvent(new GameEvent.ChatMessage(LotusGame.get().players[currentPlayer].name + " skipped his turn."));
                                     cyclePlayer();
+                                }
                             }
                             else if (isSelectValid(rc.pos, LotusGame.get().players[currentPlayer]))
                             {

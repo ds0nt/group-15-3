@@ -145,7 +145,7 @@ namespace LotusGL
                 int level = 1;
                 foreach (Player p in startTiles[i])
                 {
-                    graphics.DrawPiece(p.color, startPoints[i].X, startPoints[i].Y, level);
+                    graphics.DrawPiece(p.color, startPoints[i].X, startPoints[i].Y, level, p.getAI() != null);
                     level++;
                 }
             }
@@ -154,7 +154,7 @@ namespace LotusGL
                 int level = 1;
                 foreach (Player p in gameTiles[i])
                 {
-                    graphics.DrawPiece(p.color, gamePoints[i].X, gamePoints[i].Y, level);
+                    graphics.DrawPiece(p.color, gamePoints[i].X, gamePoints[i].Y, level, p.getAI() != null);
                     level++;
                 }
             }

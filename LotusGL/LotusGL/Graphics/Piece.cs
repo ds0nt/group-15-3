@@ -17,16 +17,17 @@ namespace LotusGL.Graphics
             Loaded = true;
             TextureLoader.get().loadTexture(@"..\..\images\marble.bmp", "marble");
             TextureLoader.get().loadTexture(@"..\..\images\piece.bmp", "piece");
+            TextureLoader.get().loadTexture(@"..\..\images\aipiece.bmp", "aipiece");
             TextureLoader.get().loadTexture(@"..\..\images\select.bmp", "select");
         }
 
 
-        public static void Draw(OpenTK.Graphics.Color4 color, Vector2 position, int level)
+        public static void Draw(OpenTK.Graphics.Color4 color, Vector2 position, int level, bool cpupiece)
         {
-            Draw(color, new Vector3(position.X, position.Y, level * height));
+            Draw(color, new Vector3(position.X, position.Y, level * height), cpupiece);
         }
 
-        public static void Draw(OpenTK.Graphics.Color4 color, Vector3 position)
+        public static void Draw(OpenTK.Graphics.Color4 color, Vector3 position, bool cpupiece)
         {
             if(!Loaded)
                 Load();
@@ -35,16 +36,19 @@ namespace LotusGL.Graphics
             Matrix4 translation = Matrix4.CreateTranslation(position) * LotusWindow.me.view * LotusWindow.me.proj;
             GL.LoadMatrix(ref translation);
             GL.Enable(EnableCap.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("piece"));
+            if(!cpupiece)
+                GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("piece"));
+            else
+                GL.BindTexture(TextureTarget.Texture2D, TextureLoader.get().getTexture("aipiece"));
             GL.Begin(BeginMode.TriangleStrip);
             GL.Color4(color);
-            GL.TexCoord2(new OpenTK.Vector2d(0, 0));
-            GL.Vertex3(0, 0, 0);
             GL.TexCoord2(new OpenTK.Vector2d(1, 0));
+            GL.Vertex3(0, 0, 0);
+            GL.TexCoord2(new OpenTK.Vector2d(0, 0));
             GL.Vertex3(32, 0, 0);
-            GL.TexCoord2(new OpenTK.Vector2d(0, 1f));
-            GL.Vertex3(0, 32, 0);
             GL.TexCoord2(new OpenTK.Vector2d(1, 1f));
+            GL.Vertex3(0, 32, 0);
+            GL.TexCoord2(new OpenTK.Vector2d(0, 1f));
             GL.Vertex3(32, 32, 0);
 
             GL.End();
