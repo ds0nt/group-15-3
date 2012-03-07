@@ -171,7 +171,7 @@ namespace LotusGL.Menu
             lobby.Draw(graphics);
             enterip.Draw(graphics);
             if(Graphics.GraphicsFacade.mode == GraphicsFacade.Mode.BOARD)
-                graphics.DrawText(System.Drawing.Color.White, 100, 500, LotusGame.get().players[LotusGame.get().currentPlayer].name + "'s Turn (" + LotusGame.get().players[LotusGame.get().currentPlayer].color + ")");
+                graphics.DrawText(System.Drawing.Color.White, 100, 16, LotusGame.get().players[LotusGame.get().currentPlayer].name + "'s Turn (" + LotusGame.get().players[LotusGame.get().currentPlayer].color.Name + ")");
             chat.Draw(graphics);
         }
 

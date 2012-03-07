@@ -19,7 +19,6 @@ namespace LotusGL
             switch (type)
             {
                 case 0:
-                    this.name = name;
                     break;
                 case 1:
                     ai = new AI.Rule.RuleStrategy();
@@ -30,12 +29,11 @@ namespace LotusGL
                     this.name = "State AI";
                     break;
                 case 3:
-                    finished = true;
+                    this.name = name;
                     break;
             }
             type = 0;
             finished = false;
-            this.name = name;
             this.color = color;
         }
         

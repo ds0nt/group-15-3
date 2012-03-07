@@ -61,7 +61,7 @@ namespace LotusGL.Menu
         public void Draw(Graphics.GraphicsFacade graphics)
         {
             float chatx = 128;
-            float chaty = 30;
+            float chaty = 36;
             float spacing = 14;
 
             if (inputmode)
