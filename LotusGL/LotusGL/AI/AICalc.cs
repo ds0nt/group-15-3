@@ -20,7 +20,20 @@ namespace LotusGL.AI
         /////////////// RANDOM NUMBER////////////////////// 
         public static Random rand = new Random(); //please don't define extra but just use this !!
 
-
+        //////////////count how many finished
+        public static int numberFinished(Player p, Board b)
+        {
+            int countFinished = 0;
+            List<Player> tile = b.getTile(29);
+            for (int i = 0; i < tile.Count; i++)
+            {
+                if (tile[i] == LotusGame.get().players[LotusGame.get().currentPlayer])
+                {
+                    countFinished++;
+                }
+            }
+            return countFinished;
+        }
         ////////////// Get Possible Moves//////////////////
         public static List<Move> getPossibleMoves(Player player, Board b)
         {

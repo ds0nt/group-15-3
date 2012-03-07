@@ -368,6 +368,12 @@ namespace LotusGL.AI
         }
         public void coverOpponent(Player p, Board b)
         {
+            List<Move> moves = AICalc.getPossibleMoves(p, b); // using AI calc to get the possible moves.
+
+            for (int i = 0; i < moves.Count; i++)
+            {
+                //if(moves[i].end)
+            }
             //dist = b.getTile(m.start).Count;
         }
         /* New rule should follow following format:

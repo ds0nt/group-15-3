@@ -159,10 +159,8 @@ namespace LotusGL
         }
 
         private bool isSelectValid(int select, Player p)
-        //<<<<<<< HEAD
         {
             List<Player> starttile = Board.get().getTile(select);
-            //>>>>>>> c7648c9ee393f0a3ca6fd3e7e1d6c9a3b4ca7cda
             if (starttile.Count > 0 && starttile[starttile.Count - 1] == p || !canMove(p))
             {
                 return true;

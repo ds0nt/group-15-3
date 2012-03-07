@@ -9,6 +9,7 @@ namespace LotusGL.AI.State
     {
         public AIState currentState;
         public AIMoves goingTo = new AIMoves();
+        
         //public string stateName;
 
         //public AIState regular; //= new AIStateRegular();
@@ -53,13 +54,17 @@ namespace LotusGL.AI.State
         }
         public void doMove(Player p, Board b)
         {
+
             currentState.doMove(p, b);
         }
 
 
         public void onBoardChange(Player p, Board b)
         {
-            currentState.onBoardChange(p, b);
+            if (LotusGame.get().players[LotusGame.get().currentPlayer] != p)
+            {
+                currentState.onBoardChange(p, b);
+            }
         }
     }
 }
