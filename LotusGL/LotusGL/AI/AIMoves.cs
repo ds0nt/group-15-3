@@ -366,6 +366,10 @@ namespace LotusGL.AI
                 }
             }
         }
+        public void coverOpponent(Player p, Board b)
+        {
+            //dist = b.getTile(m.start).Count;
+        }
         /* New rule should follow following format:
         public void moveNew(Player p, Board b)
         {
