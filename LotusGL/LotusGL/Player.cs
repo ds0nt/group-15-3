@@ -22,11 +22,11 @@ namespace LotusGL
                     this.name = name;
                     break;
                 case 1:
-                    ai = new RuleStrategy();
+                    ai = new AI.Rule.RuleStrategy();
                     this.name = "Rule AI";
                     break;
                 case 2:
-                    ai = new StateStrategy();
+                    ai = new AI.State.StateStrategy();
                     this.name = "State AI";
                     break;
                 case 3:

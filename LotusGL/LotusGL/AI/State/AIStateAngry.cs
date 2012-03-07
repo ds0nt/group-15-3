@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LotusGL.AI
+namespace LotusGL.AI.State
 {
-    class AIStateAngry : AIStrategy
+    class AIStateAngry : AIState
     {
         public int emotion { get; set; }
         public int numberOfTurns { get; set; }
 
-        public AIStateAngry()
+        public AIStateAngry(StateStrategy stateMachine)
         {
             /* this->stateMachine = stateMachine;
 

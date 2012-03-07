@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LotusGL.AI
+namespace LotusGL.AI.State
 {
-    class AIStateVengeful : AIStrategy
+    class AIStateVengeful : AIState
     {
         public int enactedCount { get; set; }
 
-        public AIStateVengeful()
+        public AIStateVengeful(StateStrategy stateMachine)
         {
             /* this->stateMachine = stateMachine;
             //int target;

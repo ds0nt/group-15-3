@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LotusGL.AI
+namespace LotusGL.AI.State
 {
-    class AIStateRushToEnd : AIStrategy
+    class AIStateRushToEnd : AIState
     {
-        public AIStateRushToEnd()
+        public AIStateRushToEnd(StateStrategy stateMachine)
         {
             // this->stateMachine = stateMachine;
         }

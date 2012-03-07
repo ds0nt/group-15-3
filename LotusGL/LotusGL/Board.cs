@@ -18,6 +18,7 @@ namespace LotusGL
         LotusGame game;
         
         private static Board me;
+        private LotusGame lotusGame;
 
         public Board(Player[] players)
         {
@@ -50,6 +51,13 @@ namespace LotusGL
             gameTiles[5].Add(players[3]);
             gameTiles[5].Add(players[3]);
             gameTiles[5].Add(players[2]);
+        }
+
+        public Board(LotusGame lotusGame, Player[] players)
+        {
+            // TODO: Complete member initialization
+            this.lotusGame = lotusGame;
+            this.players = players;
         }
         public int getRemainingPlayers()
         {
@@ -154,10 +162,10 @@ namespace LotusGL
                 }
             }
             if(selectedId != int.MinValue)
-            {
+            {   
                 PointF selpos = getPosition(selectedId);
                 graphics.DrawSelected(selpos.X, selpos.Y, getTile(selectedId).Count);
-            }
+             }
         }
 
         //Create the locations of each position on the board (the top left coordinate)

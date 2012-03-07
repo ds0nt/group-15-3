@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LotusGL.AI
+namespace LotusGL.AI.State
 {
-    class AIStateAdvST : AIStrategy
+    class AIStateAdvST : AIState
     {
-        public AIStateAdvST()
+        public AIStateAdvST(StateStrategy stateMachine)
         {
             /* this->stateMachine = stateMachine;
             printf("********************IN Advance Springtile!******************\n"); */
