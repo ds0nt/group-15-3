@@ -26,9 +26,14 @@ namespace LotusGL
         List<ScheduledEvent> scheduledEvents;
 
         static double lastTime = 0;
+        
+        public string name = "";
 
         public LotusGame(GraphicsFacade graphics)
         {
+            Console.Write("Name:");
+            name = Console.ReadLine();
+                        
             me = this;
             this.graphics = graphics;
 
@@ -53,7 +58,7 @@ namespace LotusGL
             public GameEvent.GameEvent ge;
         }
 
-        string name = "";
+        
         public void LaunchGame(Player[] players)
         {
             this.players = players;
@@ -108,6 +113,15 @@ namespace LotusGL
             manager.onGameEvent(ge);
         }
 
+        public void AddName(string name)
+        {
+            title.AddName(name);
+        }
+        public void SetLobby(Menu.LobbyData lobby)
+        {
+            title.SetLobby(lobby);
+        }
+
         public void Update(Graphics.GraphicsFacade.InputEvent m, double time)
         {
 
@@ -123,11 +137,8 @@ namespace LotusGL
             {
                 if (board != null)
                 {
-                    if (players[currentPlayer].local)
-                    {
-                        if (m.regionId >= 0)
-                            FireEvent(new GameEvent.RegionClick(m.regionId, currentPlayer));
-                    }
+                    if (m.regionId >= 0)
+                        FireEvent(new GameEvent.RegionClick(m.regionId));
                     graphics.setClickableRegions(board.getRegions());
                 }
             }

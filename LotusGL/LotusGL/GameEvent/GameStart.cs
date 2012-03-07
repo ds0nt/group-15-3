@@ -31,7 +31,7 @@ namespace LotusGL.GameEvent
             Player[] players = new Player[4];
             for (int i = 0; i < 4; i++)
             {
-                players[i] = new Player(System.Drawing.Color.FromArgb(reader.ReadInt32()), reader.ReadString());
+                players[i] = new Player(System.Drawing.Color.FromArgb(reader.ReadInt32()), 0, reader.ReadString());
             }
             
             return new GameStart(players);
