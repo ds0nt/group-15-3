@@ -90,7 +90,6 @@ namespace LotusGL.Graphics
             GL.Vertex3(0, 512, -20);
 
             GL.End();
-
         }
 
         public static void UnLoad()

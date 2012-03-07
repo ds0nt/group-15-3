@@ -80,19 +80,25 @@ namespace LotusGL.Menu
                     if (server)
                     {
                         //Server
-                        ((Network.Server)LotusGame.get().net).EndListen();
-
-                        LotusGame.get().FireEvent(new GameEvent.GameStart(lobby.createPlayers()));
-                        Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                        Player[] ps = lobby.createPlayers();
+                        if (ps.Length > 1)
+                        {
+                            ((Network.Server)LotusGame.get().net).EndListen();
+                            LotusGame.get().FireEvent(new GameEvent.GameStart(ps));
+                            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                        }
                     }
                 }
                 else
                 {
                     //Single Player
-                    LotusGame.get().manager = new LocalManager();
-
-                    LotusGame.get().FireEvent(new GameEvent.GameStart(lobby.createPlayers()));
-                    Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                    Player[] ps = lobby.createPlayers();
+                    if (ps.Length > 1)
+                    {
+                        LotusGame.get().manager = new LocalManager();
+                        LotusGame.get().FireEvent(new GameEvent.GameStart(ps));
+                        Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                    }
                 }
                 
                 //Client doesnt get to :p
@@ -146,7 +152,8 @@ namespace LotusGL.Menu
             graphics.DrawTitle();
             graphics.DrawLogo();
             graphics.DrawIP();
-          //  graphics.DrawSkip();
+            graphics.DrawSkip();
+
             if (server)
             {
                 graphics.DrawHosting();
@@ -177,7 +184,7 @@ namespace LotusGL.Menu
             
                 new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
                 new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
-               // new Graphic
+                new GraphicsFacade.BoardRegion2D(102,434,10, 64, 64)//skip
             };
             return ret;
         }
