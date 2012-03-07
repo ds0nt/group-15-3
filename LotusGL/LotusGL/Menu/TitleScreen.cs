@@ -121,6 +121,10 @@ namespace LotusGL.Menu
             this.lobby = lobby;
         }
 
+        public void Chat(string msg)
+        {
+            chat.addMessage(msg);
+        }
 
         public void Draw(Graphics.GraphicsFacade graphics)
         {

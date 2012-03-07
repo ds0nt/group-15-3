@@ -24,6 +24,12 @@ namespace LotusGL.Menu
 
         }
 
+        public void addMessage(string message)
+        {
+            chatlog[logspinner % chatlog.Length] = message;
+            logspinner++;
+        }
+
         public void handleInput(char x)
         {
             if (x == char.MinValue)
@@ -32,8 +38,8 @@ namespace LotusGL.Menu
             {
                 if (inputmode)
                 {
-                    chatlog[logspinner % chatlog.Length] = msg;
-                    logspinner++;
+                    if(LotusGame.get().manager != null)
+                        LotusGame.get().FireEvent(new GameEvent.ChatMessage(LotusGame.get().name + ": " + msg));
                     msg = "";
                 }
 
