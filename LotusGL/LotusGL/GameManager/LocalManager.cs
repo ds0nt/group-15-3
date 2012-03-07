@@ -64,7 +64,8 @@ namespace LotusGL
                         {
                             if (rc.pos == -100)
                             {
-                                cyclePlayer();
+                                if(!canMove(LotusGame.get().players[currentPlayer]))
+                                    cyclePlayer();
                             }
                             else if (isSelectValid(rc.pos, LotusGame.get().players[currentPlayer]))
                             {
@@ -159,10 +160,10 @@ namespace LotusGL
         }
 
         private bool isSelectValid(int select, Player p)
-        //<<<<<<< HEAD
         {
             List<Player> starttile = Board.get().getTile(select);
-            //>>>>>>> c7648c9ee393f0a3ca6fd3e7e1d6c9a3b4ca7cda
+            if (select == 29)
+                return false;
             if (starttile.Count > 0 && starttile[starttile.Count - 1] == p || !canMove(p))
             {
                 return true;

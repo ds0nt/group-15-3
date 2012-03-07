@@ -139,15 +139,14 @@ namespace LotusGL.Graphics
                 {   
                     m.x = mx;
                     m.y = my;
-                    if(mb == 1)
-                        if (GraphicsFacade.mode == GraphicsFacade.Mode.BOARD)
+                    if (mb == 1)
+                    {
+                        m.regionId = TraceMouse2D(mx, my) + 1000;
+                        if (GraphicsFacade.mode == GraphicsFacade.Mode.BOARD && m.regionId == int.MinValue + 1000)
                         {
                             m.regionId = TraceMouse3D(mx, my);
                         }
-                        else if (GraphicsFacade.mode == GraphicsFacade.Mode.MENU)
-                        {
-                            m.regionId = TraceMouse2D(mx, my);
-                        }
+                    }
                 }
                 onUpdate(m, window.RenderTime);
             }

@@ -71,7 +71,10 @@ namespace LotusGL.Menu
                 }
             }
 
-
+            if (regionid == 102)
+            {
+                LotusGame.get().FireEvent(new GameEvent.RegionClick(-100));
+            }
             //Game Activate!
             if (regionid == 1)
             {
@@ -174,18 +177,28 @@ namespace LotusGL.Menu
 
         public GraphicsFacade.BoardRegion2D[] getRegions()
         {
-            GraphicsFacade.BoardRegion2D[] ret = new GraphicsFacade.BoardRegion2D[]
+            GraphicsFacade.BoardRegion2D[] ret;
+            if (GraphicsFacade.mode == GraphicsFacade.Mode.MENU)
             {
-                new GraphicsFacade.BoardRegion2D(1, 224, 400, 64, 64), //Start button
-                new GraphicsFacade.BoardRegion2D(2, 130,260,125,60),
-                new GraphicsFacade.BoardRegion2D(3, 256, 260,125,60),
-                new GraphicsFacade.BoardRegion2D(4, 130, 320, 125, 60),
-                new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
+                ret = new GraphicsFacade.BoardRegion2D[]
+                {
+                    new GraphicsFacade.BoardRegion2D(1, 224, 400, 64, 64), //Start button
+                    new GraphicsFacade.BoardRegion2D(2, 130,260,125,60),
+                    new GraphicsFacade.BoardRegion2D(3, 256, 260,125,60),
+                    new GraphicsFacade.BoardRegion2D(4, 130, 320, 125, 60),
+                    new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
             
-                new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
-                new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
-                new GraphicsFacade.BoardRegion2D(102,434,10, 64, 64)//skip
-            };
+                    new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
+                    new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
+                };
+            }
+            else
+            {
+                ret = new GraphicsFacade.BoardRegion2D[]
+                {
+                    new GraphicsFacade.BoardRegion2D(102, 434, 10, 64, 64)//skip
+                };
+            }
             return ret;
         }
        

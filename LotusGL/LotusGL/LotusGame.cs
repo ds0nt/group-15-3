@@ -129,18 +129,17 @@ namespace LotusGL
         {
 
             title.handleInput(m.lastKey);
-            if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
-            {
-                if (m.regionId >= 0)
-                    currentMenu.handleRegionClick(m.regionId);
 
-                graphics.setClickableRegions(currentMenu.getRegions());
-            }
-            else
+            if (m.regionId >= 1000)
+                currentMenu.handleRegionClick(m.regionId - 1000);
+
+            graphics.setClickableRegions(currentMenu.getRegions());
+
+            if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.BOARD)
             {
                 if (board != null)
                 {
-                    if (m.regionId >= 0)
+                    if (m.regionId >= 0 && m.regionId < 999)
                         FireEvent(new GameEvent.RegionClick(m.regionId));
                     graphics.setClickableRegions(board.getRegions());
                 }
