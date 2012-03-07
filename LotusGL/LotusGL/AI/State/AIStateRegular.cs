@@ -34,11 +34,10 @@ namespace LotusGL.AI.State
             //if the previous one doens't exist in current then mad!
             for (int i = 0; i < availableMoves.Count; i++)
             {
-                Move check = availableMoves[i];
                 bool found = false;
                 for (int j = 0; j < newlyAvailableMoves.Count; j++)
                 {
-                    if (check.start == newlyAvailableMoves[j].start)
+                    if (availableMoves[i].start == newlyAvailableMoves[j].start)
                     {
                         found = true;
                         break;
