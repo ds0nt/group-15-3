@@ -128,9 +128,9 @@ namespace LotusGL
         public void Update(Graphics.GraphicsFacade.InputEvent m, double time)
         {
 
+            title.handleInput(m.lastKey);
             if (Graphics.GraphicsFacade.mode == Graphics.GraphicsFacade.Mode.MENU)
             {
-                title.handleInput(m.lastKey);
                 if (m.regionId >= 0)
                     currentMenu.handleRegionClick(m.regionId);
 

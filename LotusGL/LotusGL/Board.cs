@@ -95,6 +95,10 @@ namespace LotusGL
         public void movePiece(int x, int y)
         {
             List<Player> l = getTile(x);
+            if (y == 22)
+            {
+                y += Math.Min(l.Count, 29);
+            }
             if (l.Count == 0)
                 return;
             getTile(y).Add(l[l.Count - 1]);

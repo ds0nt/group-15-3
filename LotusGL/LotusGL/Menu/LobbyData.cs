@@ -60,6 +60,8 @@ namespace LotusGL.Menu
 
         public void Draw(Graphics.GraphicsFacade graphics)
         {
+            if (Graphics.GraphicsFacade.mode != Graphics.GraphicsFacade.Mode.MENU)
+                return;
             for (int i = 0; i < 4; i++)
             {
                 switch (ptype[i])
