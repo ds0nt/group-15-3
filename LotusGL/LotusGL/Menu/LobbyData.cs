@@ -15,7 +15,7 @@ namespace LotusGL.Menu
     
         public void pnext(int index)
         {
-            if (pname[index] == "" || ptype[index] == 3)
+            if (!(ptype[index] == 3 && pname[index] != LotusGame.get().name))
             {
                 ptype[index] = (ptype[index] + 1) % 4;
                 if (ptype[index] == 3)
@@ -31,13 +31,16 @@ namespace LotusGL.Menu
 
         public Player[] createPlayers()
         {
-            return new Player[]
-            {
-                new Player(System.Drawing.Color.Red, ptype[0], pname[0]),
-                new Player(System.Drawing.Color.White, ptype[1], pname[1]),
-                new Player(System.Drawing.Color.Gray, ptype[2], pname[2]),
-                new Player(System.Drawing.Color.Blue, ptype[3], pname[3])
-            };
+            List<Player> p = new List<Player>();
+            if (ptype[0] != 0)
+                p.Add(new Player(System.Drawing.Color.Red, ptype[0], pname[0]));
+            if (ptype[1] != 0)
+                p.Add(new Player(System.Drawing.Color.White, ptype[1], pname[1]));
+            if (ptype[2] != 0)
+                p.Add(new Player(System.Drawing.Color.Gray, ptype[2], pname[2]));
+            if (ptype[3] != 0)
+                p.Add(new Player(System.Drawing.Color.Blue, ptype[3], pname[3]));
+            return p.ToArray();
         }
 
         public void AddName(string name)
@@ -46,7 +49,7 @@ namespace LotusGL.Menu
             {
                 if (pname[i] == "")
                 {
-                    ptype[i] = 0;
+                    ptype[i] = 3;
                     pname[i] = name;
                     return;
                 }
