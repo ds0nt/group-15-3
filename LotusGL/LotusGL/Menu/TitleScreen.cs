@@ -13,7 +13,6 @@ namespace LotusGL.Menu
         Chat chat;
         bool server = false;
         LobbyData lobby;
-        int hostNum = 0;
 
         public TitleScreen()
         {
@@ -72,7 +71,10 @@ namespace LotusGL.Menu
                 }
             }
 
-
+            if (regionid == 102)
+            {
+                LotusGame.get().FireEvent(new GameEvent.RegionClick(-100));
+            }
             //Game Activate!
             if (regionid == 1)
             {
@@ -81,19 +83,25 @@ namespace LotusGL.Menu
                     if (server)
                     {
                         //Server
-                        ((Network.Server)LotusGame.get().net).EndListen();
-
-                        LotusGame.get().FireEvent(new GameEvent.GameStart(lobby.createPlayers()));
-                        Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                        Player[] ps = lobby.createPlayers();
+                        if (ps.Length > 1)
+                        {
+                            ((Network.Server)LotusGame.get().net).EndListen();
+                            LotusGame.get().FireEvent(new GameEvent.GameStart(ps));
+                            Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                        }
                     }
                 }
                 else
                 {
                     //Single Player
-                    LotusGame.get().manager = new LocalManager();
-
-                    LotusGame.get().FireEvent(new GameEvent.GameStart(lobby.createPlayers()));
-                    Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                    Player[] ps = lobby.createPlayers();
+                    if (ps.Length > 1)
+                    {
+                        LotusGame.get().manager = new LocalManager();
+                        LotusGame.get().FireEvent(new GameEvent.GameStart(ps));
+                        Graphics.GraphicsFacade.mode = Graphics.GraphicsFacade.Mode.BOARD;
+                    }
                 }
                 
                 //Client doesnt get to :p
@@ -115,12 +123,7 @@ namespace LotusGL.Menu
                 else if (regionid == 5)
                 {
                     lobby.pnext(3);
-                }
-                else if (regionid == 101)
-                {
-                    hostNum = 1;
-                }
-               
+                }               
                 
                 if (LotusGame.get().manager != null)
                     LotusGame.get().FireEvent(new GameEvent.UpdateLobby(lobby));
@@ -152,8 +155,9 @@ namespace LotusGL.Menu
             graphics.DrawTitle();
             graphics.DrawLogo();
             graphics.DrawIP();
-          //  graphics.DrawSkip();
-            if (hostNum == 1)
+            graphics.DrawSkip();
+
+            if (server)
             {
                 graphics.DrawHosting();
             }
@@ -166,23 +170,35 @@ namespace LotusGL.Menu
 
             lobby.Draw(graphics);
             enterip.Draw(graphics);
+            if(Graphics.GraphicsFacade.mode == GraphicsFacade.Mode.BOARD)
+                graphics.DrawText(System.Drawing.Color.White, 100, 16, LotusGame.get().players[LotusGame.get().currentPlayer].name + "'s Turn (" + LotusGame.get().players[LotusGame.get().currentPlayer].color.Name + ")");
             chat.Draw(graphics);
         }
 
         public GraphicsFacade.BoardRegion2D[] getRegions()
         {
-            GraphicsFacade.BoardRegion2D[] ret = new GraphicsFacade.BoardRegion2D[]
+            GraphicsFacade.BoardRegion2D[] ret;
+            if (GraphicsFacade.mode == GraphicsFacade.Mode.MENU)
             {
-                new GraphicsFacade.BoardRegion2D(1, 224, 400, 64, 64), //Start button
-                new GraphicsFacade.BoardRegion2D(2, 130,260,125,60),
-                new GraphicsFacade.BoardRegion2D(3, 256, 260,125,60),
-                new GraphicsFacade.BoardRegion2D(4, 130, 320, 125, 60),
-                new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
+                ret = new GraphicsFacade.BoardRegion2D[]
+                {
+                    new GraphicsFacade.BoardRegion2D(1, 224, 400, 64, 64), //Start button
+                    new GraphicsFacade.BoardRegion2D(2, 130,260,125,60),
+                    new GraphicsFacade.BoardRegion2D(3, 256, 260,125,60),
+                    new GraphicsFacade.BoardRegion2D(4, 130, 320, 125, 60),
+                    new GraphicsFacade.BoardRegion2D(5, 256, 320, 125, 60),
             
-                new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
-                new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
-               // new Graphic
-            };
+                    new GraphicsFacade.BoardRegion2D(100, 10, 450, 125, 60), // Client
+                    new GraphicsFacade.BoardRegion2D(101, 377, 450, 125, 60), // Server
+                };
+            }
+            else
+            {
+                ret = new GraphicsFacade.BoardRegion2D[]
+                {
+                    new GraphicsFacade.BoardRegion2D(102, 434, 10, 64, 64)//skip
+                };
+            }
             return ret;
         }
        

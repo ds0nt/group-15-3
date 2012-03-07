@@ -177,6 +177,13 @@ namespace LotusGL.Graphics
                 DrawMenu("hosting", 377, 450, 125, 60);
             }
         }
+        public void DrawSkip()
+        {
+            if (mode == Mode.BOARD)
+            {
+                DrawMenu("skip",434,10, 64, 64);
+            }
+        }
         public void DrawGameOver()
         {
             if (mode == Mode.MENU)

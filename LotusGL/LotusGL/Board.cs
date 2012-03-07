@@ -44,13 +44,6 @@ namespace LotusGL
             CreateLocationsTable();
             resetPlayers();
 
-            gameTiles[3].Add(players[1]);
-            gameTiles[3].Add(players[2]);
-            gameTiles[3].Add(players[3]);
-            gameTiles[3].Add(players[0]);
-            gameTiles[5].Add(players[3]);
-            gameTiles[5].Add(players[3]);
-            gameTiles[5].Add(players[2]);
         }
 
         public Board(LotusGame lotusGame, Player[] players)

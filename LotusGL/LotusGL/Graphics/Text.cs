@@ -42,7 +42,7 @@ namespace LotusGL.Graphics
 
                 objGraphics.Clear(Color.Red);
                 objGraphics.SmoothingMode = SmoothingMode.None;
-                objGraphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                objGraphics.TextRenderingHint = TextRenderingHint.AntiAlias;
 
                 for (int i = first; i <= last; i++)
                 {
@@ -74,14 +74,14 @@ namespace LotusGL.Graphics
             char[] chars = str.ToCharArray();
             for (int i = 0; i < chars.Length; i++)
             {
-                float tx = (i * size/2) / 512f;
+                float tx = (i * size*2/3) / 512f;
                 float ty = 0;
-                float tx2 = ((i + 1) * size/2) / 512f;
+                float tx2 = ((i + 1) * size*2/3) / 512f;
                 float ty2 = (size) / 512f;
                 
                 float texx = characters[chars[i]].x / 512f;
                 float texy = characters[chars[i]].y / 512f;
-                float texx2 = (characters[chars[i]].x + 8) / 512f;
+                float texx2 = (characters[chars[i]].x + 10f) / 512f;
                 float texy2 = (characters[chars[i]].y + 16) / 512f;
 
                 GL.TexCoord2(texx, texy);
