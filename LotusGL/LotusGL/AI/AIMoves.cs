@@ -369,11 +369,20 @@ namespace LotusGL.AI
         public void coverOpponent(Player p, Board b)
         {
             List<Move> moves = AICalc.getPossibleMoves(p, b); // using AI calc to get the possible moves.
-
+            bool covered = false;
             for (int i = 0; i < moves.Count; i++)
             {
-                //if(moves[i].end)
+                List<Player> tileStack= b.getTile(moves[i].end);
+                if (tileStack.Count != 0 && tileStack[tileStack.Count - 1] != LotusGame.get().players[LotusGame.get().currentPlayer])
+                {
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[i].start), 0.1f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[i].end), 0.2f);
+                    covered = true;
+                    break;
+                }
             }
+            if (covered == false)
+                moveRandom(p, b);
             //dist = b.getTile(m.start).Count;
         }
         /* New rule should follow following format:
