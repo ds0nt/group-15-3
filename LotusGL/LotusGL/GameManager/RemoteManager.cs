@@ -16,6 +16,19 @@ namespace LotusGL
             Board board = Board.get();
             switch (ge.type)
             {
+                case GameEvent.GameEventType.ChatMessage:
+                    GameEvent.ChatMessage cm = (GameEvent.ChatMessage)ge;
+
+
+                    if (!cm.bounced)
+                    {
+                        if (LotusGame.get().net != null)
+                            LotusGame.get().net.Send(ge);
+                    }
+                    else
+                        LotusGame.get().Chat(cm.message);
+                    break;
+
                 case GameEvent.GameEventType.UpdateLobby:
                     GameEvent.UpdateLobby ul = (GameEvent.UpdateLobby)ge;
 

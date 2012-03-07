@@ -121,7 +121,10 @@ namespace LotusGL
         {
             title.SetLobby(lobby);
         }
-
+        public void Chat(string msg)
+        {
+            title.Chat(msg);
+        }
         public void Update(Graphics.GraphicsFacade.InputEvent m, double time)
         {
 
