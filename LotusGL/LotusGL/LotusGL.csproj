@@ -57,6 +57,7 @@
     <Compile Include="AI\AIMoves.cs" />
     <Compile Include="AI\Rule\RuleStrategy.cs" />
     <Compile Include="AI\State\AIStateRegular.cs" />
+    <Compile Include="AI\State\AIState.cs" />
     <Compile Include="AI\State\StateStrategy.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -366,6 +366,25 @@ namespace LotusGL.AI
                 }
             }
         }
+        public void coverOpponent(Player p, Board b)
+        {
+            List<Move> moves = AICalc.getPossibleMoves(p, b); // using AI calc to get the possible moves.
+            bool covered = false;
+            for (int i = 0; i < moves.Count; i++)
+            {
+                List<Player> tileStack= b.getTile(moves[i].end);
+                if (tileStack.Count != 0 && tileStack[tileStack.Count - 1] != LotusGame.get().players[LotusGame.get().currentPlayer])
+                {
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[i].start), 0.1f);
+                    LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[i].end), 0.2f);
+                    covered = true;
+                    break;
+                }
+            }
+            if (covered == false)
+                moveRandom(p, b);
+            //dist = b.getTile(m.start).Count;
+        }
         /* New rule should follow following format:
         public void moveNew(Player p, Board b)
         {
@@ -396,23 +415,31 @@ namespace LotusGL.AI
             Console.WriteLine(p.name + " Has No Moves!"); // if this guy has no move
             bool moveMade = false;
             int count = 0;
-            while (moveMade == false)
+            int skipChance = AICalc.rand.Next(0, 1);
+            if (skipChance == 0) ////////////////// If zero, doesn't skip
             {
-                int i = AICalc.rand.Next(0, LotusGame.get().players.Length);
-      
-                if (LotusGame.get().players[i] != p)
+                while (moveMade == false)
                 {
-                    List<Move> moves = AICalc.getPossibleMoves(LotusGame.get().players[i], b);
-                    if (moves.Count != 0)
+                    int i = AICalc.rand.Next(0, LotusGame.get().players.Length);
+
+                    if (LotusGame.get().players[i] != p)
                     {
-                        int moveid = AICalc.rand.Next(0, moves.Count - 1);
-                        moveMade = true;
-                        Console.WriteLine("Move I make: "+ "player " + i +", " + moves[moveid].start + " to " + moves[moveid].end);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
-                        LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
+                        List<Move> moves = AICalc.getPossibleMoves(LotusGame.get().players[i], b);
+                        if (moves.Count != 0)
+                        {
+                            int moveid = AICalc.rand.Next(0, moves.Count - 1);
+                            moveMade = true;
+                            Console.WriteLine("Move I make: " + "player " + i + ", " + moves[moveid].start + " to " + moves[moveid].end);
+                            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].start), 0.1f);
+                            LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(moves[moveid].end), 0.2f);
+                        }
                     }
+                    Console.WriteLine(count);
                 }
-                Console.WriteLine(count);
+            }
+            else //otherwize, doing nothing  and skip.
+            {
+                LotusGame.get().ScheduleEvent(new GameEvent.RegionClick(-100), 0.1f);
             }
         }
     }

@@ -7,115 +7,68 @@ namespace LotusGL.AI.State
 {
     class AIStateAngry : AIState
     {
-        public int emotion { get; set; }
-        public int numberOfTurns { get; set; }
+        public int emotion = 0;
+        public int numberOfTurns = 0;
+        StateStrategy stateMachine;
+        public List<Move> availableMoves = new List<Move>(); 
 
-        public AIStateAngry(StateStrategy stateMachine)
+        public AIStateAngry(StateStrategy stm)
         {
-            /* this->stateMachine = stateMachine;
-
-            emotion = 0;
-            numberOfTurns = 0;
-
-            vector<move> moves = GameData()->board.getPossibleMoves(this->stateMachine->player->piece);
-
-            vector<move> noDuplicateMoves;
-            for (int i = 0; i < moves.size(); i++)
-            {
-                if (i == 0)
-                    noDuplicateMoves.push_back(moves.at(i));
-                if (!(i == 0) && !(moves.at(i - 1).beginpos == moves.at(i).beginpos))
-                    noDuplicateMoves.push_back(moves.at(i));
-            }
-
-            ableToMovePiece = noDuplicateMoves.size();
-
-            cout << "current available piece in the initaliizing the angry state is: " << ableToMovePiece << endl; */
+            Console.WriteLine("now i'm Angry;");
+            stateMachine = stm;
         }
-
-        public void onBoardChange(Player p, Board b)
-        {
-            /* printf("target AI got the Board Update I GOT THE UPDATE !!!! AND I'm ANGRY!!!!!!!!!!!!!\n");
-            //if AI got attack!!?!? 
-
-            vector<move> moves = GameData()->board.getPossibleMoves(this->stateMachine->player->piece);//getting all possible moves.
-            vector<move> noDuplicateMoves;
-
-            for (int i = 0; i < moves.size(); i++)
-            {
-                if (i == 0)
-                    noDuplicateMoves.push_back(moves.at(i));
-                if (!(i == 0) && !(moves.at(i - 1).beginpos == moves.at(i).beginpos))
-                    noDuplicateMoves.push_back(moves.at(i));
-            }
-
-            cout << "emotion                     : " << emotion << endl;
-            cout << "noDuplicateMoves	           : " << noDuplicateMoves.size() << endl;
-            cout << "ableToMove in Privious turn : " << ableToMovePiece << endl;
-            cout << "numberOfTurns               : " << numberOfTurns << endl;
-            if (noDuplicateMoves.size() < ableToMovePiece)
-            {
-                cout << "I got attack!?!?!?!>!>!>" << endl;
-                ableToMovePiece--;
-                emotion++;
-            }
-
-            if (emotion == 2)
-                this->stateMachine->setState(ST_VENGEFUL);
-            if (numberOfTurns > 3)
-                this->stateMachine->setState(ST_REGULAR); */
-        }
+        
 
         public void doMove(Player p, Board b)
         {
-           /* vector<move> moves = GameData()->board.getPossibleMoves(player.piece);//getting all possible moves.
-            for (int i = 0; i < moves.size(); i++)	//so till there is things to move!
+            Console.WriteLine("This is the move when i'm angry!!!!!!!!!!!!!!");
+            stateMachine.goingTo.coverOpponent(p, b);
+
+            availableMoves = AICalc.getPossibleMoves(p, b);
+        }
+        public void onBoardChange(Player p, Board b)
+        {
+            List<Move> newlyAvailableMoves = AICalc.getPossibleMoves(p, b);
+            Console.WriteLine(newlyAvailableMoves.Count + " " + availableMoves.Count);
+            //if the previous one doens't exist in current then mad!
+            for (int i = 0; i < availableMoves.Count; i++)
             {
-                printf("%d, %d |", moves.at(i).beginpos, moves.at(i).endpos); //able to move piece!
-
-                if (!(GameData()->board.IsPieceOnTop(this->stateMachine->player->piece, moves.at(i).endpos)) && (GameData()->board.GetTopPiece(moves.at(i).endpos) != 0))
+                Move check = availableMoves[i];
+                bool found = false;
+                for (int j = 0; j < newlyAvailableMoves.Count; j++)
                 {
-                    cout << "I attack All of you!! General Attack go!!!!!!!!" << endl;
-                    GameData()->board.MovePiece(moves.at(i).beginpos, moves.at(i).endpos);
-                    numberOfTurns++;
-
-
-                    //Here keep a track of my available piece to calculate Emotion.
-                    moves = GameData()->board.getPossibleMoves(player.piece);
-                    vector<move> noDuplicateMoves;
-
-                    for (int i = 0; i < moves.size(); i++)
+                    if (check.start == newlyAvailableMoves[j].start)
                     {
-                        if (i == 0)
-                            noDuplicateMoves.push_back(moves.at(i));
-                        if (!(i == 0) && !(moves.at(i - 1).beginpos == moves.at(i).beginpos))
-                            noDuplicateMoves.push_back(moves.at(i));
+                        found = true;
+                        break;
                     }
-
-                    ableToMovePiece = noDuplicateMoves.size();
-                    return;
-                    //break;
+                }
+                if (found == false)
+                {
+                    emotion++;
+                    break;
                 }
             }
+            
 
-            int randomMove = rand() % moves.size();
-            GameData()->board.MovePiece(moves.at(randomMove).beginpos, moves.at(randomMove).endpos);
-            numberOfTurns++;
 
-            //Here keep a track of my available piece to calculate Emotion.
-            moves = GameData()->board.getPossibleMoves(player.piece);
-            vector<move> noDuplicateMoves;
-
-            for (int i = 0; i < moves.size(); i++)
+            if (emotion == 2)
             {
-                if (i == 0)
-                    noDuplicateMoves.push_back(moves.at(i));
-                if (!(i == 0) && !(moves.at(i - 1).beginpos == moves.at(i).beginpos))
-                    noDuplicateMoves.push_back(moves.at(i));
+                Console.WriteLine("NOW I'm GOING TO MORE MAD!! LET ME BE VENGEFUL!! : " + emotion);
+                //return "Angry";
+                stateMachine.currentState = new AIStateVengeful(stateMachine);
             }
+            else
+                Console.WriteLine("not vengeful yet : " + emotion);
 
-            ableToMovePiece = noDuplicateMoves.size();
-            return; */
+            numberOfTurns++;
+            if (numberOfTurns == 2)
+            {
+                Console.WriteLine("now let's go to regular");
+                stateMachine.currentState = new AIStateRegular(stateMachine);
+            }
+            else
+                Console.WriteLine("i'm still angry;");
         }
     }
 }

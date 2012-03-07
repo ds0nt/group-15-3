@@ -7,53 +7,32 @@ namespace LotusGL.AI.State
 {
     class AIStateVengeful : AIState
     {
-        public int enactedCount { get; set; }
+        public int numberOfTurns = 0;
+        public StateStrategy stateMachine;
+        //public int enactedCount { get; set; }
 
-        public AIStateVengeful(StateStrategy stateMachine)
+        public AIStateVengeful(StateStrategy stm)
         {
-            /* this->stateMachine = stateMachine;
-            //int target;
-            if ((GameData()->players.at(GameData()->currentPlayer).piece - 1) == 0)
-            {
-                gettinSum = GameData()->players.at(GameData()->numplayers - 1).piece;
-            }
-            else
-                gettinSum = GameData()->players.at(GameData()->currentPlayer - 1).piece;
-            //this->gettinSum = GameData()->players.at(GameData()->currentPlayer - 1).piece;
-            this->enactedCount = 0;
-            cout << "\nI'm Vengeful!! i'll target a specific player and only attack that guy!!\n" << endl;
-            cout << "\nI attacked " << this->gettinSum << " guy " << this->enactedCount << " times\n" << endl; */
+            stateMachine = stm;
+            Console.WriteLine("NOW I'm Vengeful!!!!!!!!!!! I only target one guy and only kill that guy!!");
         }
 
         public void onBoardChange(Player p, Board b)
         {
-            /* if (this->enactedCount > 1)
-                this->stateMachine->setState(ST_REGULAR); */
+            Console.WriteLine("This is my REVENGE MOVE!!!!!!! HAHAHAHHAHAHA!!!!");
+            stateMachine.goingTo.coverOpponent(p, b);
         }
 
         public void doMove(Player p, Board b)
         {
-            /* vector<move> moves = GameData()->board.getPossibleMoves(player.piece);
-            cout << "got here" << this->gettinSum << endl;
-            cout << "And I am" << this->stateMachine->player->piece << endl;
-            for (int i = 0; i < moves.size(); i++)
+            numberOfTurns++;
+            if (numberOfTurns == 2)
             {
-                if (GameData()->board.IsPieceOnTop(this->gettinSum, moves.at(i).endpos))
-                {
-                    cout << "got here tOOOOOOOOOOOOOOOOOOOOOOOOOO" << endl;
-                    GameData()->board.MovePiece(moves.at(i).beginpos, moves.at(i).endpos);
-                    this->enactedCount++;
-                    cout << "\nI attacked " << this->gettinSum << " guy " << this->enactedCount << " times\n" << endl;
-                    return;
-                }
+                Console.WriteLine("now let's go to regular");
+                stateMachine.currentState = new AIStateRegular(stateMachine);
             }
-            //if theres none of his piece we can land on, just move something.
-            for (int i = 0; i < moves.size(); i++)
-            {
-                GameData()->board.MovePiece(moves.at(i).beginpos, moves.at(i).endpos);
-                return;
-            }
-            //Otherwise skip turn */
+            else
+                Console.WriteLine("i'm still angry;");
         }
     }
 }

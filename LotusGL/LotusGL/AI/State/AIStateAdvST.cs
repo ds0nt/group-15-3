@@ -7,7 +7,7 @@ namespace LotusGL.AI.State
 {
     class AIStateAdvST : AIState
     {
-        public AIStateAdvST(StateStrategy stateMachine)
+        public AIStateAdvST()
         {
             /* this->stateMachine = stateMachine;
             printf("********************IN Advance Springtile!******************\n"); */

@@ -165,6 +165,7 @@ namespace LotusGL
         private bool isSelectValid(int select, Player p)
         {
             List<Player> starttile = Board.get().getTile(select);
+
             if (select == 29)
                 return false;
             if (starttile.Count > 0 && starttile[starttile.Count - 1] == p || !canMove(p))
